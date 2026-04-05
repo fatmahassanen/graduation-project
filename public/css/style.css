@@ -1,0 +1,1580 @@
+/********** Template CSS **********/
+:root {
+  --primary: #D08301;
+  --light: #F0FBFC;
+  --dark: #181d38;
+}
+
+.text-orange {
+  color: #D08301 !important;
+}
+
+.text-primary {
+  color: #1a096e !important;
+}
+
+
+.logo img {
+  width: 200px !important;
+  height: auto !important;
+  display: block;
+  margin: 0 auto;
+}
+
+
+.img-container {
+  width: 100%;
+  height: 200px;
+  /* توحيد ارتفاع الصور */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 8px;
+  /* لإعطاء الصور شكل جمالي */
+}
+
+.img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* لضبط الصورة داخل الإطار بدون تشوه */
+}
+
+
+.fw-medium {
+  font-weight: 600 !important;
+}
+
+.fw-semi-bold {
+  font-weight: 700 !important;
+}
+
+/*** Spinner ***/
+#spinner {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .5s ease-out, visibility 0s linear .5s;
+  z-index: 99999;
+}
+
+#spinner.show {
+  transition: opacity .5s ease-out, visibility 0s linear 0s;
+  visibility: visible;
+  opacity: 1;
+}
+
+
+/*** Button ***/
+.btn {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
+  transition: .5s;
+}
+
+.btn.btn-primary,
+.btn.btn-secondary {
+  color: #FFFFFF;
+}
+
+.btn-square {
+  width: 38px;
+  height: 38px;
+}
+
+.btn-sm-square {
+  width: 32px;
+  height: 32px;
+}
+
+.btn-lg-square {
+  width: 48px;
+  height: 48px;
+}
+
+.btn-square,
+.btn-sm-square,
+.btn-lg-square {
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: normal;
+  border-radius: 0px;
+}
+
+
+/*** Navbar ***/
+.navbar .dropdown-toggle::after {
+  border: none;
+  content: "\f107";
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  vertical-align: middle;
+  margin-left: 8px;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  margin-right: 30px;
+  padding: 25px 0;
+  color: #FFFFFF;
+  font-size: 15px;
+  text-transform: uppercase;
+  outline: none;
+}
+
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link.active {
+  color: var(--primary);
+}
+
+@media (max-width: 991.98px) {
+  .navbar-light .navbar-nav .nav-link {
+    margin-right: 0;
+    padding: 10px 0;
+  }
+
+  .navbar-light .navbar-nav {
+    border-top: 1px solid #EEEEEE;
+  }
+}
+
+.navbar-light .navbar-brand,
+.navbar-light a.btn {
+  height: 75px;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: var(--dark);
+  font-weight: 500;
+}
+
+.navbar-light.sticky-top {
+  top: -100px;
+  transition: .5s;
+}
+
+@media (min-width: 992px) {
+  .navbar .nav-item .dropdown-menu {
+    display: block;
+    margin-top: 0;
+    opacity: 0;
+    visibility: hidden;
+    transition: .5s;
+  }
+
+  .navbar .dropdown-menu.fade-down {
+    top: 100%;
+    transform: rotateX(-75deg);
+    transform-origin: 0% 0%;
+  }
+
+  .navbar .nav-item:hover .dropdown-menu {
+    top: 100%;
+    transform: rotateX(0deg);
+    visibility: visible;
+    transition: .5s;
+    opacity: 1;
+  }
+}
+
+
+/*** Header carousel ***/
+@media (max-width: 768px) {
+  .header-carousel .owl-carousel-item {
+    position: relative;
+    min-height: 500px;
+  }
+
+  .header-carousel .owl-carousel-item img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.header-carousel .owl-nav {
+  position: absolute;
+  top: 50%;
+  right: 8%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+}
+
+.header-carousel .owl-nav .owl-prev,
+.header-carousel .owl-nav .owl-next {
+  margin: 7px 0;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  background: transparent;
+  border: 1px solid #FFFFFF;
+  font-size: 22px;
+  transition: .5s;
+}
+
+.header-carousel .owl-nav .owl-prev:hover,
+.header-carousel .owl-nav .owl-next:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.page-header {
+  background: linear-gradient(rgba(24, 29, 56, .7), rgba(24, 29, 56, .7)), url(../img/univercty2.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.page-header-inner {
+  background: rgba(15, 23, 43, .7);
+}
+
+.breadcrumb-item+.breadcrumb-item::before {
+  color: var(--light);
+}
+
+
+/*** Section Title ***/
+.section-title {
+  position: relative;
+  display: inline-block;
+  text-transform: uppercase;
+}
+
+.section-title::before {
+  position: absolute;
+  content: "";
+  width: calc(100% + 80px);
+  height: 2px;
+  top: 4px;
+  left: -40px;
+  background: var(--primary);
+  z-index: -1;
+}
+
+.section-title::after {
+  position: absolute;
+  content: "";
+  width: calc(100% + 120px);
+  height: 2px;
+  bottom: 5px;
+  left: -60px;
+  background: var(--primary);
+  z-index: -1;
+}
+
+.section-title.text-start::before {
+  width: calc(100% + 40px);
+  left: 0;
+}
+
+.section-title.text-start::after {
+  width: calc(100% + 60px);
+  left: 0;
+}
+
+
+/*** Service ***/
+.service-item {
+  background: var(--light);
+  transition: .5s;
+}
+
+.service-item:hover {
+  margin-top: -10px;
+  background: var(--primary);
+}
+
+.service-item * {
+  transition: .5s;
+}
+
+.service-item:hover * {
+  color: var(--light) !important;
+
+
+  /* علشان النص والزرار ميتغيروش لما الماوس ييجي على الكارت */
+.service-item:hover h1,
+.service-item:hover h2,
+.service-item:hover h3,
+.service-item:hover h4,
+.service-item:hover h5,
+.service-item:hover p,
+.service-item:hover a,
+.service-item:hover .btn-event {
+    color: white !important;
+    background: transparent !important;
+}
+
+}
+
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+/***  Courses ***/
+/* دي استايلات الصور جوه الكورسات والفئات */
+.category img,
+.course-item img {
+  transition: .5s;
+  /* بتخلي تأثير التغيير يكون ناعم خلال 0.5 ثانية */
+}
+
+/* لما المستخدم يحط الماوس ع الصورة، هتكبر شوية */
+.category a:hover img,
+.course-item:hover img {
+  transform: scale(1.1);
+  /* تكبير الصورة بنسبة 10% */
+}
+
+/* الحاوية الأساسية لكل الكورسات */
+.courses-container {
+  display: flex;
+  /* استخدم Flexbox لترتيب العناصر */
+  flex-direction: column;
+  /* يخلي العناصر تيجي تحت بعض مش جنب بعض */
+  gap: 20px;
+  /* بيحدد مسافة بين كل كورس والتاني */
+}
+
+/* تصميم الكورس الواحد */
+.course {
+  display: flex;
+  /* يخلي الصورة والمعلومات جنب بعض */
+  align-items: center;
+  /* يوسطن العناصر عموديًا */
+  justify-content: space-between;
+  /* يوزع العناصر بين الصورة والمحتوى بالتساوي */
+  background-color: #f8fcff;
+  /* لون الخلفية */
+  padding: 20px;
+  /* مسافة داخلية عشان يكون منظم */
+  border-radius: 10px;
+  /* يخلي الحواف دائرية شوية */
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  /* يضيف ظل خفيف للكارت */
+}
+
+/* استايل الصور جوه الكورسات */
+.course img {
+  width: 75%;
+  /* الصورة تاخد 45% من عرض الكارت */
+  height: 60%;
+  /* الارتفاع يكون تلقائي حسب العرض */
+  border-radius: 10px;
+  /* الحواف ناعمة */
+}
+
+/* استايل معلومات الكورس */
+.course-info {
+  width: 50%;
+  /* العرض يكون 50% من الكارت */
+}
+
+/* لو عايزين الصورة تيجي على اليمين والمحتوى على الشمال */
+.reverse {
+  flex-direction: row-reverse;
+  /* يعكس ترتيب العناصر */
+}
+
+/* تأثير الأنيميشن عند ظهور الكورس */
+.course {
+  display: flex;
+  /* نفس تنسيق الكورس العادي */
+  align-items: center;
+  /* يوسطن العناصر */
+  justify-content: space-between;
+  /* يوزع العناصر كويس */
+  opacity: 0;
+  /* في الأول الكورس مخفي */
+  transform: translateY(50px);
+  /* الكورس هيبدأ بعيد عن مكانه بـ 50px */
+  transition: opacity 1s ease-out, transform 1s ease-out;
+  /* يخلي الظهور يكون ناعم */
+}
+
+/* لما الكورس يظهر (لما نضيف له الكلاس .show) */
+.course.show {
+  opacity: 1;
+  /* يظهر الكورس */
+  transform: translateY(0);
+  /* يرجعه مكانه الطبيعي */
+}
+
+/* تأثيرات إضافية على صور الكورسات */
+.course img {
+  width: 100%;
+  /* الصورة تكون 45% من عرض العنصر */
+  height: 150%;
+  /* تحافظ على تناسب الأبعاد */
+  border-radius: 10px;
+  /* زوايا دائرية للصورة */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  /* يضيف ظل خفيف للصورة */
+}
+
+/* استايل لمعلومات الكورس */
+.course-info {
+  width: 50%;
+  /* تاخد نصف عرض العنصر */
+  padding: 20px;
+  /* مسافة داخلية */
+  background: #f9f9f9;
+  /* لون الخلفية */
+  border-radius: 10px;
+  /* حواف دائرية */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  /* ظل خفيف */
+}
+
+/* استايل الصور داخل الجاليري */
+.gallery img {
+  width: 100%;
+  /* تخلي الصورة تاخد عرض العمود بالكامل */
+  height: 100px;
+  /* كل الصور يبقى ليها نفس الارتفاع */
+  object-fit: cover;
+  /* يخلي الصورة تملأ المساحة من غير ما تتشوه */
+  border-radius: 5px;
+  /* زوايا ناعمة للصورة */
+}
+
+/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+
+
+
+/* دا السطرين اللى فوق البراجراف*/
+.texte-center {
+  text-align: center;
+}
+
+.section-titlee {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: bold;
+  color: #040faa;
+  /* لون أزرق فاتح مشابه للصورة */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  padding: 5px 10px;
+  background: #fff;
+  /* خلفية بيضاء للحفاظ على تنسيق الخط */
+  text-align: center;
+  /* توسيط النص */
+}
+
+/* دا العنوان الللى بعد البراجراف علطول */
+.section-titlee::before,
+.section-titlee::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 40px;
+  height: 2px;
+  background-color:#D08301;
+}
+
+.section-titlee::before {
+  left: -50px;
+}
+
+.section-titlee::after {
+  right: -50px;
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: bold;
+  color: #131a26;
+  /* لون النص */
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* دى نهاية الاكواد  السطرين اللى فوق البراجرف   */
+
+
+.subtitle {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.6;
+  color: #333;
+  width: 60%;
+  margin: 20px auto;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+
+/* إزالة تأثيرات fo0cus/active لو كانت موجودة */
+.subtitle:focus,
+.subtitle:active {
+  background-color: #ffffff !important;
+  /* نفس اللون */
+  color: white !important;
+}
+
+
+
+
+
+/* دى نهايه اكواد البراجراف */
+
+
+/* دى الاسئله وتنسيقتها */
+.faq-section {
+  flex: 1;
+}
+
+.faq {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.faq-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  cursor: pointer;
+  background: #D08301;
+  /* اللون البرتقالي */
+  color: white;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.faq-item:hover {
+  background: #b67301;
+  /* تغيير اللون عند التحويم (لون أغمق قليلاً من البرتقالي) */
+}
+
+
+.answer {
+  display: none;
+  background: #e9ecef;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: left;
+  margin-top: 5px;
+  width: 100%;
+}
+
+
+.answer.show {
+  max-height: 200px;
+  /* يضبط الطول حسب الحاجة */
+}
+
+
+/* دى نهاية تنسيق الاسئله */
+
+
+/*** Team ***/
+.team-item img {
+  transition: .5s;
+}
+
+.team-item:hover img {
+  transform: scale(1.1);
+}
+
+
+/*** Testimonial ***/
+.testimonial-carousel::before {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+  z-index: 1;
+}
+
+.testimonial-carousel::after {
+  position: absolute;
+  content: "";
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(to left, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+  z-index: 1;
+}
+
+@media (min-width: 768px) {
+
+  .testimonial-carousel::before,
+  .testimonial-carousel::after {
+    width: 200px;
+  }
+}
+
+@media (min-width: 992px) {
+
+  .testimonial-carousel::before,
+  .testimonial-carousel::after {
+    width: 300px;
+  }
+}
+
+.testimonial-carousel .owl-item .testimonial-text,
+.testimonial-carousel .owl-item.center .testimonial-text * {
+  transition: .5s;
+}
+
+.testimonial-carousel .owl-item.center .testimonial-text {
+  background: var(--primary) !important;
+}
+
+.testimonial-carousel .owl-item.center .testimonial-text * {
+  color: #FFFFFF !important;
+}
+
+.testimonial-carousel .owl-dots {
+  margin-top: 24px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.testimonial-carousel .owl-dot {
+  position: relative;
+  display: inline-block;
+  margin: 0 5px;
+  width: 15px;
+  height: 15px;
+  border: 1px solid #CCCCCC;
+  transition: .5s;
+}
+
+.testimonial-carousel .owl-dot.active {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+
+/*** Footer ***/
+
+.service-item img {
+  width: 100%;
+  /* يجعل الصورة تمتد بعرض العنصر بالكامل */
+  height: 180px;
+  /* ضبط ارتفاع الصورة */
+  object-fit: cover;
+  /* يضمن أن الصورة تملأ العنصر دون تشويه */
+  border-radius: 10px;
+  /* يجعل الحواف مستديرة قليلاً */
+}
+
+.service-item {
+  border: 1px solid #ddd;
+  /* إضافة إطار خفيف */
+  border-radius: 15px;
+  overflow: hidden;
+  /* يضمن عدم خروج الصورة عن الحواف */
+  background: #fff;
+  /* يجعل الخلفية بيضاء */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* إضافة ظل خفيف */
+}
+
+.service-item .p-4 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* دى صفحة التسجيل */
+
+
+.conTanuar {
+
+
+  background: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border: 3px solid #ccc;
+  width: 800px;
+  text-align: center;
+  position: relative;
+  left: 20%;
+
+}
+
+.google-login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.google-login img {
+  width: 20px;
+  margin-right: 10px;
+}
+
+.google-login:hover {
+  background-color: #D08301;
+  color: white;
+}
+
+.input-group {
+  text-align: left;
+  margin: 15px 0;
+}
+
+.line-or {
+  color: #D08301;
+}
+
+.input-group label {
+  font-size: 14px;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.checkbox-group {
+  text-align: left;
+  margin: 10px 0;
+}
+
+.checkbox-group label {
+  font-size: 14px;
+}
+
+.button {
+  width: 100%;
+  background-color: #D08301;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.forgot-password {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.forgot-password a {
+  color: #D08301;
+  text-decoration: none;
+}
+
+.forgot-password a:hover {
+  text-decoration: underline;
+}
+
+.hidden {
+  display: none;
+}
+
+/* نهايه تنسيق فورم التسجيل */
+
+.custom-btn {
+  background-color: #D08301;
+  /* لون أزرق */
+  color: white;
+  border: none;
+  padding: 10px;
+  font-size: 18px;
+  transition: all 0.3s ease-in-out;
+  border-radius: 8px;
+  /* زوايا دائرية */
+}
+
+.custom-btn:hover {
+  background-color: #D08301;
+  /* لون أزرق غامق عند التمرير */
+  transform: scale(1.05);
+  /* تكبير بسيط عند التمرير */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  /* ظل ناعم */
+}
+
+.card {
+  background: #fff;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card .icon i {
+  background: #f1f1f1;
+  padding: 20px;
+  border-radius: 50%;
+}
+
+.btn-custom {
+  background-color: #D08301;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: 0.3s;
+  border-radius: 5px;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.btn-custom:hover {
+  background-color: #b66d00;
+  /* لون أغمق عند المرور */
+  color: #fff;
+}
+
+
+
+
+
+.custom-btn {
+  background-color: #D08301;
+  color: white;
+  border: none;
+  padding: 10px;
+  font-size: 18px;
+  transition: all 0.3s ease-in-out;
+  border-radius: 8px;
+  /* زوايا دائرية */
+}
+
+.custom-btn:hover {
+  background-color: #ffffff;
+  /* لون أزرق غامق عند التمرير */
+  transform: scale(1.05);
+  /* تكبير بسيط عند التمرير */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  /* ظل ناعم */
+}
+
+
+
+.president-section {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.president-section img {
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.president-content {
+  max-width: 700px;
+}
+
+.president-content h3 {
+  color: #1a096e;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.president-content p {
+  font-size: 17px;
+  color: #333;
+  text-align: justify;
+}
+
+.signature {
+  font-weight: bold;
+  margin-top: 20px;
+  color: #1a096e;
+}
+
+.education-section {
+  margin-top: 50px;
+}
+
+.education-section h4 {
+  color: #1a096e;
+  font-weight: 700;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #1a096e;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+.education-section h5 {
+  color: #333;
+  font-size: 18px;
+  font-weight: 600;
+  border-bottom: 4px solid #1a096e;
+  /* 🔹 الخط الكبير */
+  display: inline-block;
+  padding-bottom: 4px;
+  margin-bottom: 20px;
+}
+
+.education-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.education-section li {
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #333;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.education-section {
+  margin-top: 40px;
+  direction: rtl;
+  font-family: "Cairo", sans-serif;
+}
+
+.education-section h4 {
+  color: #1a096e;
+  font-weight: 700;
+  border-bottom: 2px solid #0d6efd;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+.education-section h5 {
+  color: #198754;
+  font-weight: 600;
+  margin-top: 10px;
+  font-size: 20px;
+  border-bottom: 3px solid #fcfcfc;
+  display: inline-block;
+  padding-bottom: 4px;
+}
+
+.education-table {
+  margin-top: 25px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.edu-row {
+  display: grid;
+  grid-template-columns: 160px 1fr 160px 1fr;
+  border-bottom: 1px solid #eee;
+  padding: 10px 15px;
+}
+
+.edu-cell {
+  padding: 6px 10px;
+  font-size: 16px;
+  color: #333;
+}
+
+.edu-cell strong {
+  color: #1a096e;
+}
+
+.edu-row:last-child {
+  border-bottom: none;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 10px 0;
+}
+
+
+
+
+
+
+
+
+
+
+/* 🔹 تنسيق عنوان "المهمات العلمية بعد الدكتوراه" */
+.postdoc-title {
+  color: #1a096e;
+  font-weight: 700;
+  font-size: 20px;
+  margin-top: 40px;
+  margin-bottom: 15px;
+  border-bottom: 3px solid #1a096e;
+  /* الخط اللي تحت */
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+/* 🔹 تنسيق الفقرات تحت العنوان */
+.postdoc-section p {
+  font-size: 16px;
+  color: #333;
+  line-height: 1.8;
+  margin-bottom: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 🔹 تنسيق العنوان */
+.admin-title {
+  color: #1a096e;
+  font-weight: 700;
+  font-size: 20px;
+  margin-top: 40px;
+  margin-bottom: 15px;
+  border-bottom: 3px solid#1a096e;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+/* 🔹 تنسيق الفقرات */
+.admin-section p {
+  font-size: 16px;
+  color: #333;
+  line-height: 1.8;
+  margin-bottom: 10px;
+  text-align: justify;
+}
+
+
+
+
+
+
+
+
+
+
+.activity-title {
+  color: #1a096e;
+  font-weight: 700;
+  font-size: 20px;
+  margin-top: 40px;
+  margin-bottom: 15px;
+  border-bottom: 3px solid #1a096e;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+.activity-section p {
+  font-size: 16px;
+  color: #333;
+  line-height: 1.8;
+  margin-bottom: 15px;
+  text-align: justify;
+}
+
+.date {
+  display: block;
+  color: #ffffff;
+  font-weight: 600;
+  margin-top: 5px;
+}
+
+
+
+
+
+
+
+
+
+
+.img-container {
+  overflow: hidden;
+  border-radius: 10px;
+  height: 200px;
+  /* ارتفاع موحد لكل الصور */
+}
+
+.img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* يضبط الصورة لتناسب الإطار */
+  transition: transform 0.5s ease, filter 0.5s ease;
+}
+
+.img-container:hover img {
+  transform: scale(1.1);
+  /* تكبير الصورة عند مرور الماوس */
+  filter: brightness(1.1);
+  /* توضيح الصورة قليلاً */
+}
+
+
+
+
+
+/*education*/
+
+.building-img {
+  width: 100%;
+  height: 450px;
+  object-fit: cover;
+  border-radius: 15px;
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.building-img:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+/* عنوان المبنى */
+.building-title {
+  color: #1a096e;
+  font-weight: bold;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+/*  تصميم كروت الأدوار */
+.floor-card {
+  border: none;
+
+  background: linear-gradient(135deg, #D08301, #D08301);
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 15px;
+  transition: all 0.3s ease;
+}
+
+.floor-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.floor-card button {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1.2rem;
+  padding: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.floor-card button:hover {
+  color: #1a096e;
+}
+
+/*  كارت التفاصيل */
+.details-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 15px 20px;
+  margin-top: 10px;
+  border-left: 5px solid#1a096e;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  animation: fadeIn 0.4s ease;
+  display: none;
+  /* ← خلي الكروت مقفولة في البداية */
+}
+
+/*  حركة دخول جميلة */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.building-text {
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+/*  مسافة بين الصورة والنص */
+@media (min-width: 768px) {
+  .col-md-6:first-child {
+    padding-right: 30px;
+  }
+
+  .col-md-6:last-child {
+    padding-left: 30px;
+  }
+}
+
+
+
+
+
+
+.workshop-title {
+  color: #003366;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.workshop-img {
+  width: 100%;
+  height: auto;
+  border-radius: 15px;
+  object-fit: cover;
+}
+
+.workshop-img:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+.workshop-floor-card {
+  margin-bottom: 15px;
+}
+
+.workshop-floor-card button {
+  width: 100%;
+  background-color: #D08301;
+
+  color: #ffffff;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  text-align: left;
+  font-size: 18px;
+  font-weight: bold;
+  transition: 0.3s;
+
+
+
+
+}
+
+
+.details-workshop {
+  background: #f8f9fa;
+  border-left: 4px solid#1a096e;
+  border-radius: 10px;
+  padding: 15px;
+  margin-top: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: none;
+}
+
+.workshop-text {
+  color: #333;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+
+
+table.education-table {
+  width: 90%;
+  margin: 30px auto;
+  border-collapse: collapse;
+  direction: ltr;
+  /* ✅ left-to-right layout */
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 16px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+table.education-table th {
+  background-color: #003366;
+  color: white;
+  font-weight: bold;
+  text-align: left;
+  padding: 12px 15px;
+  font-size: 17px;
+  letter-spacing: 0.5px;
+  width: 22%;
+  white-space: nowrap;
+}
+
+table.education-table td {
+  border: 1px solid #ddd;
+  padding: 12px 15px;
+  vertical-align: top;
+  text-align: left;
+}
+
+table.education-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+table.education-table tr:hover {
+  background-color: #f1f5ff;
+  transition: 0.3s ease;
+}
+
+.degree-title {
+  background-color: #003366;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  padding: 12px;
+  font-size: 18px;
+  letter-spacing: 0.5px;
+}
+
+h4 {
+  text-align: center;
+  color: #003366;
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 30px;
+}
+
+@media (max-width: 700px) {
+
+  table.education-table,
+  table.education-table thead,
+  table.education-table tbody,
+  table.education-table th,
+  table.education-table td,
+  table.education-table tr {
+    display: block;
+    width: 100%;
+  }
+
+  table.education-table tr {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  table.education-table td {
+    border: none;
+    padding: 10px 15px;
+  }
+
+  table.education-table th {
+    display: none;
+  }
+}
+
+
+table.education-table th:nth-child(3) {
+  color: black;
+  background-color: #00336600;
+  /* خلفية شفافة */
+}
+
+
+
+
+
+.postdoc-section {
+  max-width: 900px;
+  margin: 40px auto;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 25px 35px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+  line-height: 1.8;
+  border-left: 6px solid #003366;
+}
+
+.postdoc-title {
+  text-align: center;
+  color: #003366;
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  letter-spacing: 0.5px;
+}
+
+.postdoc-section p {
+  background: #f4f8ff;
+  padding: 15px 20px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-size: 17px;
+  transition: 0.3s ease;
+}
+
+.postdoc-section p:hover {
+  background: #e6efff;
+  transform: translateX(5px);
+}
+
+@media (max-width: 700px) {
+  .postdoc-section {
+    padding: 20px;
+  }
+
+  .postdoc-section p {
+    font-size: 16px;
+  }
+
+  .postdoc-title {
+    font-size: 22px;
+  }
+}
+
+
+
+
+.admin-section {
+  max-width: 900px;
+  margin: 40px auto;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 25px 35px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+  line-height: 1.8;
+  border-left: 6px solid#1a096e;
+}
+
+.admin-title {
+  text-align: center;
+  color: #1a096e;
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  letter-spacing: 0.5px;
+}
+
+.admin-section p {
+  background: #f4f8ff;
+  padding: 15px 20px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-size: 17px;
+  transition: 0.3s ease;
+}
+
+.admin-section p:hover {
+  background: #e6efff;
+  transform: translateX(5px);
+}
+
+.admin-section .date {
+  display: block;
+  color: #1a096e;
+  font-style: italic;
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+@media (max-width: 700px) {
+  .admin-section {
+    padding: 20px;
+  }
+
+  .admin-section p {
+    font-size: 16px;
+  }
+
+  .admin-title {
+    font-size: 22px;
+  }
+}
+
+
+
+
+
+/*صفحه  الا10 اسئله */
+
+
+.question-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 80px 0;
+  /* مسافة من فوق وتحت بدل ما نستخدم 100vh */
+}
+
+.title-box {
+  text-align: center;
+  border: 3px solid #1a096e;
+  color: #1a096e;
+  font-size: 24px;
+  font-weight: bold;
+  display: inline-block;
+  padding: 15px 25px;
+  border-radius: 12px;
+  font-family: 'Segoe UI', sans-serif;
+  transition: all 0.4s ease;
+  background-color: white;
+}
+
+.title-box:hover {
+  background-color: #1a096e;
+  color: white;
+  transform: scale(1.15);
+}
