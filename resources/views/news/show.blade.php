@@ -37,7 +37,9 @@
                     </div>
 
                     {{-- Featured Image --}}
-                    @if($news->featuredImage)
+                    @if($news->featured_image)
+                        <img class="img-fluid rounded mb-4" src="{{ asset($news->featured_image) }}" alt="{{ $news->title }}">
+                    @elseif($news->featuredImage)
                         <img class="img-fluid rounded mb-4" src="{{ asset('storage/' . $news->featuredImage->path) }}" alt="{{ $news->title }}">
                     @endif
 
@@ -77,7 +79,9 @@
                             
                             @foreach($relatedNews as $related)
                                 <div class="d-flex mb-3 pb-3 border-bottom">
-                                    @if($related->featuredImage)
+                                    @if($related->featured_image)
+                                        <img class="img-fluid rounded" src="{{ asset($related->featured_image) }}" alt="{{ $related->title }}" style="width: 80px; height: 80px; object-fit: cover;">
+                                    @elseif($related->featuredImage)
                                         <img class="img-fluid rounded" src="{{ asset('storage/' . $related->featuredImage->path) }}" alt="{{ $related->title }}" style="width: 80px; height: 80px; object-fit: cover;">
                                     @else
                                         <img class="img-fluid rounded" src="{{ asset('img/default-news.jpg') }}" alt="{{ $related->title }}" style="width: 80px; height: 80px; object-fit: cover;">

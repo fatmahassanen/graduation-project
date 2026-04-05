@@ -12,8 +12,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Modify the type enum to include 'html'
-        DB::statement("ALTER TABLE content_blocks MODIFY COLUMN type ENUM('hero','text','card_grid','video','faq','testimonial','gallery','contact_form','html') NOT NULL");
+        // SQLite doesn't support MODIFY COLUMN, so we skip this for SQLite
+        // The validation is handled at the application level
+        if (DB::getDriverName() !== 'sqlite') {
+            DB::statement("ALTER TABLE content_blocks MODIFY COLUMN type ENUM('hero','text','card_grid','video','faq','testimonial','gallery','contact_form','html') NOT NULL");
+        }
     }
 
     /**
@@ -22,6 +25,8 @@ return new class extends Migration
     public function down(): void
     {
         // Revert back to original enum values
-        DB::statement("ALTER TABLE content_blocks MODIFY COLUMN type ENUM('hero','text','card_grid','video','faq','testimonial','gallery','contact_form') NOT NULL");
+        if (DB::getDriverName() !== 'sqlite') {
+            DB::statement("ALTER TABLE content_blocks MODIFY COLUMN type ENUM('hero','text','card_grid','video','faq','testimonial','gallery','contact_form') NOT NULL");
+        }
     }
 };

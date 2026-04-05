@@ -51,7 +51,9 @@
                         <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                             <div class="course-item bg-light h-100">
                                 <div class="position-relative overflow-hidden">
-                                    @if($article->featuredImage)
+                                    @if($article->featured_image)
+                                        <img class="img-fluid" src="{{ asset($article->featured_image) }}" alt="{{ $article->title }}" style="height: 250px; object-fit: cover; width: 100%;">
+                                    @elseif($article->featuredImage)
                                         <img class="img-fluid" src="{{ asset('storage/' . $article->featuredImage->path) }}" alt="{{ $article->title }}" style="height: 250px; object-fit: cover; width: 100%;">
                                     @else
                                         <img class="img-fluid" src="{{ asset('img/default-news.jpg') }}" alt="{{ $article->title }}" style="height: 250px; object-fit: cover; width: 100%;">
@@ -95,7 +97,9 @@
                         <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                             <div class="course-item {{ $featuredNews->count() > 0 && !$category ? 'bg-white' : 'bg-light' }} h-100">
                                 <div class="position-relative overflow-hidden">
-                                    @if($article->featuredImage)
+                                    @if($article->featured_image)
+                                        <img class="img-fluid" src="{{ asset($article->featured_image) }}" alt="{{ $article->title }}" style="height: 200px; object-fit: cover; width: 100%;">
+                                    @elseif($article->featuredImage)
                                         <img class="img-fluid" src="{{ asset('storage/' . $article->featuredImage->path) }}" alt="{{ $article->title }}" style="height: 200px; object-fit: cover; width: 100%;">
                                     @else
                                         <img class="img-fluid" src="{{ asset('img/default-news.jpg') }}" alt="{{ $article->title }}" style="height: 200px; object-fit: cover; width: 100%;">

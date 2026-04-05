@@ -23,7 +23,7 @@
 
 <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
     <a href="{{ route('home') }}" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-        <img src="{{ asset('uni/img.png') }}" alt="Logo" style="height:50px;" loading="eager">
+        <img src="{{ asset('img/logo.png') }}" alt="Logo" style="height:50px;" loading="eager">
     </a>
     <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
         <span class="navbar-toggler-icon"></span>

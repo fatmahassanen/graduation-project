@@ -23,6 +23,7 @@ class Event extends Model
         'location',
         'category',
         'image_id',
+        'featured_image',
         'is_recurring',
         'recurrence_rule',
         'language',

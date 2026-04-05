@@ -1,19 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    {{-- Debug info --}}
-    @if(config('app.debug'))
-        <div class="alert alert-info m-3">
-            <strong>Debug:</strong> 
-            Page: {{ $page->title }} | 
-            Blocks: {{ $page->contentBlocks->count() }} |
-            @if($page->contentBlocks->count() > 0)
-                First block type: {{ $page->contentBlocks->first()->type }} |
-                Content length: {{ strlen($page->contentBlocks->first()->content['html'] ?? '') }} chars
-            @endif
-        </div>
-    @endif
-
     {{-- Translation unavailable message --}}
     @if(isset($translationUnavailable) && $translationUnavailable)
         <div class="container-xxl py-3">

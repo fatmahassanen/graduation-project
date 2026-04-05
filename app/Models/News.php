@@ -21,6 +21,7 @@ class News extends Model
         'excerpt',
         'body',
         'featured_image_id',
+        'featured_image',
         'author_id',
         'category',
         'is_featured',

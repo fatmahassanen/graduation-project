@@ -25,7 +25,9 @@
             <div class="row g-5">
                 {{-- Event Image --}}
                 <div class="col-lg-8">
-                    @if($event->image)
+                    @if($event->featured_image)
+                        <img class="img-fluid rounded mb-4" src="{{ asset($event->featured_image) }}" alt="{{ $event->title }}">
+                    @elseif($event->image)
                         <img class="img-fluid rounded mb-4" src="{{ asset('storage/' . $event->image->path) }}" alt="{{ $event->title }}">
                     @else
                         <img class="img-fluid rounded mb-4" src="{{ asset('img/default-event.jpg') }}" alt="{{ $event->title }}">
@@ -98,9 +100,30 @@
 
                         {{-- Add to Calendar Button --}}
                         <div class="mt-4">
-                            <a href="{{ route('events.export', $event->id) }}" class="btn btn-primary w-100">
-                                <i class="fa fa-download me-2"></i>Add to Calendar
+                            <h6 class="mb-3">Add to Calendar</h6>
+                            
+                            {{-- Google Calendar --}}
+                            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text={{ urlencode($event->title) }}&dates={{ $event->start_date->format('Ymd\THis\Z') }}/{{ $event->end_date->format('Ymd\THis\Z') }}&details={{ urlencode($event->description) }}&location={{ urlencode($event->location ?? '') }}" 
+                               target="_blank" 
+                               class="btn btn-outline-primary w-100 mb-2">
+                                <i class="fab fa-google me-2"></i>Google Calendar
                             </a>
+
+                            {{-- Outlook Calendar --}}
+                            <a href="https://outlook.live.com/calendar/0/deeplink/compose?subject={{ urlencode($event->title) }}&startdt={{ $event->start_date->toIso8601String() }}&enddt={{ $event->end_date->toIso8601String() }}&body={{ urlencode($event->description) }}&location={{ urlencode($event->location ?? '') }}" 
+                               target="_blank" 
+                               class="btn btn-outline-primary w-100 mb-2">
+                                <i class="fab fa-microsoft me-2"></i>Outlook Calendar
+                            </a>
+
+                            {{-- Download .ics file --}}
+                            <a href="{{ route('events.export', $event->id) }}" 
+                               class="btn btn-outline-secondary w-100">
+                                <i class="fa fa-download me-2"></i>Download .ics File
+                            </a>
+                            <small class="text-muted d-block mt-2 text-center">
+                                .ics works with Apple Calendar, Outlook, and other calendar apps
+                            </small>
                         </div>
                     </div>
 

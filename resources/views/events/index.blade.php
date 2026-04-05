@@ -48,7 +48,9 @@
                         <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                             <div class="course-item bg-light">
                                 <div class="position-relative overflow-hidden">
-                                    @if($event->image)
+                                    @if($event->featured_image)
+                                        <img class="img-fluid" src="{{ asset($event->featured_image) }}" alt="{{ $event->title }}">
+                                    @elseif($event->image)
                                         <img class="img-fluid" src="{{ asset('storage/' . $event->image->path) }}" alt="{{ $event->title }}">
                                     @else
                                         <img class="img-fluid" src="{{ asset('img/default-event.jpg') }}" alt="{{ $event->title }}">
@@ -75,9 +77,29 @@
                                         <i class="fa fa-clock text-primary me-2"></i>{{ $event->start_date->format('h:i A') }}
                                     </small>
                                     <small class="flex-fill text-center py-2">
-                                        <a href="{{ route('events.export', $event->id) }}" class="text-primary">
-                                            <i class="fa fa-download me-2"></i>Add to Calendar
-                                        </a>
+                                        <div class="dropdown">
+                                            <a href="#" class="text-primary dropdown-toggle" data-bs-toggle="dropdown">
+                                                <i class="fa fa-calendar-plus me-2"></i>Add to Calendar
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a class="dropdown-item" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text={{ urlencode($event->title) }}&dates={{ $event->start_date->format('Ymd\THis\Z') }}/{{ $event->end_date->format('Ymd\THis\Z') }}&details={{ urlencode($event->description) }}&location={{ urlencode($event->location ?? '') }}" target="_blank">
+                                                        <i class="fab fa-google me-2"></i>Google Calendar
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="dropdown-item" href="https://outlook.live.com/calendar/0/deeplink/compose?subject={{ urlencode($event->title) }}&startdt={{ $event->start_date->toIso8601String() }}&enddt={{ $event->end_date->toIso8601String() }}&body={{ urlencode($event->description) }}&location={{ urlencode($event->location ?? '') }}" target="_blank">
+                                                        <i class="fab fa-microsoft me-2"></i>Outlook
+                                                    </a>
+                                                </li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                <li>
+                                                    <a class="dropdown-item" href="{{ route('events.export', $event->id) }}">
+                                                        <i class="fa fa-download me-2"></i>Download .ics
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </small>
                                 </div>
                             </div>
@@ -106,7 +128,9 @@
                         <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                             <div class="course-item bg-white">
                                 <div class="position-relative overflow-hidden">
-                                    @if($event->image)
+                                    @if($event->featured_image)
+                                        <img class="img-fluid" src="{{ asset($event->featured_image) }}" alt="{{ $event->title }}" style="height: 200px; object-fit: cover; width: 100%;">
+                                    @elseif($event->image)
                                         <img class="img-fluid" src="{{ asset('storage/' . $event->image->path) }}" alt="{{ $event->title }}" style="height: 200px; object-fit: cover; width: 100%;">
                                     @else
                                         <img class="img-fluid" src="{{ asset('img/default-event.jpg') }}" alt="{{ $event->title }}" style="height: 200px; object-fit: cover; width: 100%;">
