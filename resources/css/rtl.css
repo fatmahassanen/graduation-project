@@ -1,0 +1,122 @@
+/* RTL (Right-to-Left) Styles for Arabic Language */
+
+/* Adjust text alignment for RTL */
+[dir="rtl"] body {
+    text-align: right;
+}
+
+/* Navbar adjustments for RTL */
+[dir="rtl"] .navbar-nav {
+    margin-right: auto;
+    margin-left: 0;
+}
+
+[dir="rtl"] .navbar-brand {
+    padding-right: 0;
+    padding-left: 1rem;
+}
+
+/* Dropdown menu adjustments for RTL */
+[dir="rtl"] .dropdown-menu {
+    right: 0;
+    left: auto;
+    text-align: right;
+}
+
+[dir="rtl"] .dropdown-menu-end {
+    right: auto;
+    left: 0;
+}
+
+/* Button and icon spacing for RTL */
+[dir="rtl"] .btn i,
+[dir="rtl"] .nav-link i {
+    margin-left: 0.5rem;
+    margin-right: 0;
+}
+
+/* Card and content block adjustments */
+[dir="rtl"] .card-body {
+    text-align: right;
+}
+
+/* List adjustments for RTL */
+[dir="rtl"] ul,
+[dir="rtl"] ol {
+    padding-right: 2rem;
+    padding-left: 0;
+}
+
+/* Form adjustments for RTL */
+[dir="rtl"] .form-label {
+    text-align: right;
+}
+
+[dir="rtl"] .form-check {
+    padding-right: 1.5em;
+    padding-left: 0;
+}
+
+[dir="rtl"] .form-check-input {
+    float: right;
+    margin-right: -1.5em;
+    margin-left: 0;
+}
+
+/* Breadcrumb adjustments for RTL */
+[dir="rtl"] .breadcrumb-item + .breadcrumb-item::before {
+    float: right;
+    padding-left: 0.5rem;
+    padding-right: 0;
+}
+
+/* Alert adjustments for RTL */
+[dir="rtl"] .alert {
+    text-align: right;
+}
+
+[dir="rtl"] .alert-dismissible .btn-close {
+    left: 0;
+    right: auto;
+}
+
+/* Footer adjustments for RTL */
+[dir="rtl"] .footer {
+    text-align: right;
+}
+
+/* Pagination adjustments for RTL */
+[dir="rtl"] .pagination {
+    direction: rtl;
+}
+
+/* Modal adjustments for RTL */
+[dir="rtl"] .modal-header .btn-close {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+/* Table adjustments for RTL */
+[dir="rtl"] table {
+    text-align: right;
+}
+
+/* Carousel adjustments for RTL */
+[dir="rtl"] .carousel-control-prev {
+    right: 0;
+    left: auto;
+}
+
+[dir="rtl"] .carousel-control-next {
+    left: 0;
+    right: auto;
+}
+
+/* Owl Carousel RTL support */
+[dir="rtl"] .owl-carousel {
+    direction: rtl;
+}
+
+[dir="rtl"] .owl-carousel .owl-item {
+    float: right;
+}
