@@ -42,7 +42,7 @@ class LoginControllerTest extends TestCase
         $user->refresh();
         $this->assertEquals(0, $user->failed_login_attempts);
         $this->assertNull($user->locked_until);
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(302, $response->getStatusCode()); // Login redirects
         $this->assertTrue(Auth::check());
     }
 
@@ -136,7 +136,7 @@ class LoginControllerTest extends TestCase
         $user->refresh();
         $this->assertEquals(0, $user->failed_login_attempts);
         $this->assertNull($user->locked_until);
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(302, $response->getStatusCode()); // Login redirects
         $this->assertTrue(Auth::check());
     }
 
@@ -159,7 +159,7 @@ class LoginControllerTest extends TestCase
         $user->refresh();
         $this->assertEquals(0, $user->failed_login_attempts);
         $this->assertNull($user->locked_until);
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(302, $response->getStatusCode()); // Login redirects
     }
 
     public function test_invalid_email_throws_validation_exception(): void
@@ -218,7 +218,7 @@ class LoginControllerTest extends TestCase
         $response = $this->controller->logout($request);
 
         $this->assertFalse(Auth::check());
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(302, $response->getStatusCode()); // Logout redirects
     }
 
     public function test_account_locked_exception_returns_423_status(): void
