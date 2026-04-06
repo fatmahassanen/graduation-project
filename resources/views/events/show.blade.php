@@ -98,31 +98,35 @@
                             </div>
                         @endif
 
-                        {{-- Add to Calendar Button --}}
+                        {{-- Add to Calendar Dropdown --}}
                         <div class="mt-4">
                             <h6 class="mb-3">Add to Calendar</h6>
                             
-                            {{-- Google Calendar --}}
-                            <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text={{ urlencode($event->title) }}&dates={{ $event->start_date->format('Ymd\THis\Z') }}/{{ $event->end_date->format('Ymd\THis\Z') }}&details={{ urlencode($event->description) }}&location={{ urlencode($event->location ?? '') }}" 
-                               target="_blank" 
-                               class="btn btn-outline-primary w-100 mb-2">
-                                <i class="fab fa-google me-2"></i>Google Calendar
-                            </a>
-
-                            {{-- Outlook Calendar --}}
-                            <a href="https://outlook.live.com/calendar/0/deeplink/compose?subject={{ urlencode($event->title) }}&startdt={{ $event->start_date->toIso8601String() }}&enddt={{ $event->end_date->toIso8601String() }}&body={{ urlencode($event->description) }}&location={{ urlencode($event->location ?? '') }}" 
-                               target="_blank" 
-                               class="btn btn-outline-primary w-100 mb-2">
-                                <i class="fab fa-microsoft me-2"></i>Outlook Calendar
-                            </a>
-
-                            {{-- Download .ics file --}}
-                            <a href="{{ route('events.export', $event->id) }}" 
-                               class="btn btn-outline-secondary w-100">
-                                <i class="fa fa-download me-2"></i>Download .ics File
-                            </a>
+                            <div class="dropdown">
+                                <button class="btn btn-primary w-100 dropdown-toggle" type="button" id="calendarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-calendar-plus me-2"></i>Add to Calendar
+                                </button>
+                                <ul class="dropdown-menu w-100" aria-labelledby="calendarDropdown">
+                                    <li>
+                                        <a class="dropdown-item" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text={{ urlencode($event->title) }}&dates={{ $event->start_date->format('Ymd\THis\Z') }}/{{ $event->end_date->format('Ymd\THis\Z') }}&details={{ urlencode($event->description) }}&location={{ urlencode($event->location ?? '') }}" target="_blank">
+                                            <i class="fab fa-google me-2"></i>Google Calendar
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="https://outlook.live.com/calendar/0/deeplink/compose?subject={{ urlencode($event->title) }}&startdt={{ $event->start_date->toIso8601String() }}&enddt={{ $event->end_date->toIso8601String() }}&body={{ urlencode($event->description) }}&location={{ urlencode($event->location ?? '') }}" target="_blank">
+                                            <i class="fab fa-microsoft me-2"></i>Outlook Calendar
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('events.export', $event->id) }}">
+                                            <i class="fa fa-download me-2"></i>Download .ics File
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                             <small class="text-muted d-block mt-2 text-center">
-                                .ics works with Apple Calendar, Outlook, and other calendar apps
+                                <i class="fa fa-info-circle me-1"></i>.ics files work with Apple Calendar, Outlook, and other calendar apps
                             </small>
                         </div>
                     </div>

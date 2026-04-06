@@ -40,6 +40,7 @@ class News extends Model
         return [
             'is_featured' => 'boolean',
             'published_at' => 'datetime',
+            'featured_image' => 'string',
         ];
     }
 

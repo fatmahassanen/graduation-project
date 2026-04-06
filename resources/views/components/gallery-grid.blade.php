@@ -16,11 +16,11 @@
                              alt="{{ $image['title'] ?? $image['alt'] ?? 'Gallery Image' }}"
                              style="height: 250px; object-fit: cover; cursor: pointer;"
                              loading="lazy"
-                             onclick="openLightbox('{{ asset($image['url']) }}', '{{ $image['title'] ?? '' }}', '{{ $image['description'] ?? '' }}')">
-                        <div class="gallery-overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-end p-3" 
-                             style="background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%); opacity: 0; transition: opacity 0.3s;"
-                             onmouseover="this.style.opacity='1'" 
-                             onmouseout="this.style.opacity='0'">
+                             data-lightbox-url="{{ asset($image['url']) }}"
+                             data-lightbox-title="{{ $image['title'] ?? '' }}"
+                             data-lightbox-description="{{ $image['description'] ?? '' }}"
+                             onclick="openLightbox(this)">
+                        <div class="gallery-overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-end p-3">
                             @if(isset($image['title']))
                                 <h6 class="text-white mb-1">{{ $image['title'] }}</h6>
                             @endif
@@ -52,10 +52,15 @@
 </div>
 
 <script>
-function openLightbox(url, title, description) {
+function openLightbox(imgElement) {
+    const url = imgElement.getAttribute('data-lightbox-url');
+    const title = imgElement.getAttribute('data-lightbox-title');
+    const description = imgElement.getAttribute('data-lightbox-description');
+    
     document.getElementById('lightbox-img').src = url;
     document.getElementById('lightbox-title').textContent = title;
     document.getElementById('lightbox-description').textContent = description;
+    
     var lightboxModal = new bootstrap.Modal(document.getElementById('lightbox'));
     lightboxModal.show();
 }
@@ -67,6 +72,14 @@ function openLightbox(url, title, description) {
 }
 .gallery-item:hover {
     transform: scale(1.05);
+}
+.gallery-overlay {
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.gallery-item:hover .gallery-overlay {
+    opacity: 1;
 }
 #lightbox .modal-dialog {
     max-width: 90%;

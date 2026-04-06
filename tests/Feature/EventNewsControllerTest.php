@@ -103,6 +103,24 @@ class EventNewsControllerTest extends TestCase
         $response->assertSee('BEGIN:VEVENT');
     }
 
+    public function test_event_ical_export_strips_html_tags(): void
+    {
+        $user = User::factory()->create();
+        $event = Event::factory()->create([
+            'status' => 'published',
+            'created_by' => $user->id,
+            'description' => '<p>This is a <strong>test</strong> event with <a href="#">HTML</a> tags.</p>',
+        ]);
+
+        $response = $this->get(route('events.export', $event->id));
+
+        $response->assertStatus(200);
+        $response->assertDontSee('<p>');
+        $response->assertDontSee('<strong>');
+        $response->assertDontSee('<a href="#">');
+        $response->assertSee('This is a test event with HTML tags.');
+    }
+
     public function test_news_rss_feed_works(): void
     {
         $response = $this->get(route('news.rss'));

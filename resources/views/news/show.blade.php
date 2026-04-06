@@ -41,6 +41,8 @@
                         <img class="img-fluid rounded mb-4" src="{{ asset($news->featured_image) }}" alt="{{ $news->title }}">
                     @elseif($news->featuredImage)
                         <img class="img-fluid rounded mb-4" src="{{ asset('storage/' . $news->featuredImage->path) }}" alt="{{ $news->title }}">
+                    @else
+                        <img class="img-fluid rounded mb-4" src="{{ asset('img/default-news.jpg') }}" alt="{{ $news->title }}">
                     @endif
 
                     {{-- Article Excerpt --}}

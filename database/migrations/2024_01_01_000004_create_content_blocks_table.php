@@ -11,7 +11,8 @@ return new class extends Migration
         Schema::create('content_blocks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('page_id')->constrained('pages')->cascadeOnDelete();
-            $table->enum('type', ['hero', 'text', 'card_grid', 'video', 'faq', 'testimonial', 'gallery', 'contact_form']);
+            // Include all types for SQLite compatibility (SQLite doesn't support ALTER ENUM)
+            $table->enum('type', ['hero', 'text', 'card_grid', 'video', 'faq', 'testimonial', 'gallery', 'contact_form', 'html', 'image']);
             $table->json('content')->comment('Type-specific content structure');
             $table->integer('display_order')->default(0);
             $table->boolean('is_reusable')->default(false);

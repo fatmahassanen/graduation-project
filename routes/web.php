@@ -37,9 +37,9 @@ Route::get('/robots.txt', function () {
 
 // Event routes
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
-Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show');
-Route::get('/events/{id}/export.ics', [EventController::class, 'exportIcal'])->name('events.export');
+Route::get('/events/{event}/export', [EventController::class, 'exportIcal'])->name('events.export');
 Route::get('/events/export/all.ics', [EventController::class, 'exportAllIcal'])->name('events.export.all');
+Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show');
 
 // News routes
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');

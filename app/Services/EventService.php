@@ -229,9 +229,13 @@ class EventService
 
     /**
      * Escape text for iCalendar format.
+     * Strip HTML tags and escape special characters.
      */
     protected function escapeICalText(string $text): string
     {
+        // Strip HTML tags
+        $text = strip_tags($text);
+        
         // Remove newlines and escape special characters
         $text = str_replace(["\r\n", "\n", "\r"], ' ', $text);
         $text = str_replace(['\\', ',', ';'], ['\\\\', '\\,', '\\;'], $text);

@@ -143,7 +143,7 @@ class EventSeeder extends Seeder
                 'location' => 'IT Lab 301',
                 'category' => 'workshop',
                 'image_id' => $workshopImage?->id,
-                'featured_image' => 'img/workshop1.png',
+                'featured_image' => 'img/Events/training.jpg',
                 'is_recurring' => false,
                 'language' => 'en',
                 'status' => 'published',
@@ -157,7 +157,7 @@ class EventSeeder extends Seeder
                 'location' => 'IT Lab 205',
                 'category' => 'workshop',
                 'image_id' => null,
-                'featured_image' => 'img/workshop2.png',
+                'featured_image' => 'img/Events/tra1.jpg',
                 'is_recurring' => false,
                 'language' => 'en',
                 'status' => 'published',
@@ -171,7 +171,7 @@ class EventSeeder extends Seeder
                 'location' => 'Business Faculty Room 102',
                 'category' => 'workshop',
                 'image_id' => null,
-                'featured_image' => 'img/workshop3.png',
+                'featured_image' => 'img/Events/tra2.jpg',
                 'is_recurring' => false,
                 'language' => 'en',
                 'status' => 'published',
@@ -257,7 +257,10 @@ class EventSeeder extends Seeder
         ];
 
         foreach ($events as $eventData) {
-            Event::create($eventData);
+            Event::firstOrCreate(
+                ['title' => $eventData['title'], 'language' => $eventData['language']],
+                $eventData
+            );
         }
     }
 }

@@ -42,6 +42,7 @@ class Event extends Model
             'start_date' => 'datetime',
             'end_date' => 'datetime',
             'is_recurring' => 'boolean',
+            'featured_image' => 'string',
         ];
     }
 

@@ -17,7 +17,10 @@ class DatabaseSeeder extends Seeder
             PageSeeder::class,
             HomePageContentSeeder::class,
             AllPagesContentSeeder::class,
-            CompleteNavigationPagesSeeder::class,  // All navigation pages
+            CompleteNavigationPagesSeeder::class,
+            GalleryContentSeeder::class,
+            StaffPagesContentSeeder::class,
+            RemainingPagesContentSeeder::class,
             EventSeeder::class,
             NewsSeeder::class,
         ]);

@@ -62,6 +62,11 @@ class EventController extends Controller
             ->where('status', 'published')
             ->firstOrFail();
 
+        // Validate event has required dates
+        if (!$event->start_date || !$event->end_date) {
+            abort(400, 'Event dates are required for calendar export');
+        }
+
         $ical = $this->eventService->exportToICalendar($event);
 
         return response($ical, 200)
