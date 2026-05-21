@@ -178,7 +178,7 @@ Role: admin
 
 **Test Student Account:**
 ```
-Email: fatmahassanin167@gmail.com
+Email: fatmahassanin@gmail.com
 Password: (set during registration)
 Role: user
 ```
