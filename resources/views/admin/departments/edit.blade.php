@@ -1,0 +1,111 @@
+@extends('layouts.admin')
+
+@section('admin_content')
+<div class="max-w-4xl mx-auto">
+    <x-admin.page-header 
+        title="Edit Department" 
+        description="Update department information"
+    />
+
+    <x-admin.card>
+        <form action="{{ route('admin.departments.update', $department) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+            
+            <!-- Department Name -->
+            <div class="mb-6">
+                <label for="name" class="block text-sm font-semibold text-gray-700 mb-2">
+                    <i class="fas fa-building text-blue-600 mr-2"></i>Department Name *
+                </label>
+                <input 
+                    type="text" 
+                    name="name" 
+                    id="name"
+                    value="{{ old('name', $department->name) }}"
+                    required
+                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 p-3"
+                    placeholder="e.g., Computer Science"
+                >
+                @error('name')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <!-- Description -->
+            <div class="mb-6">
+                <label for="description" class="block text-sm font-semibold text-gray-700 mb-2">
+                    <i class="fas fa-align-left text-yellow-600 mr-2"></i>Description
+                </label>
+                <textarea 
+                    name="description" 
+                    id="description"
+                    rows="4"
+                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 transition-all duration-200 p-3"
+                    placeholder="Enter department description..."
+                >{{ old('description', $department->description) }}</textarea>
+                @error('description')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <!-- Current Image -->
+            <div class="mb-6">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    <i class="fas fa-image text-pink-600 mr-2"></i>Current Image
+                </label>
+                @if($department->image)
+                    <div class="mb-3">
+                        <img src="{{ asset($department->image) }}" alt="{{ $department->name }}" class="w-48 h-48 object-cover rounded-lg shadow-md">
+                    </div>
+                @else
+                    <p class="text-sm text-gray-500 mb-3">No image uploaded</p>
+                @endif
+                
+                <label for="image" class="block text-sm font-medium text-gray-700 mb-2">
+                    Change Image (optional)
+                </label>
+                <input 
+                    type="file" 
+                    name="image" 
+                    id="image"
+                    accept="image/*"
+                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 transition-all duration-200 p-2.5"
+                >
+                @error('image')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+                <p class="text-sm text-gray-500 mt-1">Leave empty to keep current image. Supported formats: JPEG, PNG, JPG, GIF, WEBP (Max: 2MB)</p>
+            </div>
+
+            <!-- Active Status -->
+            <div class="mb-6">
+                <label class="flex items-center cursor-pointer">
+                    <input 
+                        type="checkbox" 
+                        name="is_active" 
+                        id="is_active"
+                        value="1"
+                        {{ old('is_active', $department->is_active) ? 'checked' : '' }}
+                        class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                    >
+                    <span class="ml-3 text-sm font-medium text-gray-700">
+                        <i class="fas fa-check-circle text-green-600 mr-2"></i>Active (Display on website)
+                    </span>
+                </label>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center justify-end gap-3 pt-6 border-t border-gray-200">
+                <a href="{{ route('admin.departments.index') }}" class="inline-flex items-center px-6 py-3 bg-gray-100 text-gray-700 font-semibold rounded-lg hover:bg-gray-200 transition-all duration-200">
+                    <i class="fas fa-times mr-2"></i>
+                    Cancel
+                </a>
+                <button type="submit" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white font-semibold rounded-lg shadow-lg hover:from-green-700 hover:to-green-800 transform hover:scale-105 transition-all duration-200">
+                    <i class="fas fa-save mr-2"></i>
+                    Update Department
+                </button>
+            </div>
+        </form>
+    </x-admin.card>
+</div>
+@endsection

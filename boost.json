@@ -1,0 +1,9 @@
+{
+    "agents": [
+        "kiro"
+    ],
+    "guidelines": true,
+    "mcp": true,
+    "nightwatch_mcp": false,
+    "sail": false
+}

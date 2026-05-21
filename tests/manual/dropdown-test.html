@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dropdown Test</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .user-dropdown {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            margin-top: 0.5rem;
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            min-width: 12rem;
+            z-index: 1001;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .dropdown-menu.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu a,
+        .dropdown-menu button {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 0.75rem 1rem;
+            color: #374151;
+            transition: background-color 0.15s ease;
+        }
+
+        .dropdown-menu a:hover,
+        .dropdown-menu button:hover {
+            background-color: #f3f4f6;
+        }
+
+        .dropdown-menu a:first-child {
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
+        }
+
+        .dropdown-menu button {
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: inherit;
+            font-family: inherit;
+        }
+
+        .dropdown-menu button:last-child {
+            border-bottom-left-radius: 0.5rem;
+            border-bottom-right-radius: 0.5rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-2xl font-bold mb-4">Dropdown Interactive Behavior Test</h1>
+        
+        <div class="bg-white p-6 rounded-lg shadow">
+            <h2 class="text-lg font-semibold mb-4">Test Instructions:</h2>
+            <ol class="list-decimal list-inside space-y-2 mb-6">
+                <li>Click the "Test User" button to open the dropdown</li>
+                <li>Verify the dropdown appears with a smooth fade-in animation (0.2s)</li>
+                <li>Click the button again to close the dropdown</li>
+                <li>Open the dropdown and click outside to verify it closes</li>
+                <li>Verify clicking on dropdown items doesn't close it prematurely</li>
+            </ol>
+
+            <div class="flex justify-center">
+                <div class="user-dropdown">
+                    <button class="dropdown-trigger flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors border border-gray-300" onclick="toggleDropdown(event)">
+                        <span class="text-gray-700 font-medium">Test User</span>
+                        <i class="fas fa-chevron-down text-gray-500 text-sm"></i>
+                    </button>
+                    <div class="dropdown-menu" id="userDropdown">
+                        <a href="#" class="flex items-center gap-2">
+                            <i class="fas fa-user text-gray-500"></i>
+                            <span>Profile</span>
+                        </a>
+                        <button type="button" class="flex items-center gap-2">
+                            <i class="fas fa-sign-out-alt text-gray-500"></i>
+                            <span>Logout</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 p-4 bg-green-50 border border-green-200 rounded">
+                <h3 class="font-semibold text-green-800 mb-2">Expected Behavior:</h3>
+                <ul class="list-disc list-inside space-y-1 text-green-700">
+                    <li>✓ Dropdown toggles on click</li>
+                    <li>✓ Smooth fade-in animation (0.2s opacity + transform)</li>
+                    <li>✓ Closes when clicking outside</li>
+                    <li>✓ Event propagation properly handled</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleDropdown(event) {
+            event.stopPropagation();
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('userDropdown');
+            const trigger = document.querySelector('.dropdown-trigger');
+            
+            if (dropdown && trigger && !trigger.contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
