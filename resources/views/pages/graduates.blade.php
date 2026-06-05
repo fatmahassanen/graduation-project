@@ -1,57 +1,21 @@
 @extends('layouts.app')
 
-@section('title', 'Graduate Certificates - New Cairo University of Technology')
+@section('title', 'Graduate Achievements - New Cairo University of Technology')
 
 @section('content')
+<x-page-header title="Graduate Achievements" />
+
+<div class="row g-5 align-items-center mb-5 wow fadeInUp" data-wow-delay="0.1s">
+    <div class="col-lg-12 text-center">
+        <h6 class="section-title bg-white text-center text-primary px-3">{{ $heroTitle }}</h6>
+    </div>
+</div>
+
 <style>
-    .full-image-container {
-        position: relative;
-        width: 100%;
-        height: 100vh;
-        overflow: hidden;
-    }
-
-    .full-image-container img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        filter: brightness(75%);
-    }
-
-    .image-overlay {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-        color: white;
-    }
-
-    .image-overlay h2 {
-        font-size: 48px;
-        margin-bottom: 15px;
-        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-    }
-
-    .image-overlay p {
-        font-size: 24px;
-        text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.7);
-    }
-
-    @media (max-width: 768px) {
-        .image-overlay h2 {
-            font-size: 32px;
-        }
-
-        .image-overlay p {
-            font-size: 18px;
-        }
-    }
-
     .multi-section {
         padding: 60px 10%;
         font-family: 'Segoe UI', sans-serif;
+        background: #f8f9fa;
     }
 
     .item-container {
@@ -61,6 +25,10 @@
         gap: 40px;
         flex-wrap: wrap;
         margin-bottom: 60px;
+        background: #fff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     }
 
     .image-box {
@@ -74,13 +42,15 @@
 
     .image-box img {
         width: 100%;
-        height: auto;
+        height: 350px;
+        object-fit: cover;
         border-radius: 15px;
         transition: transform 0.5s ease;
+        display: block;
     }
 
     .image-box:hover img {
-        transform: scale(1.1);
+        transform: scale(1.08);
     }
 
     .text-box {
@@ -99,13 +69,15 @@
 
     .text-box h2 {
         font-size: 28px;
-        margin-bottom: 15px;
-        color: #002244;
+        margin-bottom: 18px;
+        color: #1a096e;
+        font-weight: 700;
     }
 
     .text-box p {
-        font-size: 18px;
-        line-height: 1.7;
+        font-size: 17px;
+        line-height: 1.8;
+        color: #4a5568;
         text-align: justify;
         text-justify: inter-word;
     }
@@ -114,6 +86,7 @@
         .item-container {
             flex-direction: column;
             text-align: center;
+            padding: 20px;
         }
 
         .right-img,
@@ -129,41 +102,22 @@
         .image-box {
             max-width: 100%;
         }
+
+        .image-box img {
+            height: 250px;
+        }
     }
 </style>
 
-<!-- Header Start -->
-<div class="container-fluid bg-primary py-5 mb-5 page-header">
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-10 text-center">
-                <h1 class="display-3 text-white animated slideInDown">Graduate Certificates</h1>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Header End -->
-
-<div class="full-image-container">
-    <img src="{{ $heroImage }}" alt="Full Width Image">
-</div>
-
-<section class="question-section">
-    <div class="title-box">
-        {{ $heroTitle }}
-    </div>
-</section>
-
 <section class="multi-section">
-    @foreach($graduates as $index => $graduate)
+    @forelse($graduates as $index => $graduate)
         @if($index % 2 == 0)
-            <!-- Left Image Layout -->
             <div class="item-container left-img">
                 <div class="image-box">
                     @if($graduate->image)
-                        <img src="{{ asset($graduate->image) }}" alt="{{ $graduate->title }}">
+                        <img src="{{ asset($graduate->image) }}" alt="{{ $graduate->title }}" loading="lazy">
                     @else
-                        <img src="{{ asset('img/default-graduate.png') }}" alt="{{ $graduate->title }}">
+                        <img src="{{ asset('img/default-graduate.png') }}" alt="{{ $graduate->title }}" loading="lazy">
                     @endif
                 </div>
                 <div class="text-box">
@@ -172,7 +126,6 @@
                 </div>
             </div>
         @else
-            <!-- Right Image Layout -->
             <div class="item-container right-img">
                 <div class="text-box">
                     <h2>{{ $graduate->title }}</h2>
@@ -180,13 +133,17 @@
                 </div>
                 <div class="image-box">
                     @if($graduate->image)
-                        <img src="{{ asset($graduate->image) }}" alt="{{ $graduate->title }}">
+                        <img src="{{ asset($graduate->image) }}" alt="{{ $graduate->title }}" loading="lazy">
                     @else
-                        <img src="{{ asset('img/default-graduate.png') }}" alt="{{ $graduate->title }}">
+                        <img src="{{ asset('img/default-graduate.png') }}" alt="{{ $graduate->title }}" loading="lazy">
                     @endif
                 </div>
             </div>
         @endif
-    @endforeach
+    @empty
+        <div class="text-center py-5">
+            <p class="text-gray-500 text-lg">No graduate achievements available at the moment.</p>
+        </div>
+    @endforelse
 </section>
 @endsection
