@@ -26,7 +26,7 @@
             @csrf
             @method('PUT')
             <div class="space-y-4">
-                <div>
+                <!-- <div>
                     <label for="hero_image" class="block text-sm font-semibold text-gray-700 mb-2">Hero Image URL</label>
                     <input 
                         type="text" 
@@ -38,7 +38,7 @@
                         required
                     >
                     <p class="text-sm text-gray-500 mt-1">Enter the full URL or asset path for the hero image</p>
-                </div>
+                </div> -->
                 <div>
                     <label for="hero_title" class="block text-sm font-semibold text-gray-700 mb-2">Hero Title</label>
                     <input 
