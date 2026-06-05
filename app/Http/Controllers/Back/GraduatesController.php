@@ -68,7 +68,6 @@ class GraduatesController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            // Delete old image if exists
             if ($graduate->image && file_exists(public_path($graduate->image))) {
                 unlink(public_path($graduate->image));
             }
@@ -90,7 +89,6 @@ class GraduatesController extends Controller
 
     public function destroy(Graduate $graduate)
     {
-        // Delete image if exists
         if ($graduate->image && file_exists(public_path($graduate->image))) {
             unlink(public_path($graduate->image));
         }
