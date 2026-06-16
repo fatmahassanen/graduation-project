@@ -3,7 +3,7 @@
 @section('title', 'Graduate Achievements - New Cairo University of Technology')
 
 @section('content')
-<x-page-header title="Graduate Achievements" />
+<x-page-header :title="__('messages.graduate_achievements')" />
 
 <div class="row g-5 align-items-center mb-5 wow fadeInUp" data-wow-delay="0.1s">
     <div class="col-lg-12 text-center">

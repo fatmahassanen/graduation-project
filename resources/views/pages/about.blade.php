@@ -8,7 +8,7 @@
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-lg-10 text-center">
-                <h1 class="display-3 text-white animated slideInDown">About Us</h1>
+                <h1 class="display-3 text-white animated slideInDown">{{ __('messages.about_us') }}</h1>
                 <nav aria-label="breadcrumb">
                     <!-- Breadcrumb can be added here if needed -->
                 </nav>
