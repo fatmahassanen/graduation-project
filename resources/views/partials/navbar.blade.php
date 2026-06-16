@@ -1,3 +1,7 @@
+@php
+    use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+@endphp
+
 <style>
     /* Hover effect for dropdown items */
     .dropdown-item:hover {
@@ -124,111 +128,117 @@
         <div class="navbar-nav ms-auto p-4 p-lg-0">
 
             <!-- Home -->
-            <a href="{{ route('home') }}" class="nav-item nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
+            <a href="{{ route('home') }}" class="nav-item nav-link {{ request()->routeIs('home') ? 'active' : '' }}">{{ __('messages.home') }}</a>
 
             <!-- About Dropdown -->
             <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">About</a>
+                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('messages.about') }}</a>
                 <div class="dropdown-menu fade-down m-0" style="width: 350px; left: 0;">
-                    <a class="dropdown-item" href="{{ route('about') }}" style="color: #1a096e;">About NCT</a>
-                    <a class="dropdown-item" href="{{ route('president') }}" style="color: #1a096e;">University President</a>
-                    <a class="dropdown-item" href="{{ route('dean1') }}" style="color: #1a096e;">Dean of Industrial & Energy Technology</a>
-                    <a class="dropdown-item" href="{{ route('dean2') }}" style="color: #1a096e;">Dean of Applied Health Sciences Technology</a>
-                    <a class="dropdown-item" href="{{ route('dean3') }}" style="color: #1a096e;">Students Affairs Vice Dean</a>
-                    <a class="dropdown-item" href="{{ route('campus') }}" style="color: #1a096e;">Campus Tour</a>
-                    <a class="dropdown-item" href="{{ route('internalprotocols') }}" style="color: #1a096e;">Internal Protocols</a>
-                    <a class="dropdown-item" href="{{ route('externalprotocols') }}" style="color: #1a096e;">External Protocols</a>
-                    <a class="dropdown-item" href="{{ route('reasons') }}" style="color: #1a096e;">Top 10 Reasons</a>
-                    <a class="dropdown-item" href="{{ route('competitions') }}" style="color: #1a096e;">Competitions</a>
-                    <a class="dropdown-item" href="{{ route('graduates') }}" style="color: #1a096e;">Graduate Achievements</a>
+                    <a class="dropdown-item" href="{{ route('about') }}" style="color: #1a096e;">{{ __('messages.about_nct') }}</a>
+                    <a class="dropdown-item" href="{{ route('president') }}" style="color: #1a096e;">{{ __('messages.president') }}</a>
+                    <a class="dropdown-item" href="{{ route('dean1') }}" style="color: #1a096e;">{{ __('messages.dean1') }}</a>
+                    <a class="dropdown-item" href="{{ route('dean2') }}" style="color: #1a096e;">{{ __('messages.dean2') }}</a>
+                    <a class="dropdown-item" href="{{ route('dean3') }}" style="color: #1a096e;">{{ __('messages.dean3') }}</a>
+                    <a class="dropdown-item" href="{{ route('campus') }}" style="color: #1a096e;">{{ __('messages.campus_tour') }}</a>
+                    <a class="dropdown-item" href="{{ route('internalprotocols') }}" style="color: #1a096e;">{{ __('messages.internal_protocols') }}</a>
+                    <a class="dropdown-item" href="{{ route('externalprotocols') }}" style="color: #1a096e;">{{ __('messages.external_protocols') }}</a>
+                    <a class="dropdown-item" href="{{ route('reasons') }}" style="color: #1a096e;">{{ __('messages.top_reasons') }}</a>
+                    <a class="dropdown-item" href="{{ route('competitions') }}" style="color: #1a096e;">{{ __('messages.competitions') }}</a>
+                    <a class="dropdown-item" href="{{ route('graduates') }}" style="color: #1a096e;">{{ __('messages.graduate_achievements') }}</a>
                 </div>
             </div>
 
             <!-- Units Dropdown -->
             <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Units</a>
+                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('messages.units') }}</a>
                 <div class="dropdown-menu fade-down m-0" style="width: 300px; left: 0;">
-                    <a class="dropdown-item" href="{{ route('digitaltrans') }}" style="color: #1a096e;">Digital Transformation</a>
-                    <a class="dropdown-item" href="{{ route('internationalcoop') }}" style="color: #1a096e;">International Cooperation</a>
-                    <a class="dropdown-item" href="{{ route('quality') }}" style="color: #1a096e;">Quality Assurance</a>
-                    <a class="dropdown-item" href="{{ route('evaluation') }}" style="color: #1a096e;">Measurement and Evaluation</a>
-                    <a class="dropdown-item" href="{{ route('women') }}" style="color: #1a096e;">Combating Violence Against Women</a>
+                    <a class="dropdown-item" href="{{ route('digitaltrans') }}" style="color: #1a096e;">{{ __('messages.digital_transformation') }}</a>
+                    <a class="dropdown-item" href="{{ route('internationalcoop') }}" style="color: #1a096e;">{{ __('messages.international_cooperation') }}</a>
+                    <a class="dropdown-item" href="{{ route('quality') }}" style="color: #1a096e;">{{ __('messages.quality_assurance') }}</a>
+                    <a class="dropdown-item" href="{{ route('evaluation') }}" style="color: #1a096e;">{{ __('messages.measurement_evaluation') }}</a>
+                    <a class="dropdown-item" href="{{ route('women') }}" style="color: #1a096e;">{{ __('messages.combat_violence_women') }}</a>
                 </div>
             </div>
 
             <!-- Faculties Dropdown -->
             <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Faculties</a>
+                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('messages.faculties') }}</a>
                 <div class="dropdown-menu fade-down m-0" style="width: 400px; left: 0;">
-                    <a class="dropdown-item" href="{{ route('facultyit') }}" style="color: #1a096e;">Faculty of Industrial and Energy Technology</a>
-                    <a class="dropdown-item" href="{{ route('facultyhealth') }}" style="color: #1a096e;">Faculty of Applied Health Sciences Technology</a>
+                    <a class="dropdown-item" href="{{ route('facultyit') }}" style="color: #1a096e;">{{ __('messages.faculty_it') }}</a>
+                    <a class="dropdown-item" href="{{ route('facultyhealth') }}" style="color: #1a096e;">{{ __('messages.faculty_health') }}</a>
                 </div>
             </div>
 
             <!-- Media Center Dropdown -->
             <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Media</a>
+                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('messages.media_center') }}</a>
                 <div class="dropdown-menu fade-down m-0" style="width: 230px; left: 0;">
-                    <a class="dropdown-item" href="{{ route('events') }}" style="color: #1a096e;">Events</a>
-                    <a class="dropdown-item" href="{{ route('gallery') }}" style="color: #1a096e;">Gallery</a>
-                    <a class="dropdown-item" href="{{ route('news') }}" style="color: #1a096e;">News</a>
+                    <a class="dropdown-item" href="{{ route('events') }}" style="color: #1a096e;">{{ __('messages.events') }}</a>
+                    <a class="dropdown-item" href="{{ route('gallery') }}" style="color: #1a096e;">{{ __('messages.gallery') }}</a>
+                    <a class="dropdown-item" href="{{ route('news') }}" style="color: #1a096e;">{{ __('messages.news') }}</a>
                 </div>
             </div>
 
             <!-- Admissions Dropdown -->
             <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Admissions</a>
+                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('messages.admissions') }}</a>
                 <div class="dropdown-menu fade-down m-0" style="width: 230px; left: 0;">
                     @auth
-                        <a class="dropdown-item" href="{{ route('admission.create') }}" style="color: #1a096e;">Apply for Admission</a>
+                        <a class="dropdown-item" href="{{ route('admission.create') }}" style="color: #1a096e;">{{ __('messages.apply_now') }}</a>
                     @else
-                        <a class="dropdown-item" href="{{ route('login') }}" style="color: #1a096e;">Apply for Admission (Login Required)</a>
+                        <a class="dropdown-item" href="{{ route('login') }}" style="color: #1a096e;">{{ __('messages.apply_login_required') }}</a>
                     @endauth
                     
-                    <a class="dropdown-item" href="{{ route('faculties-requirements') }}" style="color: #1a096e;">Faculties Requirements</a>
-                    <a class="dropdown-item" href="{{ route('postgraduate-studies') }}" style="color: #1a096e;">Postgraduate Programs</a>
-                    <a class="dropdown-item" href="{{ route('fees') }}" style="color: #1a096e;">Tuition Fees & Scholarships</a>
+                    <a class="dropdown-item" href="{{ route('faculties-requirements') }}" style="color: #1a096e;">{{ __('messages.requirements') }}</a>
+                    <a class="dropdown-item" href="{{ route('postgraduate-studies') }}" style="color: #1a096e;">{{ __('messages.postgraduate_programs') }}</a>
+                    <a class="dropdown-item" href="{{ route('fees') }}" style="color: #1a096e;">{{ __('messages.tuition_fees') }}</a>
                 </div>
             </div>
 
             <!-- Campus Dropdown -->
             <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Campus</a>
+                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('messages.campus_tour') }}</a>
                 <div class="dropdown-menu fade-down m-0" style="width: 230px; left: 0;">
-                    <a class="dropdown-item" href="https://enactus.org/" style="color: #1a096e;">Enactus</a>
-                    <!-- <a class="dropdown-item" href="{{ route('entrepreneur') }}" style="color: #1a096e;">Entrepreneur</a> -->
-                    <a class="dropdown-item" href="{{ route('activities') }}" style="color: #1a096e;">Student Activities</a>
+                    <a class="dropdown-item" href="https://enactus.org/" style="color: #1a096e;">{{ __('messages.enactus') }}</a>
+                    <a class="dropdown-item" href="{{ route('activities') }}" style="color: #1a096e;">{{ __('messages.student_activities') }}</a>
                 </div>
             </div>
 
             <!-- Staff Services Dropdown -->
             <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Staff</a>
+                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('messages.staff') }}</a>
                 <div class="dropdown-menu fade-down m-0" style="width: 270px; left: 0;">
-                    <a class="dropdown-item" href="{{ route('login') }}" style="color: #1a096e;">Staff LMS</a>
-                    {{-- <a class="dropdown-item" href="{{ route('profile') }}" style="color: #1a096e;">Profile</a> --}}
-                    <!-- <a class="dropdown-item" href="{{ route('members') }}" style="color: #1a096e;">Staff Members</a> -->
-                    <a class="dropdown-item" href="https://www.ekb.eg/" style="color: #1a096e;">Egyptian Knowledge Bank- EKB</a>
+                    <a class="dropdown-item" href="{{ route('login') }}" style="color: #1a096e;">{{ __('messages.staff_lms') }}</a>
+                    <a class="dropdown-item" href="https://www.ekb.eg/" style="color: #1a096e;">{{ __('messages.ekb') }}</a>
                 </div>
             </div>
 
             <!-- Student Services Dropdown -->
             <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Student Services</a>
+                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('messages.student_services') }}</a>
                 <div class="dropdown-menu fade-down m-0" style="width: 230px; left: 0;">
-                    <a class="dropdown-item" href="https://sis.nctu.edu.eg/Nctu/Registration/ED_Login.aspx" style="color: #1a096e;">Students LMS</a>
+                    <a class="dropdown-item" href="https://sis.nctu.edu.eg/Nctu/Registration/ED_Login.aspx" style="color: #1a096e;">{{ __('messages.students_lms') }}</a>
                     @auth
-                        <a class="dropdown-item" href="{{ route('admission.create') }}" style="color: #1a096e;">Student Affairs</a>
+                        <a class="dropdown-item" href="{{ route('admission.create') }}" style="color: #1a096e;">{{ __('messages.student_affairs') }}</a>
                     @else
-                        <a class="dropdown-item" href="{{ route('login') }}" style="color: #1a096e;">Student Affairs (Login Required)</a>
+                        <a class="dropdown-item" href="{{ route('login') }}" style="color: #1a096e;">{{ __('messages.student_affairs_login') }}</a>
                     @endauth
-                    <a class="dropdown-item" href="{{ route('library') }}" style="color: #1a096e;">Library</a>
-                    <a class="dropdown-item" href="{{ route('trainings') }}" style="color: #1a096e;">Training</a>
+                    <a class="dropdown-item" href="{{ route('library') }}" style="color: #1a096e;">{{ __('messages.library') }}</a>
+                    <a class="dropdown-item" href="{{ route('trainings') }}" style="color: #1a096e;">{{ __('messages.training') }}</a>
                 </div>
             </div>
 
             <!-- Contacts -->
-            <a href="{{ route('contact') }}" class="nav-item nav-link {{ request()->routeIs('contact') ? 'active' : '' }}">Contacts</a>
+            <a href="{{ route('contact') }}" class="nav-item nav-link {{ request()->routeIs('contact') ? 'active' : '' }}">{{ __('messages.contact') }}</a>
+
+            <!-- Language Toggle -->
+            @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                @if($localeCode != LaravelLocalization::getCurrentLocale())
+                    <a href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}" class="nav-item nav-link" style="color: #D08301 !important; font-weight: 700;">
+                        {{ $properties['native'] }}
+                    </a>
+                @endif
+            @endforeach
 
             <!-- Dashboard/Profile Icon Button (Only visible when logged in) -->
             @auth

@@ -94,7 +94,7 @@
     }
 </style>
 
-<x-page-header title="Campus Tour" />
+<x-page-header :title="__('messages.campus_tour')" />
 
 <!-- <div class="container mt-5 position-relative">
     <div class="card shadow-lg border-0 rounded-4 overflow-hidden wow fadeInUp" data-wow-delay="0.2s">
