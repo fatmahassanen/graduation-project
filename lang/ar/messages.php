@@ -90,7 +90,10 @@ return [
     'confirm_password' => 'تأكيد كلمة المرور',
     'already_have_account' => 'هل لديك حساب بالفعل؟',
     'sign_in_here' => 'سجل الدخول هنا',
+<<<<<<< HEAD
     'my_profile' => 'ملفي الشخصي',
     'logout' => 'تسجيل الخروج',
+=======
+>>>>>>> 990819d7a2b5d49b47507d835d3abbd798f1ad26
 ];
 

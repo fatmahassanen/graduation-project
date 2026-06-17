@@ -98,7 +98,10 @@ return [
     'confirm_password' => 'Confirm your password',
     'already_have_account' => 'Already have an account?',
     'sign_in_here' => 'Sign in here',
+<<<<<<< HEAD
     'my_profile' => 'My Profile',
     'logout' => 'Logout',
+=======
+>>>>>>> 990819d7a2b5d49b47507d835d3abbd798f1ad26
 ];
 
