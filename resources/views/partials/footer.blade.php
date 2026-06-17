@@ -104,7 +104,7 @@
         <div class="row g-5">
             <div class="col-lg-4 col-md-6">
                 <img src="{{ asset('img/sub-logo.png') }}" alt="NCTU" class="footer-logo-wrapper">
-                <p class="footer-tagline">Shaping the future through technology and innovation.</p>
+                <p class="footer-tagline">{{ __('messages.footer_tagline') }}</p>
                 <div class="footer-social">
                     <a href="https://www.facebook.com/nctu.edu.eg/?locale=ar_AR" class="footer-social-link" target="_blank" aria-label="Facebook">
                         <i class="fab fa-facebook-f"></i>
@@ -122,27 +122,27 @@
             </div>
 
             <div class="col-lg-4 col-md-6">
-                <h6 class="footer-heading">Navigation</h6>
-                <a href="{{ route('home') }}" class="footer-nav-link">Home</a>
-                <a href="{{ route('about') }}" class="footer-nav-link">About</a>
-                <a href="{{ route('facultyit') }}" class="footer-nav-link">Faculties</a>
-                <a href="{{ route('admission.create') }}" class="footer-nav-link">Admissions</a>
-                <a href="{{ route('events') }}" class="footer-nav-link">Events</a>
-                <a href="{{ route('contact') }}" class="footer-nav-link">Contact</a>
+                <h6 class="footer-heading">{{ __('messages.navigation') }}</h6>
+                <a href="{{ route('home') }}" class="footer-nav-link">{{ __('messages.home') }}</a>
+                <a href="{{ route('about') }}" class="footer-nav-link">{{ __('messages.about') }}</a>
+                <a href="{{ route('facultyit') }}" class="footer-nav-link">{{ __('messages.faculties') }}</a>
+                <a href="{{ route('admission.create') }}" class="footer-nav-link">{{ __('messages.admissions') }}</a>
+                <a href="{{ route('events') }}" class="footer-nav-link">{{ __('messages.events') }}</a>
+                <a href="{{ route('contact') }}" class="footer-nav-link">{{ __('messages.contact') }}</a>
             </div>
 
             <div class="col-lg-4 col-md-6">
-                <h6 class="footer-heading">Quick Access</h6>
-                <a href="https://sis.nctu.edu.eg/Nctu/Registration/ED_Login.aspx" class="footer-nav-link" target="_blank">Students LMS</a>
-                <a href="{{ route('login') }}" class="footer-nav-link">Staff LMS</a>
-                <a href="{{ route('admission.create') }}" class="footer-nav-link">Student Affairs</a>
-                <a href="{{ route('library') }}" class="footer-nav-link">Library</a>
-                <a href="{{ route('trainings') }}" class="footer-nav-link">Training</a>
+                <h6 class="footer-heading">{{ __('messages.quick_access') }}</h6>
+                <a href="https://sis.nctu.edu.eg/Nctu/Registration/ED_Login.aspx" class="footer-nav-link" target="_blank">{{ __('messages.students_lms') }}</a>
+                <a href="{{ route('login') }}" class="footer-nav-link">{{ __('messages.staff_lms') }}</a>
+                <a href="{{ route('admission.create') }}" class="footer-nav-link">{{ __('messages.student_affairs') }}</a>
+                <a href="{{ route('library') }}" class="footer-nav-link">{{ __('messages.library') }}</a>
+                <a href="{{ route('trainings') }}" class="footer-nav-link">{{ __('messages.training') }}</a>
             </div>
         </div>
 
         <div class="footer-copyright">
-            <p class="footer-copyright-text">&copy; 2025 New Cairo Technological University. All Rights Reserved.</p>
+            <p class="footer-copyright-text">&copy; 2025 {{ __('messages.footer_copyright') }}</p>
         </div>
     </div>
 </footer>

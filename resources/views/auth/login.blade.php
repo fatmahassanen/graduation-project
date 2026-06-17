@@ -314,8 +314,8 @@
                 <div class="brand-logo">
                     <i class="fas fa-graduation-cap"></i>
                 </div>
-                <h1 class="brand-title">Welcome to</h1>
-                <h2 class="brand-subtitle">New Cairo Technological University </h2>
+                <h1 class="brand-title">{{ __('messages.welcome_to') }}</h1>
+                <h2 class="brand-subtitle">{{ __('messages.nctu_full_name') }}</h2>
                 <!-- <p class="brand-description">
                     Access your dashboard to manage university content, events, and stay updated with the latest news. 
                     Join our community and embark on an exciting journey with us!
@@ -326,8 +326,8 @@
         <!-- Right Side - Form Section -->
         <div class="form-section">
             <div class="form-header">
-                <h2 class="form-title">Log In</h2>
-                <p class="form-subtitle">Enter your credentials to access your account</p>
+                <h2 class="form-title">{{ __('messages.log_in') }}</h2>
+                <p class="form-subtitle">{{ __('messages.enter_credentials') }}</p>
             </div>
 
             <!-- Session Status -->
@@ -349,7 +349,7 @@
                             name="email" 
                             id="email"
                             class="form-input" 
-                            placeholder="Enter your email"
+                            :placeholder="__('messages.enter_email')"
                             value="{{ old('email') }}"
                             required 
                             autofocus 
@@ -370,7 +370,7 @@
                             name="password" 
                             id="password"
                             class="form-input" 
-                            placeholder="Enter your password"
+                            :placeholder="__('messages.enter_password')"
                             required 
                             autocomplete="current-password"
                         >
@@ -383,28 +383,28 @@
                 <!-- Remember Me -->
                 <div class="remember-me">
                     <input type="checkbox" name="remember" id="remember_me">
-                    <label for="remember_me">Remember me</label>
+                    <label for="remember_me">{{ __('messages.remember_me') }}</label>
                 </div>
 
                 <!-- Submit Button -->
                 <button type="submit" class="submit-btn">
-                    Sign In
+                    {{ __('messages.sign_in') }}
                 </button>
 
                 <!-- Links -->
                 <div class="form-links">
                     @if (Route::has('password.request'))
                         <a href="{{ route('password.request') }}" class="form-link">
-                            Forgot your password?
+                            {{ __('messages.forgot_password') }}
                         </a>
                     @endif
                 </div>
 
                 @if (Route::has('register'))
-                    <div class="divider">Don't have an account?</div>
+                    <div class="divider">{{ __('messages.no_account') }}</div>
                     <div class="form-links">
                         <a href="{{ route('register') }}" class="form-link">
-                            Create an account
+                            {{ __('messages.create_account') }}
                         </a>
                     </div>
                 @endif

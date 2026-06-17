@@ -277,15 +277,15 @@
                 <div class="brand-logo">
                     <i class="fas fa-graduation-cap"></i>
                 </div>
-                <h1 class="brand-title">Join Us</h1>
-                <h2 class="brand-subtitle">New Cairo Technological University</h2>
+                <h1 class="brand-title">{{ __('messages.join_us') }}</h1>
+                <h2 class="brand-subtitle">{{ __('messages.nctu_full_name') }}</h2>
             </div>
         </div>
 
         <div class="form-section">
             <div class="form-header">
-                <h2 class="form-title">Create Account</h2>
-                <p class="form-subtitle">Fill in your details to get started</p>
+                <h2 class="form-title">{{ __('messages.create_account') }}</h2>
+                <p class="form-subtitle">{{ __('messages.fill_details') }}</p>
             </div>
 
             <form method="POST" action="{{ route('register') }}">
@@ -299,7 +299,7 @@
                             name="name" 
                             id="name"
                             class="form-input" 
-                            placeholder="Enter username"
+                            :placeholder="__('messages.enter_username')"
                             value="{{ old('name') }}"
                             required 
                             autofocus 
@@ -338,7 +338,7 @@
                             name="password" 
                             id="password"
                             class="form-input" 
-                            placeholder="Create a password"
+                            :placeholder="__('messages.create_password')"
                             required 
                             autocomplete="new-password"
                         >
@@ -356,7 +356,7 @@
                             name="password_confirmation" 
                             id="password_confirmation"
                             class="form-input" 
-                            placeholder="Confirm your password"
+                            :placeholder="__('messages.confirm_password')"
                             required 
                             autocomplete="new-password"
                         >
@@ -367,13 +367,13 @@
                 </div>
 
                 <button type="submit" class="submit-btn">
-                    Create Account
+                    {{ __('messages.create_account') }}
                 </button>
 
-                <div class="divider">Already have an account?</div>
+                <div class="divider">{{ __('messages.already_have_account') }}</div>
                 <div class="form-links">
                     <a href="{{ route('login') }}" class="form-link">
-                        Sign in here
+                        {{ __('messages.sign_in_here') }}
                     </a>
                 </div>
             </form>
