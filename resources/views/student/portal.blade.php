@@ -162,7 +162,7 @@
                         </div>
                         <div class="ml-3">
                             <h1 class="text-white font-bold text-lg leading-tight">Student Portal</h1>
-                            {{-- <!-- <p class="text-purple-200 text-xs">{{ config('app.name') }}</p> --> --}}
+                           <p class="text-purple-200 text-xs">{{ config('app.name') }}</p>
                         </div>
                     </div>
                 </div>
@@ -184,11 +184,11 @@
 
                     <!-- User Dropdown -->
                     <div class="relative">
-                        <button onclick="toggleDropdown()" class="flex items-center space-x-3 focus:outline-none">
+                        <button id="dropdownBtn" class="flex items-center space-x-3 focus:outline-none">
                             <div class="user-avatar">
                                 {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                             </div>
-                            <div class="text-left hidden lg:block">
+                            <div class="text-left hidden lg:block mx-2">
                                 <p class="text-white font-semibold text-sm">{{ auth()->user()->name }}</p>
                                 @if($admission)
                                 <p class="text-purple-200 text-xs flex items-center">
@@ -200,25 +200,24 @@
                             <i class="fas fa-chevron-down text-white text-sm"></i>
                         </button>
 
-                        <!-- Dropdown Menu -->
-                        <div id="userDropdown" class="dropdown-menu">
+                        <div id="userDropdown" class="dropdown-menu absolute right-0 mt-2">
                             <div class="px-4 py-3 border-b border-gray-100">
                                 <p class="text-sm font-semibold text-gray-900">{{ auth()->user()->name }}</p>
                                 <p class="text-xs text-gray-500">{{ auth()->user()->email }}</p>
                             </div>
 
-                             <a href="{{ route('student.portal') }}" class="dropdown-item">
+                            <a href="{{ route('student.portal') }}" class="dropdown-item">
                                 <i class="fas fa-user"></i>
                                 <span>My Profile</span>
                             </a>
 
-                              @if($admission)
+                            @if($admission)
                             <a href="{{ route('student.portal') }}" class="dropdown-item">
                                 <i class="fas fa-file-alt"></i>
                                 <span>Application Status</span>
                             </a>
                             @else
-                             <a href="{{ route('admission.create') }}" class="dropdown-item">
+                            <a href="{{ route('admission.create') }}" class="dropdown-item">
                                 <i class="fas fa-plus-circle"></i>
                                 <span>Submit Application</span>
                             </a>
@@ -228,22 +227,13 @@
 
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <button type="submit" class="dropdown-item w-full text-left text-red-600 hover:text-white">
+                                <button type="submit" class="dropdown-item w-full text-left text-red-600 hover:text-white flex items-center">
                                     <i class="fas fa-sign-out-alt"></i>
-                                    <span>Logout</span>
+                                    <span class="mx-2">Logout</span>
                                 </button>
                             </form>
                         </div>
                     </div>
-                </div>
-
-                <!-- Mobile Menu Button -->
-                <div class="mobile-menu">
-                    <button onclick="toggleMobileMenu()" class="text-white focus:outline-none">
-                        <i class="fas fa-bars text-2xl"></i>
-                    </button>
-                </div>
-            </div>
 
             <!-- Mobile Menu Content -->
 
@@ -327,13 +317,13 @@
                     <h2 class="text-3xl font-bold text-white mb-4">Welcome to Your Student Portal</h2>
                     <p class="text-white text-opacity-90 text-lg mb-8">You haven't submitted an application yet. Start your journey with us today!</p>
                 </div>
-                
+
                 <div class="p-12 text-center">
                     <h3 class="text-2xl font-bold text-gray-800 mb-4">Ready to Apply?</h3>
                     <p class="text-gray-600 mb-8 max-w-2xl mx-auto">
                         Complete your admission application in just a few steps. Our easy-to-use form will guide you through the process.
                     </p>
-                    
+
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 max-w-4xl mx-auto">
                         <div class="p-6 bg-blue-50 rounded-lg">
                             <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -342,7 +332,7 @@
                             <h4 class="font-semibold text-gray-800 mb-2">Personal Info</h4>
                             <p class="text-sm text-gray-600">Provide your basic information and contact details</p>
                         </div>
-                        
+
                         <div class="p-6 bg-green-50 rounded-lg">
                             <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <i class="fas fa-file-upload text-white text-xl"></i>
@@ -350,7 +340,7 @@
                             <h4 class="font-semibold text-gray-800 mb-2">Upload Documents</h4>
                             <p class="text-sm text-gray-600">Submit required certificates and identification</p>
                         </div>
-                        
+
                         <div class="p-6 bg-purple-50 rounded-lg">
                             <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <i class="fas fa-check-circle text-white text-xl"></i>
@@ -359,13 +349,13 @@
                             <p class="text-sm text-gray-600">Submit your application and track its status</p>
                         </div>
                     </div>
-                    
-                    <a href="{{ route('admission.create') }}" 
+
+                    <a href="{{ route('admission.create') }}"
                        class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-lg font-bold rounded-lg hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition duration-200 shadow-lg">
                         <i class="fas fa-rocket mr-3"></i>
                         Start New Application
                     </a>
-                    
+
                     <p class="text-sm text-gray-500 mt-6">
                         <i class="fas fa-save mr-1"></i> You can save your progress as a draft and continue later
                     </p>
@@ -381,22 +371,22 @@
                     <h2 class="text-3xl font-bold text-white mb-4">Continue Your Application</h2>
                     <p class="text-white text-opacity-90 text-lg mb-8">You have a draft application saved. Pick up where you left off!</p>
                 </div>
-                
+
                 <div class="p-8 text-center">
                     <div class="mb-6">
                         <p class="text-gray-700 text-lg mb-2">Current Progress: <strong>Step {{ $admission->current_step }} of 4</strong></p>
                         <div class="w-full bg-gray-200 rounded-full h-4 max-w-md mx-auto">
-                            <div class="bg-gradient-to-r from-blue-600 to-indigo-600 h-4 rounded-full transition-all duration-300" 
+                            <div class="bg-gradient-to-r from-blue-600 to-indigo-600 h-4 rounded-full transition-all duration-300"
                                  style="width: {{ ($admission->current_step / 4) * 100 }}%"></div>
                         </div>
                     </div>
-                    
-                    <a href="{{ route('admission.create') }}" 
+
+                    <a href="{{ route('admission.create') }}"
                        class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-lg font-bold rounded-lg hover:from-yellow-600 hover:to-orange-600 transform hover:scale-105 transition duration-200 shadow-lg">
                         <i class="fas fa-edit mr-3"></i>
                         Continue Application
                     </a>
-                    
+
                     <p class="text-sm text-gray-500 mt-6">
                         Last saved: {{ $admission->updated_at->diffForHumans() }}
                     </p>
@@ -837,45 +827,62 @@
     </div>
 
     <script>
-    function showDeleteModal() {
-        document.getElementById('deleteModal').classList.remove('hidden');
+        // تشغيل القفل والفتح عن طريق الـ ID المباشر
+document.getElementById('dropdownBtn').addEventListener('click', function(e) {
+    e.stopPropagation(); // بتمنع دمج النقرات عشان ما يقفلش في نفس اللحظة
+    const dropdown = document.getElementById('userDropdown');
+    dropdown.classList.toggle('show');
+});
+
+// القفل عند الضغط في أي مكان برة
+document.addEventListener('click', function(event) {
+    const dropdown = document.getElementById('userDropdown');
+    const button = document.getElementById('dropdownBtn');
+
+    // لو الضغطة مش على الزرار ومش جوه المنيو، اقفلها فوراً
+    if (!button.contains(event.target) && !dropdown.contains(event.target)) {
+        dropdown.classList.remove('show');
     }
+});
+    // function showDeleteModal() {
+    //     document.getElementById('deleteModal').classList.remove('hidden');
+    // }
 
-    function hideDeleteModal() {
-        document.getElementById('deleteModal').classList.add('hidden');
-    }
+    // function hideDeleteModal() {
+    //     document.getElementById('deleteModal').classList.add('hidden');
+    // }
 
-    // Dropdown toggle
-    function toggleDropdown() {
-        const dropdown = document.getElementById('userDropdown');
-        dropdown.classList.toggle('show');
-    }
+    // // Dropdown toggle
+    // function toggleDropdown() {
+    //     const dropdown = document.getElementById('userDropdown');
+    //     dropdown.classList.toggle('show');
+    // }
 
-    // Mobile menu toggle
-    function toggleMobileMenu() {
-        const mobileMenu = document.getElementById('mobileMenu');
-        mobileMenu.classList.toggle('show');
-    }
+    // // Mobile menu toggle
+    // function toggleMobileMenu() {
+    //     const mobileMenu = document.getElementById('mobileMenu');
+    //     mobileMenu.classList.toggle('show');
+    // }
 
-    // Close dropdown when clicking outside
-    document.addEventListener('click', function(event) {
-        const dropdown = document.getElementById('userDropdown');
-        const button = event.target.closest('button[onclick="toggleDropdown()"]');
+    // // Close dropdown when clicking outside
+    // document.addEventListener('click', function(event) {
+    //     const dropdown = document.getElementById('userDropdown');
+    //     const button = event.target.closest('button[onclick="toggleDropdown()"]');
 
-        if (!button && dropdown && !dropdown.contains(event.target)) {
-            dropdown.classList.remove('show');
-        }
-    });
+    //     if (!button && dropdown && !dropdown.contains(event.target)) {
+    //         dropdown.classList.remove('show');
+    //     }
+    // });
 
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', function(event) {
-        const mobileMenu = document.getElementById('mobileMenu');
-        const button = event.target.closest('button[onclick="toggleMobileMenu()"]');
+    // // Close mobile menu when clicking outside
+    // document.addEventListener('click', function(event) {
+    //     const mobileMenu = document.getElementById('mobileMenu');
+    //     const button = event.target.closest('button[onclick="toggleMobileMenu()"]');
 
-        if (!button && mobileMenu && !mobileMenu.contains(event.target)) {
-            mobileMenu.classList.remove('show');
-        }
-    });
+    //     if (!button && mobileMenu && !mobileMenu.contains(event.target)) {
+    //         mobileMenu.classList.remove('show');
+    //     }
+    // });
     </script>
     @endif
 </body>

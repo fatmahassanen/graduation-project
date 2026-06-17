@@ -98,5 +98,7 @@ return [
     'confirm_password' => 'Confirm your password',
     'already_have_account' => 'Already have an account?',
     'sign_in_here' => 'Sign in here',
+    'my_profile' => 'My Profile',
+    'logout' => 'Logout',
 ];
 

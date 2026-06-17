@@ -84,12 +84,13 @@
         justify-content: center !important;
         transition: all 0.3s ease !important;
         border: none !important;
+        text-decoration: none !important;
     }
 
     .dashboard-icon-btn:hover {
         background: rgba(26, 9, 110, 0.1) !important;
         color: #D08301 !important;
-        transform: scale(1.1);
+        transform: scale(1.05);
     }
 
     .dashboard-icon-btn i {
@@ -99,6 +100,10 @@
 
     .dashboard-icon-btn:hover i {
         color: #D08301 !important;
+    }
+
+    .dashboard-icon-btn.dropdown-toggle::after {
+        display: none;
     }
 
     /* Desktop: no extra margin */
@@ -242,17 +247,30 @@
 
             <!-- Dashboard/Profile Icon Button (Only visible when logged in) -->
             @auth
-                @if(auth()->user()->role === 'admin')
-                    <!-- Admin Dashboard Icon -->
-                    <a href="{{ route('admin.dashboard') }}" class="nav-item nav-link dashboard-icon-btn" title="Admin Dashboard">
-                        <i class="fas fa-tachometer-alt"></i>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle dashboard-icon-btn" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="{{ auth()->user()->role === 'admin' ? 'Admin Dashboard' : 'My Profile' }}">
+                        <i class="fas {{ auth()->user()->role === 'admin' ? 'fa-tachometer-alt' : 'fa-user-circle' }}"></i>
+                        <span class="ms-1" style="font-size: 0.875rem;">{{ auth()->user()->name }}</span>
                     </a>
-                @else
-                    <!-- Student Profile Icon -->
-                    <a href="{{ route('student.portal') }}" class="nav-item nav-link dashboard-icon-btn" title="My Profile">
-                        <i class="fas fa-user-circle"></i>
-                    </a>
-                @endif
+                    <div class="dropdown-menu dropdown-menu-end fade-down m-0" style="min-width: 200px;">
+                        @if(auth()->user()->role === 'admin')
+                            <a class="dropdown-item" href="{{ route('admin.dashboard') }}" style="color: #1a096e;">
+                                <i class="fas fa-tachometer-alt me-2"></i>{{ __('messages.dashboard') }}
+                            </a>
+                        @else
+                            <a class="dropdown-item" href="{{ route('student.portal') }}" style="color: #1a096e;">
+                                <i class="fas fa-user me-2"></i>{{ __('messages.my_profile') }}
+                            </a>
+                        @endif
+                        <div class="dropdown-divider"></div>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="dropdown-item" style="color: #1a096e;">
+                                <i class="fas fa-sign-out-alt me-2"></i>{{ __('messages.logout') }}
+                            </button>
+                        </form>
+                    </div>
+                </div>
             @endauth
 
         </div>

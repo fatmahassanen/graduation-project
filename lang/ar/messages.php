@@ -90,5 +90,7 @@ return [
     'confirm_password' => 'تأكيد كلمة المرور',
     'already_have_account' => 'هل لديك حساب بالفعل؟',
     'sign_in_here' => 'سجل الدخول هنا',
+    'my_profile' => 'ملفي الشخصي',
+    'logout' => 'تسجيل الخروج',
 ];
 

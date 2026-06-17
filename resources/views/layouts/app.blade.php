@@ -129,5 +129,8 @@
     <script src="{{ asset('js/reader.js') }}"></script>
 
     @stack('scripts')
+
+    <!-- AI Chatbot -->
+    @include('components.chatbot')
 </body>
 </html>
