@@ -84,10 +84,7 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.'
     Route::put('/testimonials/{testimonial}', [TestimonialsController::class, 'update'])->name('testimonials.update');
     Route::post('/testimonials/update-order', [TestimonialsController::class, 'updateOrder'])->name('testimonials.update-order');
 
-    // Placeholder routes (to be removed once resource routes are fully implemented)
-    // Route::get('/media', function () {
-    //     return view('admin.media.index');
-    // })->name('media.index');
+
 
     Route::get('/students', function () {
         return view('admin.students.index');
@@ -96,4 +93,8 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.'
     // Route::get('/settings', function () {
     //     return view('admin.settings.index');
     // })->name('settings.index');
+        // Placeholder routes (to be removed once resource routes are fully implemented)
+    // Route::get('/media', function () {
+    //     return view('admin.media.index');
+    // })->name('media.index');
 });

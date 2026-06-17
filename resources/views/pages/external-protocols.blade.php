@@ -10,7 +10,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb justify-content-center text-uppercase">
                 <li class="breadcrumb-item"><a class="text-white" href="{{ url('/') }}">Home</a></li>
-                <li class="breadcrumb-item text-white active" aria-current="page">International Cooperation</li>
+                <li class="breadcrumb-item text-white active" aria-current="page">External Protocols</li>
             </ol>
         </nav>
     </div>

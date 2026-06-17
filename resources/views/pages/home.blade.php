@@ -11,10 +11,10 @@
                 <div class="row justify-content-start">
                     <div class="col-sm-10 col-lg-8">
                         <br><br><br>
-                        <h1 class="display-3 text-white animated slideInDown">
+                        <h1 class="text-white animated slideInDown" style="font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; letter-spacing: -0.5px; line-height: 1.2; margin-bottom: 1.5rem; text-shadow: 2px 4px 8px rgba(0,0,0,0.3);">
                             New Cairo University of Technology
                         </h1>
-                        <p class="fs-5 text-white mb-4 pb-2">
+                        <p class="text-white mb-4 pb-2 animated slideInUp" style="font-size: clamp(1.1rem, 2.5vw, 1.4rem); font-weight: 400; letter-spacing: 0.3px; line-height: 1.6; opacity: 0.95; max-width: 600px;">
                             {{ $siteSettings['tagline'] ?? 'Excellence in Technological Education' }}
                         </p>
                         <a href="{{ route('about') }}" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft" style="background: #D08301; border-color: #D08301;">Read More</a>

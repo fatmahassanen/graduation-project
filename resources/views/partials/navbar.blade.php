@@ -24,24 +24,42 @@
         font-weight: 500;
     }
 
-    /* Navbar styling */
-    .navbar-light .navbar-nav .nav-link {
+    /* Unified navbar link styling - applies to ALL nav items */
+    .navbar-light .navbar-nav .nav-link,
+    .navbar-light .navbar-nav .nav-item > a.nav-link {
         color: #1a096e !important;
         font-weight: 600;
-        transition: 0.3s;
+        transition: all 0.3s ease;
         padding: 0.5rem 0.4rem !important;
-        font-size: 0.875rem;
+        font-size: 0.875rem !important;
+        line-height: 1.5 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        height: auto !important;
+        background: transparent !important;
+        border: none !important;
+        text-decoration: none !important;
     }
 
     .navbar-light .navbar-nav .nav-link:hover,
-    .navbar-light .navbar-nav .nav-link.active {
+    .navbar-light .navbar-nav .nav-link.active,
+    .navbar-light .navbar-nav .nav-item > a.nav-link:hover {
         color: #D08301 !important;
+        background: transparent !important;
+    }
+
+    /* Ensure dropdown toggles align perfectly */
+    .navbar-light .navbar-nav .dropdown > .nav-link {
+        display: inline-flex !important;
+        align-items: center !important;
     }
 
     /* Adjust navbar container spacing */
     @media (min-width: 992px) {
         .navbar-nav {
-            gap: 0;
+            display: flex !important;
+            align-items: center !important;
+            gap: 0 !important;
         }
         
         .navbar-brand {
@@ -51,73 +69,135 @@
         
         .navbar-collapse {
             padding: 0 !important;
+            display: flex !important;
+            align-items: center !important;
         }
     }
 
-    /* Ensure reader buttons don't take too much space */
-    .reader-buttons-container {
+    /* Right-side utilities container */
+    .navbar-utilities {
         display: flex;
-        gap: 0.2rem;
-        margin-left: 0.3rem;
+        align-items: center;
+        gap: 0.5rem;
+        margin-left: 0.5rem;
     }
 
     /* Reader buttons styling */
+    .reader-buttons-container {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding-left: 0.5rem;
+        border-left: 1px solid rgba(26, 9, 110, 0.1);
+    }
+
     .reader-btn {
         border: none;
         outline: none;
-        font-size: 13px;
-        padding: 3px;
-        width: 26px;
-        height: 26px;
+        font-size: 16px;
+        padding: 0.5rem;
+        min-width: 32px;
+        height: 32px;
         background: transparent;
         cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        transition: all 0.3s ease;
     }
 
-    /* Dashboard icon button styling */
-    .dashboard-icon-btn {
+    .reader-btn:hover {
+        background: rgba(26, 9, 110, 0.05);
+        transform: scale(1.05);
+    }
+
+    /* Language switcher styling */
+    .language-switcher {
+        padding: 0.5rem 0.6rem !important;
+        font-size: 0.875rem !important;
+        font-weight: 700 !important;
+        color: #D08301 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        text-decoration: none !important;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+    }
+
+    .language-switcher:hover {
+        background: rgba(208, 131, 1, 0.1);
+        transform: scale(1.05);
+    }
+
+    /* Admin/User dropdown button - perfect alignment */
+    .user-dropdown-btn {
         background: transparent !important;
         color: #1a096e !important;
         padding: 0.5rem 0.4rem !important;
-        border-radius: 8px !important;
+        font-size: 0.875rem !important;
+        line-height: 1.5 !important;
+        font-weight: 600 !important;
+        border-radius: 6px !important;
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
         transition: all 0.3s ease !important;
         border: none !important;
         text-decoration: none !important;
+        height: auto !important;
     }
 
-    .dashboard-icon-btn:hover {
-        background: rgba(26, 9, 110, 0.1) !important;
+    .user-dropdown-btn:hover {
+        background: rgba(26, 9, 110, 0.05) !important;
         color: #D08301 !important;
-        transform: scale(1.05);
     }
 
-    .dashboard-icon-btn i {
-        font-size: 16px;
+    .user-dropdown-btn i {
+        font-size: 14px;
         color: #1a096e !important;
+        margin-right: 0.25rem;
     }
 
-    .dashboard-icon-btn:hover i {
+    .user-dropdown-btn:hover i {
         color: #D08301 !important;
     }
 
-    .dashboard-icon-btn.dropdown-toggle::after {
+    .user-dropdown-btn.dropdown-toggle::after {
         display: none;
     }
 
-    /* Desktop: no extra margin */
+    /* Desktop: perfect alignment */
     @media (min-width: 992px) {
-        .dashboard-icon-btn {
+        .user-dropdown-btn {
             margin-left: 0 !important;
+        }
+        
+        .navbar-nav .nav-item,
+        .navbar-nav .dropdown {
+            display: flex;
+            align-items: center;
         }
     }
 
     /* Mobile: center alignment */
     @media (max-width: 991px) {
-        .dashboard-icon-btn {
+        .user-dropdown-btn {
             margin: 10px auto !important;
             display: flex !important;
+        }
+        
+        .navbar-utilities {
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(26, 9, 110, 0.1);
+        }
+        
+        .reader-buttons-container {
+            border-left: none;
+            padding-left: 0;
         }
     }
 </style>
@@ -236,19 +316,10 @@
             <!-- Contacts -->
             <a href="{{ route('contact') }}" class="nav-item nav-link {{ request()->routeIs('contact') ? 'active' : '' }}">{{ __('messages.contact') }}</a>
 
-            <!-- Language Toggle -->
-            @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                @if($localeCode != LaravelLocalization::getCurrentLocale())
-                    <a href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}" class="nav-item nav-link" style="color: #D08301 !important; font-weight: 700;">
-                        {{ $properties['native'] }}
-                    </a>
-                @endif
-            @endforeach
-
             <!-- Dashboard/Profile Icon Button (Only visible when logged in) -->
             @auth
                 <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle dashboard-icon-btn" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="{{ auth()->user()->role === 'admin' ? 'Admin Dashboard' : 'My Profile' }}">
+                    <a href="#" class="nav-link dropdown-toggle user-dropdown-btn" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="{{ auth()->user()->role === 'admin' ? 'Admin Dashboard' : 'My Profile' }}">
                         <i class="fas {{ auth()->user()->role === 'admin' ? 'fa-tachometer-alt' : 'fa-user-circle' }}"></i>
                         <span class="ms-1" style="font-size: 0.875rem;">{{ auth()->user()->name }}</span>
                     </a>
@@ -275,10 +346,22 @@
 
         </div>
 
-        <!-- Reader Buttons -->
-        <div class="reader-buttons-container">
-            <button class="reader-btn play" onclick="readPage()">🔊</button>
-            <button class="reader-btn stop" onclick="stopReading()">⏹</button>
+        <!-- Navbar Utilities (Language Switcher + Reader Buttons) -->
+        <div class="navbar-utilities">
+            <!-- Language Toggle (currently commented out) -->
+            <!-- @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                @if($localeCode != LaravelLocalization::getCurrentLocale())
+                    <a href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}" class="language-switcher">
+                        {{ $properties['native'] }}
+                    </a>
+                @endif
+            @endforeach -->
+
+            <!-- Reader Buttons -->
+            <div class="reader-buttons-container">
+                <button class="reader-btn play" onclick="readPage()">🔊</button>
+                <button class="reader-btn stop" onclick="stopReading()">⏹</button>
+            </div>
         </div>
     </div>
 </nav>
