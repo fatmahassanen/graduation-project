@@ -408,11 +408,11 @@
             // Remove typing indicator
             typingIndicator.remove();
 
-            if (data.success) {
-                addMessage(data.message, 'bot');
+            if (data.status === 'success' || data.success) {
+                addMessage(data.reply, 'bot');
             } else {
                 // Show the exact error message from the server
-                addMessage(data.message || 'Sorry, I encountered an error. Please try again.', 'bot');
+                addMessage(data.reply || 'Sorry, I encountered an error. Please try again.', 'bot');
             }
         } catch (error) {
             typingIndicator.remove();
