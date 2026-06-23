@@ -61,10 +61,25 @@
         <div class="row g-4 justify-content-center">
             @php
                 $defaultImages = ['mecha.jpeg', 'auto.jpeg', 'info.jpeg', 'petro.jpeg', 'renew.jpeg', 'prothetic.jpeg'];
+                
+                // Map department names to their clean structural URLs
+                $slugMap = [
+                    'Information Technology' => url('/information-technology'),
+                    'ICT'                    => url('/information-technology'),
+                    'Mechatronics'           => url('/mechatronics'),
+                    'Autotronics'            => url('/autotronics'),
+                    'Petroleum'              => url('/petroleum'),
+                    'Renewable Energy'       => url('/renewable-energy'),
+                    'Prosthetics'            => url('/prosthetics'),
+                ];
             @endphp
             @foreach($departments as $index => $dept)
+            @php
+                // Fallback to departments page with anchor if no dedicated page exists
+                $targetUrl = $slugMap[$dept->name] ?? route('departments') . '#dept-' . $dept->id;
+            @endphp
             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="{{ 0.1 + ($index * 0.1) }}s">
-                <a href="{{ route('departments') }}#dept-{{ $dept->id }}" style="text-decoration: none;">
+                <a href="{{ $targetUrl }}" style="text-decoration: none;">
                     <div class="course-item bg-light">
                         <div class="img-container" style="height: 230px; overflow: hidden;">
                             @if($dept->image)

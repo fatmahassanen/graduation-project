@@ -18,10 +18,22 @@ class BotResponseSeeder extends Seeder
         DB::table('bot_responses')->truncate();
         
         $responses = [
+            // CRITICAL SYNONYM FIXES
+            ['keyword' => 'نظام', 'reply' => 'نظام الدراسة بالجامعة ممتد لـ 4 سنوات مقسمة إلى مرحلتين: أول سنتين للحصول على الدبلوم العالي التكنولوجي، والسنتين التاليتين للحصول على البكالوريوس التكنولوجي المهني. نتبع نظام تقييم Pearson البريطاني المعتمد المقسم إلى Pass و Merit و Distinction، والتعليم يركز بشكل أساسي على التطبيق العملي والميداني.'],
+            ['keyword' => 'دراسة', 'reply' => 'الدراسة تكنولوجية عملية ممتعة وتعتمد على نظام Pearson البريطاني: الامتحان مقسم لـ P (Pass) للنجاح، و M (Merit) للتميز 80%، و D (Distinction) للتفوق 100%. الجامعة تضم نخبة من أعضاء هيئة التدريس والمعيدين على أعلى مستوى لتوجيه الطلاب.'],
+            ['keyword' => 'كليات', 'reply' => 'تضم الجامعة كلية تكنولوجيا الصناعة والطاقة والتي تشمل أقساماً متميزة مثل: تكنولوجيا المعلومات (ICT)، الأوتوترونكس، الميكاترونكس، تكنولوجيا البترول، الأطراف الصناعية، والطاقة المتجددة. يمكنك تصفح تفاصيل كل قسم ومستقبله الوظيفي من قائمة Departments.'],
+            ['keyword' => 'قسم', 'reply' => 'تضم الكلية عدة أقسام متميزة مثل: تكنولوجيا المعلومات (ICT)، الأوتوترونكس، الميكاترونكس، تكنولوجيا البترول، الأطراف الصناعية، والطاقة المتجددة. يمكنك تصفح تفاصيل كل قسم من قائمة Departments.'],
+            ['keyword' => 'مجموع', 'reply' => 'التنسيق الحالي لسه تحت المراجعة، لكن كمرجع لك، تنسيق السنة اللي فاتت استقبل رغبات الطلاب من حوالي 98% لشهادات الدبلومات الفنية ومدارس التكنولوجيا التطبيقية، ومن خلال مكتب التنسيق للثانوية العامة.'],
+            ['keyword' => 'جايب', 'reply' => 'لمعرفة هل مجموعك مقبول أم لا: التنسيق الجديد لسه تحت المراجعة، لكن كمرجع لك، تنسيق السنة اللي فاتت استقبل رغبات الطلاب من حوالي 98% لشهادات الدبلومات والتكنولوجيا التطبيقية.'],
+            ['keyword' => 'we', 'reply' => 'مرحباً بطالب مدرسة WE! نعم، يمكنك القبول والتقديم المباشر في الجامعة بناءً على قواعد التنسيق الحالية وشروط الجامعة للقبول للعام الحالي. لمتابعة آخر إعلانات ومواعيد التقديم المباشر الرسمية، يرجى زيارة صفحات السوشيال ميديا الخاصة بنا: فيسبوك، LinkedIn (linkedin.com/in/nctu)، وموقع Twitter/X (x.com/nctu_edu_eg_1).'],
+            ['keyword' => 'تطبيقية', 'reply' => 'الجامعة ترحب بخريجي مدارس التكنولوجيا التطبيقية (مثل WE و ظهر والسويدي و HST). التقديم متاح في أقسامنا المختلفة بشرط اجتياز اختبارات القبول وتوافق المجموع مع التنسيق.'],
+            ['keyword' => 'انشطة', 'reply' => 'الأنشطة هنا تشمل مسابقات عالمية ومحلية (مثل ATC للهواتف الذكية وHult Prize)، بالإضافة للمسابقات الرياضية والمعارض السنوية للابتكارات، بجانب الأنشطة التقنية الرائدة التي ينظمها الطلاب في مجتمع مطوري جوجل GDG على كامبس الجامعة.'],
+            ['keyword' => 'مصاريف', 'reply' => 'المصاريف الدراسية الرسمية للجامعة هي: الفرقة الأولى والثانية (مرحلة الدبلوم) 15,000 جنيه سنوياً، والفرقة الثالثة والرابعة (مرحلة البكالوريوس) 20,000 جنيه سنوياً.'],
+            ['keyword' => 'ازيك', 'reply' => 'الحمد لله! أهلاً بك في بورتال جامعة القاهرة الجديدة التكنولوجية، كيف يمكنني مساعدتك اليوم؟'],
+            
             // [1. GENERAL GREETINGS - ARABIC & ENGLISH]
             ['keyword' => 'hello', 'reply' => 'Welcome to New Cairo Technological University Portal! How can I assist you today?'],
             ['keyword' => 'hi', 'reply' => 'Hello! Welcome to NCTU Portal. How can I help you navigate our services today?'],
-            ['keyword' => 'ازيك', 'reply' => 'الحمد لله! أهلاً بك في بورتال جامعة القاهرة الجديدة التكنولوجية، كيف يمكنني مساعدتك اليوم؟'],
             ['keyword' => 'اهلا', 'reply' => 'أهلاً بك في بورتال جامعة القاهرة الجديدة التكنولوجية (NCTU)! كيف يمكنني مساعدتك اليوم؟'],
             ['keyword' => 'مرحبا', 'reply' => 'مرحباً بك في بورتال الجامعة! يسعدني مساعدتك في معرفة شروط التقديم، المصاريف، أو معلومات الأقسام.'],
             
@@ -64,19 +76,19 @@ class BotResponseSeeder extends Seeder
             
             // [8. INTERNAL / EXTERNAL PROTOCOLS & COLLABORATIONS]
             ['keyword' => 'protocols', 'reply' => 'NCTU maintains prominent industrial ties. For domestic partnerships with conglomerates like Petrojet and telecommunication firms, view \'Internal Protocols\'. For partnerships with Chinese technology giants, view \'External Protocols\'.'],
-            ['keyword' => 'بروتوكول', 'reply' => 'ترتبط الجامعة بروابط وثيقة مع قطاع الصناعة لضمان التدريب العملي؛ حيث تم توقيع بروتوكولات تعاون كبرى داخل مصر مع شركات عملاقة مثل Petrojet وشركات الطاقة والاتصالات. للاطلاع على التفاصيل الكاملة، يرجى الانتقال إلى صفحة \'Internal Protocols\' بالبورتال.'],
-            ['keyword' => 'جوه مصر', 'reply' => 'الشراكات المحلية داخل مصر تشمل بروتوكولات تعاون مع كيانات صناعية رائدة وشركات هندسية كبرى لتوفير تدريب ميداني معتمد للطلاب. القائمة كاملة ومحدثة متوفرة في صفحة \'Internal Protocols\' بالموقع.'],
-            ['keyword' => 'بره مصر', 'reply' => 'على الصعيد الدولي، تمتلك الجامعة شراكات وبروتوكولات متميزة خارج مصر، أبرزها التعاون مع الشركات الصينية التكنولوجية الكبرى لتطوير المعايير التقنية وتبادل الخبرات. يمكنك تصفح تفاصيلها بالكامل عبر صفحة \'External Protocols\'.'],
-            ['keyword' => 'دولية', 'reply' => 'International partnerships at NCTU include strategic academic and industrial protocols with major Chinese technology corporations to align our curriculum with global tech standards. View more on the \'External Protocols\' page.'],
+            ['keyword' => 'بروتوكول', 'reply' => 'تم توقيع بروتوكولات تعاون كبرى داخل مصر مع شركات عملاقة مثل Petrojet وشركات الطاقة والاتصالات. للاطلاع على التفاصيل الكاملة، يرجى الانتقال إلى صفحة \'Internal Protocols\' بالبورتال.'],
+            ['keyword' => 'جوه مصر', 'reply' => 'الشراكات المحلية داخل مصر تشمل بروتوكولات تعاون مع كيانات صناعية رائدة وشركات هندسية كبرى. القائمة كاملة ومحدثة متوفرة في صفحة \'Internal Protocols\' بالموقع.'],
+            ['keyword' => 'بره مصر', 'reply' => 'تمتلك الجامعة شراكات وبروتوكولات متميزة خارج مصر، أبرزها التعاون مع الشركات الصينية التكنولوجية الكبرى لتطوير المعايير التقنية وتبادل الخبرات. يمكنك تصفح تفاصيلها بالكامل عبر صفحة \'External Protocols\'.'],
+            ['keyword' => 'دولية', 'reply' => 'International partnerships at NCTU include strategic academic and industrial protocols with major Chinese technology corporations. View more on the \'External Protocols\' page.'],
             
             // [9. STUDENT FIELD TRAINING, EVENTS & EVENTS LINKS]
             ['keyword' => 'training', 'reply' => 'We offer tailored student field training backed by Orange Egypt, ITIDA qualification programs (itida+gigs), and technical workshops hosted by GDG NCTU. Check open scopes on the dedicated \'Training\' page.'],
-            ['keyword' => 'تدريب', 'reply' => 'تهتم الجامعة بالجانب العملي وتوفر تدريبات ميدانية وايفينتات تقنية بالتعاون مع جهات داعمة كبرى مثل Orange Egypt، وبرامج التأهيل الحر مع ITIDA (برنامج itida+gigs)، بالإضافة للورش الفنية التي يقدمها مجتمع مطوري جوجل GDG NCTU. لمتابعة الفرص الحالية، قم بزيارة صفحة \'Training\' بالبورتال.'],
-            ['keyword' => 'ايفينت', 'reply' => 'تستضيف الجامعة وتشارك في ايفينتات ومعارض تقنية كبرى (مثل Cairo ICT)، وتوفر ورش عمل مستمرة للطلاب مدعومة من مجتمعات التكنولوجيا مثل GDG على كامبس الجامعة والشركاء الصناعيين. تابع التفاصيل في صفحة \'Training\' أو المعارض الرسمية.'],
+            ['keyword' => 'تدريب', 'reply' => 'توفر الجامعة تدريبات ميدانية وايفينتات تقنية بالتعاون مع جهات داعمة كبرى مثل Orange Egypt، وبرامج التأهيل الحر مع ITIDA (برنامج itida+gigs)، بالإضافة للورش الفنية التي يقدمها مجتمع مطوري جوجل GDG NCTU. لمتابعة الفرص الحالية، قم بزيارة صفحة \'Training\' بالبورتال.'],
+            ['keyword' => 'ايفينت', 'reply' => 'تستضيف الجامعة وتشارك في ايفينتات ومعارض تقنية كبرى (مثل Cairo ICT)، وتوفر ورش عمل مستمرة للطلاب مدعومة من مجتمعات التكنولوجيا مثل GDG على كامبس الجامعة والشركاء الصناعيين. تابع التفاصيل في صفحة \'Training\'.'],
             
             // [10. RECOGNIZED UNIVERSITY SYLLABUS & INTEGRATED HOME ROUTING]
             ['keyword' => 'courses', 'reply' => 'To review the complete course syllabi, modules, and credit flows for all technological departments, please inspect the dynamic \'Departments Layout Grid\' located inside our portal\'s Home Page.'],
-            ['keyword' => 'ادرس', 'reply' => 'لمعرفة المناهج والكورسات بالتفصيل، يرجى مراجعة جزئية الأقسام (Departments Section) في الصفحة الرئيسية (Home Page) بالموقع، حيث تجد تفاصيل المواد والمستقبل الوظيفي لكل تخصص.'],
+            ['keyword' => 'ادرس', 'reply' => 'لمعرفة المناهج والكورسات بالتفصيل، يرجى مراجعة جزئية الأقسام (Departments Section) في الـ Home Page بالموقع، حيث تجد تفاصيل المواد والمستقبل الوظيفي لكل تخصص.'],
             ['keyword' => 'كورسات', 'reply' => 'To see the complete syllabus and course list for each department, please check the \'Departments\' layout grid embedded directly in our website\'s Home Page.'],
             
             // [11. EXTENSIVE PEARSON BRITISH EVALUATION SYSTEM & MARKS SPECIFICATIONS]

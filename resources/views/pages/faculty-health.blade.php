@@ -56,7 +56,7 @@
                     <p class="fs-5"><strong>Qualifies you for:</strong> This is a <strong>High-Demand</strong> field. You will be a Specialist in Rehab Centers, Hospitals, or launch your own center for artificial limb manufacturing.</p>
                     <hr>
                     <p class="text-muted italic">"Ranked as one of the most stable and required healthcare careers in the 2026 job market."</p>
-                    <a href="{{ url('/courses#prosthetics') }}" class="btn btn-success btn-lg rounded-pill px-5 mt-3">View 4-Year Courses</a>
+                    <a href="{{ url('/prosthetics') }}" class="btn btn-success btn-lg rounded-pill px-5 mt-3">View More</a>
                 </div>
             </div>
         </div>

@@ -25,7 +25,6 @@ class GraduatesSeeder extends Seeder
 The training was held under the patronage of Prof. Dr. Tarek Abdel Malak, President of the University, and Prof. Dr. Walid El-Khatam, Dean of the Faculty of Industry and Energy Technology, and coordinated by Mr. Abdelrahman Omar, University Training Coordinator.
 
 The program included hands-on sessions on network fundamentals, the company\'s technological infrastructure, and practical training on the SAP system used globally for resource and project management',
-            'image' => 'motafq.png',
             'is_active' => true,
             'order' => 1,
         ]);
@@ -36,7 +35,6 @@ The program included hands-on sessions on network fundamentals, the company\'s t
             'description' => 'Under the patronage of Prof. Dr. Tarek Abdel Malak, President of New Cairo Technological University, and Prof. Dr. Walid El-Khatam, Dean of the Faculty of Industry and Energy Technology, NCTU students achieved remarkable success by winning three awards in the third edition of the "Entlaqah" competition, organized by the Higher Technological Institute in Beni Suef at the Egyptian Space Agency.
 
 The university participated with seven innovative projects from the Mechatronics, Renewable Energy, and Autotronics programs, supervised by Dr. Shereef El Hosary and Dr. Bothaina Mahmoud Fouad, Head of the Entrepreneurship Club.',
-            'image' => 'jaza.png',
             'is_active' => true,
             'order' => 2,
         ]);
@@ -49,7 +47,6 @@ The university participated with seven innovative projects from the Mechatronics
 The competition, organized by the Arab Academy for Science, Technology & Maritime Transport under the title MATE ROV Egypt, aimed to promote innovation in underwater exploration technologies.
 
 This recognition reflects the university\'s commitment to supporting creativity, research, and student excellence.',
-            'image' => 'tamer.png',
             'is_active' => true,
             'order' => 3,
         ]);
@@ -58,7 +55,6 @@ This recognition reflects the university\'s commitment to supporting creativity,
         Graduate::create([
             'title' => 'Green Hydrogen Research Collaboration',
             'description' => 'A meeting was held under Professor Dr. Tarek Abdelmalak\'s patronage to launch student and postgraduate research projects, focusing on the production and industrial application of green hydrogen.',
-            'image' => 'ww.pgn.png',
             'is_active' => true,
             'order' => 4,
         ]);
@@ -69,7 +65,6 @@ This recognition reflects the university\'s commitment to supporting creativity,
             'description' => 'Under the patronage of Prof. Dr. Tarek Abdel Malak, President of New Cairo Technological University, and in cooperation with the Ministry of Petroleum, Mineral Resources, and the Ministry of Labor, students and graduates of the Oil Production, Processing, and Transport Technology Program participated in a specialized training program organized by the Egyptian Drilling Company (EDC).
 
 The program aimed to enhance technical and practical skills, preparing participants for real-world challenges in the energy sector.',
-            'image' => 'mghmada.png',
             'is_active' => true,
             'order' => 5,
         ]);
@@ -80,7 +75,6 @@ The program aimed to enhance technical and practical skills, preparing participa
             'description' => 'Students of New Cairo Technological University (NCTU) were honored by AVIC Innovation Holding Limited (AVIC INNO) after achieving second place in the Mobile Applications category at the Africa Technology Challenge (ATC) — Season 10.
 
 The competition brought together 142 university teams and 568 participants from across Africa, showcasing innovation and excellence among young tech talents.',
-            'image' => 'abdrahman.png',
             'is_active' => true,
             'order' => 6,
         ]);
@@ -94,7 +88,6 @@ Ziad Alaa Mohamed won third place and the bronze medal,
 Radwa Sayed Abdelkarim achieved second place and the silver medal.
 
 NCTU congratulates its champions for their outstanding achievements and reaffirms its commitment to supporting talented students in all fields.',
-            'image' => 'btal.png',
             'is_active' => true,
             'order' => 7,
         ]);
@@ -105,7 +98,6 @@ NCTU congratulates its champions for their outstanding achievements and reaffirm
             'description' => 'Students of New Cairo Technological University participated in the national Kung Fu championships among Egyptian universities, showcasing outstanding performance and remarkable sportsmanship.
 
 This participation reflects the university\'s commitment to supporting its students physically and mentally, fostering a spirit of discipline, perseverance, and national pride — in line with Egypt\'s vision of empowering youth and encouraging excellence in all fields.',
-            'image' => 'congofoo.png',
             'is_active' => true,
             'order' => 8,
         ]);
@@ -118,7 +110,6 @@ This participation reflects the university\'s commitment to supporting its stude
 This participation reflects the university\'s commitment to empowering students, enhancing their skills, and providing a well-rounded educational experience in line with Egypt\'s vision to build an innovative and aware generation.
 
 NCTU extends its appreciation to its talented students for their dedication and wishes them continued success and excellence.',
-            'image' => 'tawla.png',
             'is_active' => true,
             'order' => 9,
         ]);

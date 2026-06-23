@@ -83,12 +83,37 @@ Route::group([
 
     // postgraduate dynamic routes
     Route::get('/it', [PageController::class, 'itPostgraduate'])->name('itPostgraduate');
-    Route::get('/mechatronics', [PageController::class, 'mechatronicsPostgraduate'])->name('mechatronicsPostgraduate');
+    Route::get('/mechatronics-postgrad', [PageController::class, 'mechatronicsPostgraduate'])->name('mechatronicsPostgraduate');
     Route::get('/energy', [PageController::class, 'energyPostgraduate'])->name('energyPostgraduate');
-    Route::get('/petroleum', [PageController::class, 'petroleumPostgraduate'])->name('petroleumPostgraduate');
-    Route::get('/prosthetics', [PageController::class, 'prostheticsPostgraduate'])->name('prostheticsPostgraduate');
-    Route::get('/autotronics', [PageController::class, 'autotronicsPostgraduate'])->name('autotronicsPostgraduate');
+    Route::get('/petroleum-postgrad', [PageController::class, 'petroleumPostgraduate'])->name('petroleumPostgraduate');
+    Route::get('/prosthetics-postgrad', [PageController::class, 'prostheticsPostgraduate'])->name('prostheticsPostgraduate');
+    Route::get('/autotronics-postgrad', [PageController::class, 'autotronicsPostgraduate'])->name('autotronicsPostgraduate');
     Route::get('/postgraduate-apply', [PageController::class, 'postgraduateApply'])->name('postgraduate-apply');
+
+    // Department Detail Pages - Undergraduate Programs
+    Route::get('/information-technology', function () {
+        return view('pages.departments.information-technology');
+    })->name('dept.ict');
+
+    Route::get('/mechatronics', function () {
+        return view('pages.departments.mechatronics');
+    })->name('dept.mechatronics');
+
+    Route::get('/autotronics', function () {
+        return view('pages.departments.autotronics');
+    })->name('dept.autotronics');
+
+    Route::get('/petroleum', function () {
+        return view('pages.departments.petroleum');
+    })->name('dept.petroleum');
+
+    Route::get('/renewable-energy', function () {
+        return view('pages.departments.renewable');
+    })->name('dept.renewable');
+
+    Route::get('/prosthetics', function () {
+        return view('pages.departments.prosthetics');
+    })->name('dept.prosthetics');
 
     // Dynamic page route (catch-all for other pages)
     Route::get('/{slug}', [PageController::class, 'show'])->name('page.show');

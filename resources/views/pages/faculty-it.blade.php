@@ -61,7 +61,7 @@
                     </div>
                     <p><strong>Description:</strong> This department focuses on the digital backbone of industry. It covers software engineering, web development (PHP/Laravel), cybersecurity, and cloud computing.</p>
                     <p><strong>Qualifies you for:</strong> Becoming a Full-Stack Developer, Network Security Engineer, or IT Consultant in smart factories and tech companies.</p>
-                    <a href="{{ url('/courses#ict') }}" class="btn btn-outline-primary rounded-pill px-4">View 4-Year Plan</a>
+                    <a href="{{ url('/information-technology') }}" class="btn btn-outline-primary rounded-pill px-4">View More</a>
                 </div>
             </div>
 
@@ -73,7 +73,7 @@
                     </div>
                     <p><strong>Description:</strong> A fusion of mechanics, electronics, and AI. You learn how to design, build, and maintain robots and automated production lines.</p>
                     <p><strong>Qualifies you for:</strong> Working as a Robotics Engineer, Automation Specialist, or Maintenance Manager in high-tech industrial plants.</p>
-                    <a href="{{ url('/courses#mechatronics') }}" class="btn btn-outline-primary rounded-pill px-4">View 4-Year Plan</a>
+                    <a href="{{ url('/mechatronics') }}" class="btn btn-outline-primary rounded-pill px-4">View More</a>
                 </div>
             </div>
 
@@ -85,7 +85,7 @@
                     </div>
                     <p><strong>Description:</strong> Focuses on the "brain" of modern vehicles. It includes engine management systems, sensors, and the technology of electric/hybrid cars.</p>
                     <p><strong>Qualifies you for:</strong> Automotive Systems Engineer or Electric Vehicle (EV) Specialist in modern service centers and car manufacturing companies.</p>
-                    <a href="{{ url('/courses#autotronics') }}" class="btn btn-outline-primary rounded-pill px-4">View 4-Year Plan</a>
+                    <a href="{{ url('/autotronics') }}" class="btn btn-outline-primary rounded-pill px-4">View More</a>
                 </div>
             </div>
 
@@ -97,7 +97,19 @@
                     </div>
                     <p><strong>Description:</strong> Specialized in sustainable power sources. It covers solar panels, wind turbines, and the future of Green Hydrogen production.</p>
                     <p><strong>Qualifies you for:</strong> Energy Consultant, Solar Plant Supervisor, or Environmental Engineer in the transition to clean energy.</p>
-                    <a href="{{ url('/courses#energy') }}" class="btn btn-outline-primary rounded-pill px-4">View 4-Year Plan</a>
+                    <a href="{{ url('/renewable-energy') }}" class="btn btn-outline-primary rounded-pill px-4">View More</a>
+                </div>
+            </div>
+
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
+                <div class="p-4 shadow rounded border h-100 bg-white">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="fa fa-oil-can fa-3x text-primary me-3"></i>
+                        <h3 class="mb-0">Petroleum</h3>
+                    </div>
+                    <p><strong>Description:</strong> This department focuses on modern drilling technologies, production engineering, and gas processing control systems. It integrates digital monitoring tools and automation with heavy industrial energy infrastructure.</p>
+                    <p><strong>Qualifies you for:</strong> Working as a Petroleum Technology Specialist, Drilling Operations Analyst, or Production Control Engineer in global oil and natural gas corporations.</p>
+                    <a href="{{ url('/petroleum') }}" class="btn btn-outline-primary rounded-pill px-4">View More</a>
                 </div>
             </div>
         </div>
