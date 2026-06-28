@@ -540,7 +540,7 @@ INSERT INTO `site_settings` (`id`, `key`, `value`, `type`, `created_at`, `update
 INSERT INTO `site_settings` (`id`, `key`, `value`, `type`, `created_at`, `updated_at`) VALUES ('9', 'linkedin_url', 'https://www.linkedin.com/school/nct-uni/', 'text', '2026-04-06 22:14:45', '2026-04-06 22:14:45');
 INSERT INTO `site_settings` (`id`, `key`, `value`, `type`, `created_at`, `updated_at`) VALUES ('10', 'telegram_url', 'https://t.me/+hu88qUXmcXNlNmQ0', 'text', '2026-04-06 22:14:45', '2026-04-06 22:14:45');
 INSERT INTO `site_settings` (`id`, `key`, `value`, `type`, `created_at`, `updated_at`) VALUES ('11', 'website_url', 'nctu.edu.eg', 'text', '2026-04-06 22:14:45', '2026-04-06 22:14:45');
-INSERT INTO `site_settings` (`id`, `key`, `value`, `type`, `created_at`, `updated_at`) VALUES ('12', 'logo', 'img/logo.png', 'image', '2026-04-06 22:14:45', '2026-04-06 22:14:45');
+INSERT INTO `site_settings` (`id`, `key`, `value`, `type`, `created_at`, `updated_at`) VALUES ('12', 'logo', 'img/sub-logo.png', 'image', '2026-04-06 22:14:45', '2026-04-06 22:14:45');
 INSERT INTO `site_settings` (`id`, `key`, `value`, `type`, `created_at`, `updated_at`) VALUES ('13', 'footer_text', '© 2025 New Cairo Technological University. All Rights Reserved.', 'text', '2026-04-06 22:14:45', '2026-04-06 22:14:45');
 INSERT INTO `site_settings` (`id`, `key`, `value`, `type`, `created_at`, `updated_at`) VALUES ('14', 'competitions_video_url', 'http://localhost/img/videos/comptions.mp4', 'text', '2026-04-26 14:17:21', '2026-04-26 14:17:21');
 INSERT INTO `site_settings` (`id`, `key`, `value`, `type`, `created_at`, `updated_at`) VALUES ('15', 'graduates_hero_image', 'http://localhost/img/kk.png', 'text', '2026-04-26 14:45:14', '2026-04-26 14:45:14');
@@ -873,7 +873,7 @@ INSERT INTO `pages` (`id`, `slug`, `title`, `meta_description`, `meta_keywords`,
 <head>
     <meta charset=\"utf-8\">
     <title>New Cairo University of Technology</title>
-    <link rel=\"icon\" href=\"{{ asset(\'img/logo.png\') }}\" type=\"image/png\">
+    <link rel=\"icon\" href=\"{{ asset(\'img/sub-logo.png\') }}\" type=\"image/png\">
     <meta content=\"\" name=\"keywords\">
     <meta content=\"\" name=\"description\">
     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">

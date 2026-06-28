@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Back\ActivitiesController;
 use App\Http\Controllers\Back\AdminController;
+use App\Http\Controllers\Api\AdmissionsApiController;
 use App\Http\Controllers\Back\AdmissionsController;
 use App\Http\Controllers\Back\CompetitionsController;
 use App\Http\Controllers\Back\DeansController;
@@ -26,6 +27,8 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.'
     Route::get('/admissions/accepted', [AdmissionsController::class, 'accepted'])->name('admissions.accepted');
     Route::get('/admissions/rejected', [AdmissionsController::class, 'rejected'])->name('admissions.rejected');
     Route::get('/admissions/{admission}', [AdmissionsController::class, 'show'])->name('admissions.show');
+    Route::get('/admissions/{admission}/generate-code', [AdmissionsApiController::class, 'generateCode'])
+        ->name('admissions.generate-code');
     Route::post('/admissions/{admission}/approve', [AdmissionsController::class, 'approve'])->name('admissions.approve');
     Route::post('/admissions/{admission}/reject', [AdmissionsController::class, 'reject'])->name('admissions.reject');
 

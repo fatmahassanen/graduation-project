@@ -150,4 +150,28 @@ class Admission extends Model
     {
         return in_array($this->status, ['pending', 'accepted', 'rejected']);
     }
+
+    /**
+     * Resolve a public URL for a stored admission file path.
+     *
+     * Handles mixed storage conventions:
+     * - uploads/filename.jpg  → public/uploads (direct asset)
+     * - admissions/documents/file.pdf → storage disk via storage symlink
+     * - public/… or storage/… prefixes are stripped to avoid duplicated segments
+     */
+    public function fileUrl(?string $path): ?string
+    {
+        if (! $path) {
+            return null;
+        }
+
+        $normalized = ltrim(str_replace('\\', '/', $path), '/');
+        $normalized = preg_replace('#^(?:public/|storage/)+#', '', $normalized);
+
+        if (str_starts_with($normalized, 'uploads/') || str_starts_with($normalized, 'img/')) {
+            return asset($normalized);
+        }
+
+        return asset('storage/'.$normalized);
+    }
 }

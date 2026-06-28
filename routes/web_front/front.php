@@ -31,6 +31,7 @@ Route::group([
         Route::put('/student/profile', [StudentPortalController::class, 'updateProfile'])->name('student.profile.update');
         Route::get('/student/password/edit', [StudentPortalController::class, 'editPassword'])->name('student.password.edit');
         Route::put('/student/password', [StudentPortalController::class, 'updatePassword'])->name('student.password.update');
+        Route::post('/student/update-photo', [StudentPortalController::class, 'updatePhoto'])->name('student.update-photo');
         Route::delete('/student/application', [StudentPortalController::class, 'deleteApplication'])->name('student.application.delete');
     });
 

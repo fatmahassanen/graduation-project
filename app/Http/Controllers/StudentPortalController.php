@@ -124,4 +124,52 @@ class StudentPortalController extends Controller
         return redirect()->route('student.portal')
             ->with('success', 'Application deleted successfully. You can submit a new application.');
     }
+
+    /**
+     * Update the student's profile photo.
+     */
+    public function updatePhoto(Request $request)
+    {
+        $admission = Admission::where('user_id', auth()->id())->first();
+
+        if (!$admission) {
+            return redirect()->route('student.portal')
+                ->with('error', 'No application found.');
+        }
+
+        $validated = $request->validate([
+            'student_photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ], [
+            'student_photo.required' => 'Please select a photo to upload.',
+            'student_photo.image' => 'The file must be an image.',
+            'student_photo.mimes' => 'The photo must be a JPEG, PNG, or JPG file.',
+            'student_photo.max' => 'The photo size must not exceed 2MB.',
+        ]);
+
+        try {
+            // Delete old photo if exists
+            if ($admission->student_photo && file_exists(public_path($admission->student_photo))) {
+                unlink(public_path($admission->student_photo));
+            }
+
+            // Upload new photo using the trait method
+            $file = $request->file('student_photo');
+            $filename = time() . '_' . uniqid() . '.' . $file->extension();
+            $file->move(public_path('uploads'), $filename);
+            $photoPath = 'uploads/' . $filename;
+
+            // Update admission record
+            $admission->update([
+                'student_photo' => $photoPath,
+            ]);
+
+            return redirect()->route('student.portal')
+                ->with('success', '✅ Profile photo updated successfully! / تم تحديث صورة الملف الشخصي بنجاح!');
+        } catch (\Exception $e) {
+            \Log::error('Photo upload failed: ' . $e->getMessage());
+            
+            return redirect()->route('student.portal')
+                ->with('error', '⚠️ Failed to upload photo. Please try again. / فشل تحميل الصورة. يرجى المحاولة مرة أخرى.');
+        }
+    }
 }

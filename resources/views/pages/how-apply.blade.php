@@ -18,7 +18,7 @@
         <main class="apply-wrap shadow-lg p-4 p-md-5 rounded-4" style="background: #07102b; color: #fff; border: 1px solid rgba(255,255,255,0.1);">
             <div class="apply-header d-flex flex-column align-items-center text-center mb-4">
                 <div class="brand-badge p-2 rounded-3 bg-primary shadow mb-3">
-                    <img src="{{ asset('img/logo.png') }}" alt="Logo" style="width: 50px;">
+                    <img src="{{ asset('img/sub-sub-logo.png') }}" alt="Logo" style="width: 50px;">
                 </div>
                 <div>
                     <h2 class="h4 mb-0 text-white">Admission Portal — Academic Year 2026</h2>

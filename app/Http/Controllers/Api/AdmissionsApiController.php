@@ -69,20 +69,23 @@ class AdmissionsApiController extends Controller
      *   "message": "Admission is not pending"
      * }
      */
-    public function generateCode(int $admissionId): JsonResponse
+    public function generateCode(Admission|int $admission): JsonResponse
     {
-        // Step 1: Find admission by ID
-        $admission = Admission::find($admissionId);
-
-        // Step 2: Validate admission exists
-        if (! $admission) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Admission not found',
-            ], 404);
+        if (is_int($admission)) {
+            $admission = Admission::find($admission);
+            if (! $admission) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Admission not found',
+                ], 404);
+            }
         }
 
-        // Step 3: Validate admission status is 'pending'
+        // #region agent log
+        $logPath = base_path('debug-1fa0fa.log');
+        file_put_contents($logPath, json_encode(['sessionId'=>'1fa0fa','location'=>'AdmissionsApiController.php:generateCode','message'=>'Generate code invoked','data'=>['admissionId'=>$admission->id,'status'=>$admission->status,'auth'=>auth()->check(),'role'=>auth()->user()?->role ?? null],'timestamp'=>round(microtime(true)*1000),'hypothesisId'=>'H3'])."\n", FILE_APPEND);
+        // #endregion
+
         if ($admission->status !== 'pending') {
             return response()->json([
                 'success' => false,
@@ -93,7 +96,7 @@ class AdmissionsApiController extends Controller
         try {
             // Step 4: Use StudentCodeGenerator service to generate code
             $generator = new StudentCodeGenerator();
-            $code = $generator->generate($admissionId);
+            $code = $generator->generate($admission->id);
 
             // Step 5: Extract year and sequence from generated code
             $year = (int) substr($code, 0, 4);

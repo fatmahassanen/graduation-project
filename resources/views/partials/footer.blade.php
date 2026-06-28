@@ -103,7 +103,7 @@
     <div class="container">
         <div class="row g-5">
             <div class="col-lg-4 col-md-6">
-                <img src="{{ asset('img/sub-logo.png') }}" alt="NCTU" class="footer-logo-wrapper">
+                <img src="{{ asset('img/sub-sub-logo.png') }}" alt="NCTU" class="footer-logo-wrapper">
                 <p class="footer-tagline">{{ __('messages.footer_tagline') }}</p>
                 <div class="footer-social">
                     <a href="https://www.facebook.com/nctu.edu.eg/?locale=ar_AR" class="footer-social-link" target="_blank" aria-label="Facebook">

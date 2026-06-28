@@ -275,8 +275,8 @@
     <div class="container my-5">
         <div class="row align-items-center">
             <div class="col-md-6 text-center">
-                @if(file_exists(public_path('img/logo.png')))
-                    <img src="{{ asset('img/logo.png') }}" class="workshop-img shadow-lg" alt="Administrative Building">
+                @if(file_exists(public_path('img/sub-sub-logo.png')))
+                    <img src="{{ asset('img/sub-sub-logo.png') }}" class="workshop-img shadow-lg" alt="Administrative Building">
                 @else
                     <div style="width: 100%; height: 400px; background: #e2e8f0; border-radius: 15px; display: flex; align-items: center; justify-content: center;">
                         <i class="fas fa-landmark fa-5x" style="color: #D08301;"></i>

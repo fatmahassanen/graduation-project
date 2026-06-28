@@ -24,7 +24,7 @@ class SiteSettingSeeder extends Seeder
             ['key' => 'linkedin_url', 'value' => 'https://www.linkedin.com/school/nct-uni/', 'type' => 'text'],
             ['key' => 'telegram_url', 'value' => 'https://t.me/+hu88qUXmcXNlNmQ0', 'type' => 'text'],
             ['key' => 'website_url', 'value' => 'nctu.edu.eg', 'type' => 'text'],
-            ['key' => 'logo', 'value' => 'img/logo.png', 'type' => 'image'],
+            ['key' => 'logo', 'value' => 'img/sub-logo.png', 'type' => 'image'],
             ['key' => 'footer_text', 'value' => '© 2025 New Cairo Technological University. All Rights Reserved.', 'type' => 'text'],
         ];
 

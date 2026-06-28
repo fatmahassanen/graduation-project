@@ -5,6 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
+        <!-- University Favicon Layout -->
+        <link rel="icon" type="image/x-icon" href="{{ asset('img/sub-sub-logo.png') }}">
+        <link rel="apple-touch-icon" href="{{ asset('img/sub-sub-logo.png') }}">
         <title>{{ config('app.name', 'NCTU') }}</title>
 
         <!-- Fonts -->

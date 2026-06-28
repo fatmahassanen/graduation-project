@@ -10,7 +10,7 @@
 
             <div class="apply-header d-flex flex-column align-items-center text-center mb-4">
                 <div class="brand-badge p-2 rounded-3 bg-primary shadow mb-3">
-                    <img src="{{ asset('img/logo.png') }}" alt="Logo" style="width: 50px;">
+                    <img src="{{ asset('img/sub-logo.png') }}" alt="Logo" style="width: 50px;">
                 </div>
                 <div>
                     <h1 class="h3 mb-1 text-white">Postgraduate Studies — Application</h1>

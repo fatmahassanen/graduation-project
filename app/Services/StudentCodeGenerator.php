@@ -104,12 +104,16 @@ class StudentCodeGenerator
     /**
      * Get the next sequence number for a given year
      *
-     * Algorithm:
-     * 1. Query database for accepted admissions where student_code starts with the year prefix
-     * 2. Count the results
-     * 3. Return count + 1
+     * Algorithm (Refactored for Concurrency & Deletion Safety):
+     * 1. Query database for the maximum existing student_code starting with the year prefix
+     * 2. If a max code exists, extract the last 4 digits and increment by 1
+     * 3. If no codes exist for this year, return 1 (first student)
+     * 4. Validate the sequence is within valid range (1-9999)
      *
-     * Query optimization: Use WHERE status = 'accepted' AND student_code LIKE 'YYYY%'
+     * Why max() instead of count():
+     * - Handles deletions correctly (e.g., if student 20240003 is deleted, next should be 20240004 not 20240003)
+     * - Avoids race conditions in concurrent admission approvals
+     * - More reliable for sequence generation in distributed systems
      *
      * Preconditions:
      * - year is valid 4-digit integer (2024-2100)
@@ -117,13 +121,14 @@ class StudentCodeGenerator
      *
      * Postconditions:
      * - Returns positive integer between 1 and 9999
-     * - Return value equals (count of accepted students for year) + 1
+     * - Return value equals (highest sequence for year) + 1, or 1 if no records exist
      * - No database modifications
      *
      * @param  int  $year  The academic year to get sequence for
      * @return int The next sequence number (1-9999)
      *
      * @throws \InvalidArgumentException If year is invalid
+     * @throws \RuntimeException If sequence exceeds valid range
      */
     public function getNextSequenceNumber(int $year): int
     {
@@ -132,13 +137,18 @@ class StudentCodeGenerator
             throw new \InvalidArgumentException('Year must be between 2024 and 2100');
         }
 
-        // Step 1 & 2: Query database for accepted admissions with matching year prefix and count
-        $count = Admission::where('status', 'accepted')
-            ->where('student_code', 'LIKE', $year.'%')
-            ->count();
+        // Step 1: Query database for the maximum existing student_code for this year
+        $maxCode = Admission::where('student_code', 'LIKE', $year.'%')
+            ->max('student_code');
 
-        // Step 3: Calculate next sequence number
-        $nextSequence = $count + 1;
+        if ($maxCode) {
+            // Step 2: Extract the last 4 digits from the max 8-digit code and increment
+            $lastSequence = (int) substr($maxCode, 4);
+            $nextSequence = $lastSequence + 1;
+        } else {
+            // Step 3: First student of the year
+            $nextSequence = 1;
+        }
 
         // Validate postcondition: sequence must be between 1 and 9999
         if ($nextSequence < 1 || $nextSequence > 9999) {

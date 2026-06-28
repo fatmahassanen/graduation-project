@@ -62,44 +62,53 @@
     }
 }
 
-/* Info Cards */
+/* Info Cards - Minimal White Design */
 .info-card {
     background: #fff;
-    border-radius: 1rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
     overflow: hidden;
+    border: 1px solid #e9ecef;
 }
 
 .info-card:hover {
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transform: translateY(-2px);
 }
 
 .card-header-gradient {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 1.5rem;
-    color: white;
+    background: #ffffff;
+    padding: 1.25rem 1.5rem;
+    color: #212529;
+    border-bottom: 1px solid #e9ecef;
 }
 
-.card-header-blue {
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+.card-header-gradient h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #212529;
+    margin: 0;
 }
 
-.card-header-purple {
-    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+.card-header-gradient h3 i {
+    color: #6c757d;
+    font-size: 1rem;
 }
 
+.card-header-blue,
+.card-header-purple,
 .card-header-green {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    background: #ffffff;
+    border-bottom: 1px solid #e9ecef;
 }
 
-/* Info Row */
+/* Info Row - Minimal Design */
 .info-row {
     display: flex;
     align-items: flex-start;
-    padding: 1rem 0;
-    border-bottom: 1px solid #f3f4f6;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #f8f9fa;
 }
 
 .info-row:last-child {
@@ -107,10 +116,10 @@
 }
 
 .info-icon {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border-radius: 0.5rem;
-    background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+    background: #f8f9fa;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -119,8 +128,8 @@
 }
 
 .info-icon i {
-    color: #4f46e5;
-    font-size: 1.25rem;
+    color: #6c757d;
+    font-size: 1rem;
 }
 
 .info-content {
@@ -128,19 +137,19 @@
 }
 
 .info-label {
-    font-size: 0.875rem;
-    color: #6b7280;
+    font-size: 0.813rem;
+    color: #6c757d;
     font-weight: 500;
     margin-bottom: 0.25rem;
 }
 
 .info-value {
-    font-size: 1rem;
-    color: #111827;
+    font-size: 0.938rem;
+    color: #212529;
     font-weight: 600;
 }
 
-/* Timeline Component */
+/* Timeline Component - Minimal Design */
 .timeline {
     position: relative;
     padding-left: 2rem;
@@ -153,7 +162,7 @@
     top: 0;
     bottom: 0;
     width: 2px;
-    background: linear-gradient(180deg, #3b82f6 0%, #8b5cf6 100%);
+    background: #dee2e6;
 }
 
 .timeline-item {
@@ -172,14 +181,14 @@
     width: 1rem;
     height: 1rem;
     border-radius: 50%;
-    background: #3b82f6;
+    background: #dee2e6;
     border: 3px solid #fff;
-    box-shadow: 0 0 0 3px #dbeafe;
+    box-shadow: 0 0 0 2px #f8f9fa;
 }
 
 .timeline-dot.active {
-    background: #10b981;
-    box-shadow: 0 0 0 3px #d1fae5;
+    background: #198754;
+    box-shadow: 0 0 0 2px #d1e7dd;
 }
 
 .timeline-content {
@@ -188,23 +197,25 @@
 
 .timeline-title {
     font-weight: 600;
-    color: #111827;
+    color: #212529;
     margin-bottom: 0.25rem;
+    font-size: 0.938rem;
 }
 
 .timeline-date {
-    font-size: 0.875rem;
-    color: #6b7280;
+    font-size: 0.813rem;
+    color: #6c757d;
 }
 
-/* Document Status */
+/* Document Status - Minimal Design */
 .document-item {
     display: flex;
     align-items: center;
-    padding: 0.75rem 1rem;
-    background: #f9fafb;
+    padding: 0.875rem 1.5rem;
+    background: #f8f9fa;
     border-radius: 0.5rem;
     margin-bottom: 0.5rem;
+    border: 1px solid #e9ecef;
 }
 
 .document-item:last-child {
@@ -212,10 +223,10 @@
 }
 
 .document-icon {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border-radius: 0.5rem;
-    background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+    background: #d1e7dd;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -223,8 +234,8 @@
 }
 
 .document-icon i {
-    color: #16a34a;
-    font-size: 1.25rem;
+    color: #198754;
+    font-size: 1rem;
 }
 
 .document-info {
@@ -233,13 +244,13 @@
 
 .document-name {
     font-weight: 600;
-    color: #111827;
+    color: #212529;
     font-size: 0.875rem;
 }
 
 .document-date {
     font-size: 0.75rem;
-    color: #6b7280;
+    color: #6c757d;
 }
 
 /* Student Code Display */

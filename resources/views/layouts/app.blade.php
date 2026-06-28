@@ -9,8 +9,9 @@
     <meta content="" name="keywords">
     <meta content="" name="description">
 
-    <!-- Favicon -->
-    <link href="{{ asset('img/favicon.ico') }}" rel="icon">
+    <!-- University Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('img/sub-sub-logo.png') }}?v=3">
+    <link rel="apple-touch-icon" href="{{ asset('img/sub-sub-logo.png') }}">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

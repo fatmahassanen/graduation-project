@@ -65,7 +65,7 @@
                     @if($admission->student_photo)
                     <div>
                         <label class="text-sm font-semibold text-gray-600 block mb-2">Student Photo</label>
-                        <img src="{{ asset('img/' . $admission->student_photo) }}" alt="Student Photo" class="w-32 h-32 object-cover rounded-lg border-2 border-gray-200">
+                        <img src="{{ $admission->fileUrl($admission->student_photo) }}" alt="Student Photo" class="w-32 h-32 object-cover rounded-lg border-2 border-gray-200">
                     </div>
                     @endif
 
@@ -73,21 +73,21 @@
                         <label class="text-sm font-semibold text-gray-600 block mb-2">Documents</label>
                         <div class="grid grid-cols-3 gap-3">
                             @if($admission->birth_certificate)
-                            <a href="{{ asset('img/' . $admission->birth_certificate) }}" target="_blank" 
+                            <a href="{{ $admission->fileUrl($admission->birth_certificate) }}" target="_blank"
                                 class="flex items-center justify-center px-4 py-3 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition">
                                 <i class="fas fa-file-pdf mr-2"></i>
                                 Birth Cert
                             </a>
                             @endif
                             @if($admission->qualification_certificate)
-                            <a href="{{ asset('img/' . $admission->qualification_certificate) }}" target="_blank" 
+                            <a href="{{ $admission->fileUrl($admission->qualification_certificate) }}" target="_blank"
                                 class="flex items-center justify-center px-4 py-3 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition">
                                 <i class="fas fa-file-pdf mr-2"></i>
                                 Qualification
                             </a>
                             @endif
                             @if($admission->student_id_document)
-                            <a href="{{ asset('img/' . $admission->student_id_document) }}" target="_blank" 
+                            <a href="{{ $admission->fileUrl($admission->student_id_document) }}" target="_blank"
                                 class="flex items-center justify-center px-4 py-3 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition">
                                 <i class="fas fa-file-pdf mr-2"></i>
                                 Student ID
@@ -171,7 +171,7 @@
                     @if($admission->parent_id_document)
                     <div>
                         <label class="text-sm font-semibold text-gray-600 block mb-2">Parent ID Document</label>
-                        <a href="{{ asset('img/' . $admission->parent_id_document) }}" target="_blank" 
+                        <a href="{{ $admission->fileUrl($admission->parent_id_document) }}" target="_blank" 
                             class="inline-flex items-center px-4 py-3 bg-red-50 text-red-700 rounded-lg hover:bg-red-100 transition">
                             <i class="fas fa-file-pdf mr-2"></i>
                             View Parent ID
@@ -330,15 +330,21 @@ async function showApproveModal() {
     codeInput.disabled = true;
     
     try {
-        // Make AJAX request to generate code
-        const response = await fetch(`/api/admissions/${admissionId}/generate-code`, {
+        // Make AJAX request to generate code (web session route)
+        const response = await fetch('{{ route('admin.admissions.generate-code', $admission) }}', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                'Accept': 'application/json'
-            }
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            credentials: 'same-origin'
         });
+        
+        // #region agent log
+        fetch('http://127.0.0.1:7377/ingest/384d8071-d4dc-44ea-b25c-b295b7c44c9c',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1fa0fa'},body:JSON.stringify({sessionId:'1fa0fa',location:'show.blade.php:showApproveModal',message:'Generate code response',data:{status:response.status,ok:response.ok,url:'{{ route('admin.admissions.generate-code', $admission) }}'},timestamp:Date.now(),hypothesisId:'H3'})}).catch(()=>{});
+        // #endregion
         
         const data = await response.json();
         

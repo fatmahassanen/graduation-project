@@ -16,48 +16,59 @@
     <link rel="stylesheet" href="{{ asset('css/student-portal.css') }}">
 
     <style>
-        /* Modern Navbar Styles */
-        .navbar-gradient {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        /* Premium Minimal Navbar Styles */
+        .navbar-minimal {
+            background: #ffffff;
+            border-bottom: 1px solid #e9ecef;
         }
 
         .navbar-shadow {
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
 
         .nav-link {
             position: relative;
             transition: all 0.3s ease;
+            color: #495057;
+            font-weight: 500;
+            font-size: 0.938rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
         }
 
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: white;
-            transition: width 0.3s ease;
+        .nav-link:hover {
+            background: #f8f9fa;
+            color: #212529;
         }
 
-        .nav-link:hover::after {
-            width: 100%;
+        .nav-link i {
+            color: #6c757d;
+            margin-right: 0.5rem;
         }
 
         .user-avatar {
-            width: 40px;
-            height: 40px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
+            font-weight: 600;
             color: white;
-            font-size: 16px;
-            border: 2px solid white;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            font-size: 0.875rem;
+            border: 2px solid #e9ecef;
+        }
+
+        .user-info-text {
+            color: #212529;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .user-status-text {
+            color: #6c757d;
+            font-size: 0.75rem;
         }
 
         .dropdown-menu {
@@ -68,7 +79,8 @@
             margin-top: 0.5rem;
             background: white;
             border-radius: 0.75rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e9ecef;
             min-width: 220px;
             z-index: 50;
             overflow: hidden;
@@ -94,35 +106,64 @@
             padding: 0.75rem 1.25rem;
             display: flex;
             align-items: center;
-            color: #374151;
+            color: #495057;
             transition: all 0.2s ease;
             cursor: pointer;
+            text-decoration: none;
         }
 
         .dropdown-item:hover {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: #f8f9fa;
+            color: #212529;
         }
 
         .dropdown-item i {
             width: 20px;
             margin-right: 0.75rem;
+            color: #6c757d;
         }
 
         .status-indicator {
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             display: inline-block;
             margin-right: 0.5rem;
         }
 
-        .status-pending { background: #fbbf24; }
-        .status-accepted { background: #10b981; }
-        .status-rejected { background: #ef4444; }
+        .status-pending { background: #ffc107; }
+        .status-accepted { background: #198754; }
+        .status-rejected { background: #dc3545; }
 
         .mobile-menu {
             display: none;
+        }
+
+        .brand-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 0.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-logo i {
+            color: white;
+            font-size: 1.25rem;
+        }
+
+        .brand-text {
+            color: #212529;
+            font-weight: 700;
+            font-size: 1.125rem;
+            line-height: 1.2;
+        }
+
+        .brand-subtext {
+            color: #6c757d;
+            font-size: 0.75rem;
         }
 
         @media (max-width: 768px) {
@@ -139,7 +180,8 @@
                 background: white;
                 border-radius: 0.75rem;
                 margin-top: 1rem;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                border: 1px solid #e9ecef;
             }
 
             .mobile-menu-content.show {
@@ -147,106 +189,122 @@
                 animation: slideDown 0.3s ease;
             }
         }
+        
+        /* Premium Profile Avatar Styles */
+        .profile-avatar-wrapper {
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .profile-avatar-wrapper:hover img {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .profile-avatar-wrapper:hover .fa-camera {
+            animation: pulse 0.6s infinite;
+        }
+        
+        .profile-avatar-wrapper:hover .camera-icon-wrapper {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        }
+        
+        .profile-avatar-wrapper:hover .camera-icon-wrapper .fa-camera {
+            color: #ffffff !important;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+        
+        .profile-avatar-wrapper img {
+            transition: all 0.3s ease;
+        }
+        
+        .profile-avatar-wrapper:active img {
+            transform: scale(0.98);
+        }
     </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
-    <!-- Modern Premium Navbar -->
-    <nav class="navbar-gradient navbar-shadow sticky top-0 z-40 no-print">
+<body style="background: #f8f9fa; min-height: 100vh;">
+    <!-- Premium Minimal Navbar -->
+    <nav class="navbar-minimal navbar-shadow sticky top-0 z-40 no-print">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
+            <div class="flex items-center justify-between" style="height: 64px;">
                 <!-- Logo & Brand -->
-                <div class="flex items-center space-x-4">
-                    <div class="flex items-center">
-                        <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-lg">
-                            <i class="fas fa-graduation-cap text-purple-600 text-xl"></i>
-                        </div>
-                        <div class="ml-3">
-                            <h1 class="text-white font-bold text-lg leading-tight">Student Portal</h1>
-                           <p class="text-purple-200 text-xs">{{ config('app.name') }}</p>
-                        </div>
+                <div class="flex items-center">
+                    <div class="brand-logo">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="ml-3">
+                        <h1 class="brand-text">Student Portal</h1>
+                        <p class="brand-subtext">{{ config('app.name') }}</p>
                     </div>
                 </div>
 
                 <!-- Desktop Navigation -->
-                <div class="desktop-menu flex items-center space-x-6">
+                <div class="desktop-menu flex items-center" style="gap: 1rem;">
                     <!-- Navigation Links -->
-                    <a href="{{ route('home') }}" class="nav-link text-white hover:text-purple-100 font-medium flex items-center">
-                        <i class="fas fa-home mr-2"></i>
+                    <a href="{{ route('home') }}" class="nav-link flex items-center">
+                        <i class="fas fa-home"></i>
                         <span>Home</span>
                     </a>
 
-                    @if($admission)
-                    <a href="{{ route('student.portal') }}" class="nav-link text-white hover:text-purple-100 font-medium flex items-center">
-                        <i class="fas fa-file-alt mr-2"></i>
-                        <span>My Application</span>
-                    </a>
-                    @endif
-
-                    <!-- User Dropdown -->
-                    <div class="relative">
-                        <button id="dropdownBtn" class="flex items-center space-x-3 focus:outline-none">
+                    <!-- User Profile Info (No Dropdown) -->
+                    <div class="flex items-center" style="gap: 0.75rem; padding: 0.375rem 0.75rem; margin-left: 1rem;">
+                        <!-- Dynamic Profile Avatar -->
+                        @if($admission && $admission->student_photo)
+                            <img src="{{ asset($admission->student_photo) }}" 
+                                 alt="{{ auth()->user()->name }}" 
+                                 class="rounded-full object-cover" 
+                                 style="width: 38px; height: 38px; border: 2px solid #e9ecef;">
+                        @else
                             <div class="user-avatar">
                                 {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                             </div>
-                            <div class="text-left hidden lg:block mx-2">
-                                <p class="text-white font-semibold text-sm">{{ auth()->user()->name }}</p>
-                                @if($admission)
-                                <p class="text-purple-200 text-xs flex items-center">
-                                    <span class="status-indicator status-{{ $admission->status }}"></span>
-                                    {{ ucfirst($admission->status) }}
-                                </p>
-                                @endif
-                            </div>
-                            <i class="fas fa-chevron-down text-white text-sm"></i>
-                        </button>
-
-                        <div id="userDropdown" class="dropdown-menu absolute right-0 mt-2">
-                            <div class="px-4 py-3 border-b border-gray-100">
-                                <p class="text-sm font-semibold text-gray-900">{{ auth()->user()->name }}</p>
-                                <p class="text-xs text-gray-500">{{ auth()->user()->email }}</p>
-                            </div>
-
-                            <a href="{{ route('student.portal') }}" class="dropdown-item">
-                                <i class="fas fa-user"></i>
-                                <span>My Profile</span>
-                            </a>
-
+                        @endif
+                        
+                        <div class="text-left hidden lg:block">
+                            <p class="user-info-text">{{ auth()->user()->name }}</p>
                             @if($admission)
-                            <a href="{{ route('student.portal') }}" class="dropdown-item">
-                                <i class="fas fa-file-alt"></i>
-                                <span>Application Status</span>
-                            </a>
-                            @else
-                            <a href="{{ route('admission.create') }}" class="dropdown-item">
-                                <i class="fas fa-plus-circle"></i>
-                                <span>Submit Application</span>
-                            </a>
+                            <p class="user-status-text flex items-center">
+                                <span class="status-indicator status-{{ $admission->status }}"></span>
+                                {{ ucfirst($admission->status) }}
+                            </p>
                             @endif
-
-                            <div class="border-t border-gray-100"></div>
-
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit" class="dropdown-item w-full text-left text-red-600 hover:text-white flex items-center">
-                                    <i class="fas fa-sign-out-alt"></i>
-                                    <span class="mx-2">Logout</span>
-                                </button>
-                            </form>
                         </div>
                     </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="mobile-menu">
+                    <button id="mobileMenuBtn" class="p-2 rounded-lg hover:bg-gray-100 focus:outline-none">
+                        <i class="fas fa-bars text-gray-600"></i>
+                    </button>
+                </div>
+            </div>
 
             <!-- Mobile Menu Content -->
-
-
-             <div id="mobileMenu" class="mobile-menu-content">
+            {{-- <div id="mobileMenu" class="mobile-menu-content">
                 <div class="p-4">
-
-                    {{-- <div class="flex items-center space-x-3 pb-4 border-b border-gray-200">
-                        <div class="user-avatar">
-                            {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                        </div>
+                    <div class="flex items-center space-x-3 pb-4 border-b border-gray-200">
+                        @if($admission && $admission->student_photo)
+                            <img src="{{ asset($admission->student_photo) }}" 
+                                 alt="{{ auth()->user()->name }}" 
+                                 class="rounded-full object-cover" 
+                                 style="width: 38px; height: 38px; border: 2px solid #e9ecef;">
+                        @else
+                            <div class="user-avatar">
+                                {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                            </div>
+                        @endif
                         <div>
-                            <p class="font-semibold text-gray-900">{{ auth()->user()->name }}</p>
+                            <p class="font-semibold text-gray-900 text-sm">{{ auth()->user()->name }}</p>
                             <p class="text-xs text-gray-500">{{ auth()->user()->email }}</p>
                             @if($admission)
                             <p class="text-xs flex items-center mt-1">
@@ -255,10 +313,9 @@
                             </p>
                             @endif
                         </div>
-                    </div> --}}
+                    </div>
 
-
-                    {{-- <div class="py-2">
+                    <div class="py-2">
                         <a href="{{ route('home') }}" class="dropdown-item">
                             <i class="fas fa-home"></i>
                             <span>Home</span>
@@ -281,19 +338,19 @@
                         </a>
                         @endif
 
-                        <div class="border-t border-gray-100 my-2"></div> --}}
+                        <div class="border-t border-gray-100 my-2"></div>
 
-                        <!-- <form method="POST" action="{{ route('logout') }}">
+                        <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <button type="submit" class="dropdown-item w-full text-left text-red-600">
+                            <button type="submit" class="dropdown-item w-full text-left" style="color: #dc3545;">
                                 <i class="fas fa-sign-out-alt"></i>
                                 <span>Logout</span>
                             </button>
-                        </form> -->
+                        </form>
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </nav>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -393,94 +450,148 @@
                 </div>
             </div>
         @elseif($admission)
-            <!-- Digital ID Card Header -->
-            <div class="info-card mb-8">
-                <div class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 px-8 py-12 text-center">
-                    <!-- Student Photo -->
-                    @if($admission->student_photo)
-                        <img src="{{ asset('img/' . $admission->student_photo) }}" alt="Student Photo" class="student-photo-frame">
-                    @else
-                        <div class="photo-placeholder">
-                            <i class="fas fa-user text-white text-5xl"></i>
+            <!-- Premium Minimal Profile Card -->
+            <div class="card border-0 shadow-sm rounded-4 mb-4" style="background: #ffffff;">
+                <div class="card-body p-4">
+                    <div class="row align-items-center g-4">
+                        <!-- Left: Student Information -->
+                        <div class="col">
+                            <h4 class="mb-1 fw-bold" style="color: #212529; font-size: 1.25rem;">
+                                {{ $admission->full_name }}
+                            </h4>
+                            <p class="mb-2 font-monospace" style="color: #6c757d; font-size: 0.875rem;">
+                                <i class="fas fa-id-card me-1"></i>{{ $admission->national_id }}
+                            </p>
+                            
+                            <!-- Status Badge -->
+                            @if($admission->status === 'pending')
+                                <span class="badge rounded-pill px-3 py-2" style="background-color: #fff3cd; color: #856404; font-weight: 500; font-size: 0.813rem;">
+                                    <i class="fas fa-clock me-1"></i>Application Under Review
+                                </span>
+                            @elseif($admission->status === 'accepted')
+                                <span class="badge rounded-pill px-3 py-2" style="background-color: #d1e7dd; color: #0a3622; font-weight: 500; font-size: 0.813rem;">
+                                    <i class="fas fa-check-circle me-1"></i>Accepted
+                                </span>
+                            @elseif($admission->status === 'rejected')
+                                <span class="badge rounded-pill px-3 py-2" style="background-color: #f8d7da; color: #842029; font-weight: 500; font-size: 0.813rem;">
+                                    <i class="fas fa-times-circle me-1"></i>Rejected
+                                </span>
+                            @endif
+                            
+                            <!-- Student Code (if accepted) - Display below status badge -->
+                            @if($admission->status === 'accepted' && $admission->student_code)
+                            <div class="mt-3">
+                                <p class="mb-1 small" style="color: #6c757d; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;">
+                                    Student Code
+                                </p>
+                                <div class="font-monospace fw-bold px-3 py-2 rounded d-inline-block" style="background: #f8f9fa; color: #212529; font-size: 1rem; letter-spacing: 1px;">
+                                    {{ $admission->student_code }}
+                                </div>
+                            </div>
+                            @endif
                         </div>
-                    @endif
 
-                    <!-- Student Name -->
-                    <h2 class="text-3xl font-bold text-white mt-6 mb-2">{{ $admission->full_name }}</h2>
-
-                    <!-- National ID -->
-                    <p class="text-white text-opacity-90 font-mono text-lg mb-4">
-                        <i class="fas fa-id-card mr-2"></i>{{ $admission->national_id }}
-                    </p>
-
-                    <!-- Status Badge -->
-                    <div class="mt-6">
-                        @if($admission->status === 'pending')
-                            <div class="status-badge status-pending">
-                                <i class="fas fa-clock mr-2"></i>
-                                Application Under Review
-                            </div>
-                        @elseif($admission->status === 'accepted')
-                            <div class="status-badge status-accepted">
-                                <i class="fas fa-check-circle mr-2"></i>
-                                Accepted
-                            </div>
-                        @elseif($admission->status === 'rejected')
-                            <div class="status-badge status-rejected">
-                                <i class="fas fa-times-circle mr-2"></i>
-                                Rejected
-                            </div>
-                        @endif
+                        <!-- Right: Profile Photo with Upload -->
+                        <div class="col-auto">
+                            <form action="{{ route('student.update-photo') }}" method="POST" enctype="multipart/form-data" id="photoUpdateForm" style="display: inline-block;">
+                                @csrf
+                                <!-- COMPLETELY HIDDEN FILE INPUT -->
+                                <input type="file" 
+                                       name="student_photo" 
+                                       id="profile_image_input" 
+                                       style="display: none !important; position: absolute !important; left: -9999px !important; width: 1px !important; height: 1px !important; opacity: 0 !important;" 
+                                       accept="image/jpeg,image/png,image/jpg"
+                                       onchange="handlePhotoUploadSimple(this);">
+                                
+                                <label for="profile_image_input" 
+                                       class="d-block position-relative profile-avatar-wrapper" 
+                                       style="cursor: pointer; width: 100px; height: 100px; margin: 0;"
+                                       title="Click to update photo"
+                                       id="profilePhotoDisplay">
+                                    @if($admission && $admission->student_photo)
+                                        <img src="{{ asset($admission->student_photo) }}" 
+                                             alt="Student Photo" 
+                                             class="rounded-circle border border-2" 
+                                             style="width: 100px; height: 100px; object-fit: cover; border-color: #e9ecef !important;">
+                                    @else
+                                        <div class="rounded-circle border border-2 d-flex align-items-center justify-content-center" 
+                                             style="width: 100px; height: 100px; background: #f8f9fa; border-color: #e9ecef !important;">
+                                            <i class="fas fa-user" style="font-size: 2.5rem; color: #adb5bd;"></i>
+                                        </div>
+                                    @endif
+                                    
+                                    <!-- Edit Icon Overlay -->
+                                    <div class="camera-icon-wrapper position-absolute bottom-0 end-0 bg-white rounded-circle d-flex align-items-center justify-content-center shadow-sm" 
+                                         style="width: 32px; height: 32px; border: 2px solid #f8f9fa; transition: all 0.3s ease;">
+                                        <i class="fas fa-camera" style="font-size: 12px; color: #6c757d; transition: all 0.3s ease;"></i>
+                                    </div>
+                                </label>
+                            </form>
+                        </div>
                     </div>
-
-                    <!-- Student Code (if accepted) -->
-                    @if($admission->status === 'accepted' && $admission->student_code)
-                        <div class="mt-6 max-w-md mx-auto">
-                            <p class="text-white text-sm mb-2">Student Code</p>
-                            <div class="student-code bg-white bg-opacity-20 text-white border-2 border-white">
-                                {{ $admission->student_code }}
-                            </div>
-                        </div>
-                    @endif
                 </div>
+            </div>
 
-                <!-- Status Message -->
-                <div class="p-6">
-                    @if($admission->status === 'pending')
-                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
-                            <p class="text-yellow-800">
-                                <i class="fas fa-info-circle mr-2"></i>
+            <!-- Status Message Card -->
+            @if($admission->status === 'pending')
+                <div class="card border-0 shadow-sm rounded-4 mb-4" style="background: #fff3cd; border-left: 4px solid #ffc107 !important;">
+                    <div class="card-body p-3">
+                        <div class="d-flex align-items-start">
+                            <i class="fas fa-info-circle me-3 mt-1" style="color: #856404; font-size: 1.25rem;"></i>
+                            <p class="mb-0" style="color: #856404; font-size: 0.938rem;">
                                 Your application is being reviewed by our admissions team. We'll notify you via email once a decision is made.
                             </p>
                         </div>
-                    @elseif($admission->status === 'accepted')
-                        <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded">
-                            <p class="text-green-800 font-semibold text-lg">
-                                <i class="fas fa-envelope mr-2"></i>
-                                Congratulations! Check your email for your Student Code.
-                            </p>
-                        </div>
-                    @elseif($admission->status === 'rejected')
-                        @if($admission->rejection_reason)
-                            <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded mb-4">
-                                <p class="text-sm font-semibold text-red-800 mb-2">Rejection Reason:</p>
-                                <p class="text-red-700">{{ $admission->rejection_reason }}</p>
+                    </div>
+                </div>
+            @elseif($admission->status === 'accepted')
+                <div class="card border-0 shadow-sm rounded-4 mb-4" style="background: #d1e7dd; border-left: 4px solid #198754 !important;">
+                    <div class="card-body p-3">
+                        <div class="d-flex align-items-start">
+                            <i class="fas fa-check-circle me-3 mt-1" style="color: #0a3622; font-size: 1.25rem;"></i>
+                            <div>
+                                <p class="mb-1 fw-semibold" style="color: #0a3622; font-size: 1rem;">
+                                    Congratulations! Your application has been accepted.
+                                </p>
+                                <p class="mb-0" style="color: #0a3622; font-size: 0.875rem;">
+                                    Check your email for your Student Code and next steps.
+                                </p>
                             </div>
-                        @endif
-                        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
-                            <p class="text-blue-800 mb-3">
-                                <i class="fas fa-info-circle mr-2"></i>
-                                You can re-apply by fixing the issues mentioned above. Your previous data will be auto-filled to save time.
-                            </p>
+                        </div>
+                    </div>
+                </div>
+            @elseif($admission->status === 'rejected')
+                @if($admission->rejection_reason)
+                    <div class="card border-0 shadow-sm rounded-4 mb-3" style="background: #f8d7da; border-left: 4px solid #dc3545 !important;">
+                        <div class="card-body p-3">
+                            <div class="d-flex align-items-start">
+                                <i class="fas fa-exclamation-circle me-3 mt-1" style="color: #842029; font-size: 1.25rem;"></i>
+                                <div>
+                                    <p class="mb-1 fw-semibold" style="color: #842029; font-size: 0.938rem;">Rejection Reason:</p>
+                                    <p class="mb-0" style="color: #842029; font-size: 0.875rem;">{{ $admission->rejection_reason }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+                <div class="card border-0 shadow-sm rounded-4 mb-4" style="background: #cfe2ff; border-left: 4px solid #0d6efd !important;">
+                    <div class="card-body p-3">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-start flex-grow-1 me-3">
+                                <i class="fas fa-redo me-3 mt-1" style="color: #084298; font-size: 1.25rem;"></i>
+                                <p class="mb-0" style="color: #084298; font-size: 0.938rem;">
+                                    You can re-apply by fixing the issues mentioned above. Your previous data will be auto-filled to save time.
+                                </p>
+                            </div>
                             <a href="{{ route('admission.create') }}"
-                                class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition font-semibold shadow-lg">
-                                <i class="fas fa-redo mr-2"></i>
-                                Re-apply Now
+                               class="btn btn-sm shadow-sm" 
+                               style="background: #0d6efd; color: white; border: none; padding: 0.5rem 1.25rem; font-weight: 500; white-space: nowrap;">
+                                <i class="fas fa-redo me-2"></i>Re-apply Now
                             </a>
                         </div>
-                    @endif
+                    </div>
                 </div>
-            </div>
+            @endif
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <!-- Personal Information Card -->
@@ -878,11 +989,66 @@ document.addEventListener('click', function(event) {
     // document.addEventListener('click', function(event) {
     //     const mobileMenu = document.getElementById('mobileMenu');
     //     const button = event.target.closest('button[onclick="toggleMobileMenu()"]');
-
-    //     if (!button && mobileMenu && !mobileMenu.contains(event.target)) {
-    //         mobileMenu.classList.remove('show');
-    //     }
-    // });
+    
+    // Mobile Menu Handler Only
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                mobileMenu.classList.toggle('show');
+            });
+            
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!mobileMenuBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    mobileMenu.classList.remove('show');
+                }
+            });
+        }
+    });
+    
+    // Simplified Photo Upload Handler with instant submission
+    function handlePhotoUploadSimple(input) {
+        if (input.files && input.files[0]) {
+            const file = input.files[0];
+            
+            // Validate file type
+            const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+            if (!validTypes.includes(file.type)) {
+                alert('⚠️ Please upload a valid image file (JPEG, PNG, or JPG).\nالرجاء تحميل صورة صالحة (JPEG أو PNG أو JPG).');
+                input.value = '';
+                return;
+            }
+            
+            // Validate file size (max 2MB)
+            if (file.size > 2048 * 1024) {
+                alert('⚠️ File size must be less than 2MB.\nيجب أن يكون حجم الملف أقل من 2 ميجابايت.');
+                input.value = '';
+                return;
+            }
+            
+            // Show loading state
+            const photoDisplay = document.getElementById('profilePhotoDisplay');
+            if (photoDisplay) {
+                // Add minimal loading overlay
+                const overlay = document.createElement('div');
+                overlay.className = 'position-absolute top-0 start-0 d-flex align-items-center justify-content-center';
+                overlay.style.cssText = 'width: 100px; height: 100px; background: rgba(255, 255, 255, 0.95); border-radius: 50%; z-index: 10;';
+                overlay.innerHTML = '<i class="fas fa-spinner fa-spin" style="font-size: 1.5rem; color: #6c757d;"></i>';
+                
+                photoDisplay.appendChild(overlay);
+            }
+            
+            // Auto-submit the form
+            setTimeout(() => {
+                document.getElementById('photoUpdateForm').submit();
+            }, 300);
+        }
+    }
     </script>
     @endif
 </body>
