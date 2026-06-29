@@ -9,8 +9,8 @@
         <h1 class="display-3 text-white animated slideInDown">Information Technology Department</h1>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb justify-content-center text-uppercase">
-                <li class="breadcrumb-item"><a class="text-white" href="{{ url('/') }}">Home Page</a></li>
-                <li class="breadcrumb-item"><a class="text-white" href="{{ url('/faculty-it') }}">Industry & Energy</a></li>
+                <li class="breadcrumb-item"><a class="text-white" href="{{ route('home') }}">Home Page</a></li>
+                <li class="breadcrumb-item"><a class="text-white" href="{{ route('facultyit') }}">Industry & Energy</a></li>
                 <li class="breadcrumb-item text-white active" aria-current="page">ICT</li>
             </ol>
         </nav>
@@ -23,7 +23,7 @@
         <!-- Department Overview -->
         <div class="row g-5 align-items-center mb-5 wow fadeInUp" data-wow-delay="0.1s">
             <div class="col-lg-6">
-                <img src="{{ asset('img/Departments/information technology.jpg') }}" class="img-fluid rounded shadow" alt="ICT Department">
+                <img src="{{ asset('img/ICT.jpg') }}" class="img-fluid rounded shadow" alt="ICT Department">
             </div>
             <div class="col-lg-6">
                 <h6 class="section-title bg-white text-start text-primary pe-3">Department Overview</h6>

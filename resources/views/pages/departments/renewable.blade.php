@@ -9,8 +9,8 @@
         <h1 class="display-3 text-white animated slideInDown"><i class="fa fa-sun me-3"></i>Renewable Energy Technology</h1>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb justify-content-center text-uppercase">
-                <li class="breadcrumb-item"><a class="text-white" href="{{ url('/') }}">Home Page</a></li>
-                <li class="breadcrumb-item"><a class="text-white" href="{{ url('/faculty-it') }}">Industry & Energy</a></li>
+                <li class="breadcrumb-item"><a class="text-white" href="{{ route('home') }}">Home Page</a></li>
+                <li class="breadcrumb-item"><a class="text-white" href="{{ route('facultyit') }}">Industry & Energy</a></li>
                 <li class="breadcrumb-item text-white active" aria-current="page">Renewable Energy</li>
             </ol>
         </nav>
@@ -22,7 +22,7 @@
         
         <div class="row g-5 align-items-center mb-5 wow fadeInUp" data-wow-delay="0.1s">
             <div class="col-lg-6">
-                <img src="{{ asset('img/Departments/renewable energy.jpg') }}" class="img-fluid rounded shadow" alt="Renewable Energy">
+                <img src="{{ asset('img/Renew.jpg') }}" class="img-fluid rounded shadow" alt="Renewable Energy">
             </div>
             <div class="col-lg-6">
                 <h1 class="mb-4">Renewable Energy Technology</h1>

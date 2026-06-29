@@ -15,13 +15,64 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-color: #edf0f7;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
+            position: relative;
+            overflow: hidden;
         }
+        body::before {
+            content: '';
+            position: fixed;
+            top: -120px; left: -120px;
+            width: 380px; height: 380px;
+            background: rgba(100,140,210,0.45);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -100px; right: -100px;
+            width: 300px; height: 300px;
+            background: rgba(100,140,210,0.40);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .bg-ring-left {
+            position: fixed;
+            top: 50%; left: -70px;
+            transform: translateY(-50%);
+            width: 200px; height: 200px;
+            border-radius: 50%;
+            border: 38px solid rgba(100,140,210,0.55);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .bg-dots-tr {
+            position: fixed;
+            top: 30px; right: 30px;
+            width: 120px; height: 100px;
+            background-image: radial-gradient(circle, rgba(100,140,210,0.65) 1.5px, transparent 1.5px);
+            background-size: 14px 14px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .bg-dots-bl {
+            position: fixed;
+            bottom: 30px; left: 30px;
+            width: 120px; height: 100px;
+            background-image: radial-gradient(circle, rgba(100,140,210,0.65) 1.5px, transparent 1.5px);
+            background-size: 14px 14px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .register-container { position: relative; z-index: 1; }
 
         .register-container {
             display: flex;
@@ -36,7 +87,7 @@
 
         .brand-section {
             flex: 1;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e8ba3 100%);
+            background: linear-gradient(135deg, #1a3a6e 0%, #2356c7 60%, #3a6fd8 100%);
             padding: 60px 50px;
             display: flex;
             flex-direction: column;
@@ -67,6 +118,18 @@
             height: 300px;
             background: rgba(255, 255, 255, 0.08);
             border-radius: 50%;
+        }
+
+        .brand-content::before {
+            content: '';
+            position: absolute;
+            bottom: 10%;
+            right: -15%;
+            width: 180px;
+            height: 180px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 50%;
+            pointer-events: none;
         }
 
         .brand-content {
@@ -186,7 +249,7 @@
         .submit-btn {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            background: #1e3c72;
             color: white;
             border: none;
             border-radius: 8px;
@@ -271,6 +334,9 @@
     </style>
 </head>
 <body>
+    <div class="bg-ring-left"></div>
+    <div class="bg-dots-tr"></div>
+    <div class="bg-dots-bl"></div>
     <div class="register-container">
         <div class="brand-section">
             <div class="brand-content">

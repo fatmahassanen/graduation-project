@@ -9,8 +9,8 @@
         <h1 class="display-3 text-white animated slideInDown"><i class="fa fa-oil-can me-3"></i>Petroleum Production Technology</h1>
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb justify-content-center text-uppercase">
-                <li class="breadcrumb-item"><a class="text-white" href="{{ url('/') }}">Home Page</a></li>
-                <li class="breadcrumb-item"><a class="text-white" href="{{ url('/faculty-it') }}">Industry & Energy</a></li>
+                <li class="breadcrumb-item"><a class="text-white" href="{{ route('home') }}">Home Page</a></li>
+                <li class="breadcrumb-item"><a class="text-white" href="{{ route('facultyit') }}">Industry & Energy</a></li>
                 <li class="breadcrumb-item text-white active" aria-current="page">Petroleum</li>
             </ol>
         </nav>
@@ -22,7 +22,7 @@
         
         <div class="row g-5 align-items-center mb-5 wow fadeInUp" data-wow-delay="0.1s">
             <div class="col-lg-6">
-                <img src="{{ asset('img/Departments/petroleum.jpg') }}" class="img-fluid rounded shadow" alt="Petroleum">
+                <img src="{{ asset('img/petrol.jpg') }}" class="img-fluid rounded shadow" alt="Petroleum">
             </div>
             <div class="col-lg-6">
                 <h1 class="mb-4">Petroleum Production Technology</h1>

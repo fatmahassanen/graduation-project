@@ -2,21 +2,54 @@
 
 @section('title', 'University Trainings - NCTU')
 
-@section('content')
-
 @push('styles')
 <style>
-    /* الـ CSS الخاص بتصميم الـ Polygonal والـ Diamonds */
+    .trainings-page-bg { background: #f4f7fc; }
+    /* ── Improved section header ── */
+    .training-section-header {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+    .training-section-header .t-label {
+        display: inline-block;
+        color: #D08301;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+    }
+    .training-section-header h2 {
+        font-size: clamp(1.7rem, 3vw, 2.2rem);
+        font-weight: 800;
+        color: #181d38;
+        margin-bottom: 0;
+        text-align: center;
+    }
+    .training-section-header .t-divider {
+        width: 50px; height: 3px;
+        background: #D08301;
+        border-radius: 2px;
+        margin: 14px auto 0;
+    }
+
+    /* ── Training card ── */
     .training-banner {
         position: relative;
         width: 100%;
         min-height: 400px;
-        margin-bottom: 50px;
-        border-radius: 8px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        margin-bottom: 40px;
+        border-radius: 18px;
+        box-shadow: 0 8px 32px rgba(24,29,56,0.10);
         overflow: hidden;
         display: flex;
         background: #fff;
+        border-top: 4px solid #D08301;
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .training-banner:hover {
+        box-shadow: 0 16px 48px rgba(24,29,56,0.16);
+        transform: translateY(-4px);
     }
 
     .training-banner .hero-image-container {
@@ -164,6 +197,8 @@
 </style>
 @endpush
 
+@section('content')
+
 <div class="container-fluid bg-primary py-5 mb-5 page-header">
     <div class="container py-5 text-center">
         <h1 class="display-3 text-white animated slideInDown">Trainings</h1>
@@ -175,11 +210,15 @@
         </nav>
     </div>
 </div>
+<div class="trainings-page-bg">
 <div class="container-xxl py-5">
     <div class="container">
         <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-            <h6 class="section-title bg-white text-center text-primary px-3">Professional Development</h6>
-            <h1 class="mb-5">University Training Programs</h1>
+            <div class="training-section-header">
+                <span class="t-label">Professional Development</span>
+                <h2>University Training Programs</h2>
+                <div class="t-divider"></div>
+            </div>
         </div>
 
         @php
@@ -255,6 +294,7 @@
         @endforelse
 
     </div>
+</div>
 </div>
 
 @endsection

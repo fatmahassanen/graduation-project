@@ -83,7 +83,7 @@
 <!-- President Section -->
 <section class="president-section">
     <div class="president-card">
-        <img src="{{ asset('img/Dean2.png') }}" alt="Dean">
+        <img src="{{ asset('img/Dean2.jpeg') }}" alt="Dean" style="width:220px;height:260px;object-fit:cover;">
         <br>
         <h3>Professor Dr. Mohammed Fawzi Al-Sawda</h3>
         <h6> <i>Dean of the College of Applied Health Sciences</i></h6>
