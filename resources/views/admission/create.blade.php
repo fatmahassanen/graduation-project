@@ -110,6 +110,26 @@
         .btn-secondary:hover {
             background: #e9ecef;
         }
+
+        #student_photo_preview {
+            margin-top: 0.75rem;
+            display: none;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        #student_photo_preview.is-visible {
+            display: flex;
+        }
+        #student_photo_preview img {
+            width: 64px;
+            height: 64px;
+            object-fit: contain;
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 12px;
+            background: #f8f9fa;
+            border: 2px solid #667eea;
+        }
     </style>
 </head>
 <body style="background: #f8f9fa; min-height: 100vh; padding: 3rem 0;">
@@ -472,11 +492,17 @@
                                 <span class="ml-2 text-xs text-green-600">(Upload a new file to replace)</span>
                             </div>
                         @endif
-                        <input type="file" name="student_photo" id="student_photo" accept="image/*" 
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
-                            @change="handleFileChange('student_photo')">
+                        <input type="file" name="student_photo" id="student_photo" accept="image/*"
+                            data-vibe-crop
+                            data-vibe-crop-width="400"
+                            data-vibe-crop-height="400"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        <div id="student_photo_preview">
+                            <img id="student_photo_preview_img" src="" alt="Photo preview" style="object-fit: contain; max-width: 100%; max-height: 100%; border-radius: 12px; background: #f8f9fa;">
+                            <span id="student_photo_preview_label" class="text-sm text-green-700 font-medium"></span>
+                        </div>
                         <div id="student_photo_error" class="error-message hidden"></div>
-                        <p class="text-sm text-gray-500 mt-1">Upload a clear photo (JPEG, PNG, max 2MB)</p>
+                        <p class="text-sm text-gray-500 mt-1">Upload a clear photo (JPEG, PNG, max 2MB). You will crop it to a square profile photo.</p>
                     </div>
 
                     <!-- Documents -->
@@ -654,6 +680,7 @@
 
 <!-- Include National ID Extractor JavaScript -->
 <script src="{{ asset('js/national-id-extractor.js') }}"></script>
+@include('components.vibe-cropper-assets')
 
 <script>
 function admissionWizard(initialStep = 1) {
@@ -669,12 +696,14 @@ function admissionWizard(initialStep = 1) {
             this.initNationalIdListener();
             // Initialize phone comparison listeners
             this.initPhoneComparisonListeners();
-            // #region agent log
-            this.$nextTick(() => {
-                const steps = document.querySelectorAll('.step-content');
-                fetch('http://127.0.0.1:7377/ingest/384d8071-d4dc-44ea-b25c-b295b7c44c9c',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1fa0fa'},body:JSON.stringify({sessionId:'1fa0fa',location:'create.blade.php:init',message:'Wizard DOM structure on init',data:{stepCount:steps.length,step2NestedInStep1:steps[0]&&steps[1]?steps[0].contains(steps[1]):null,step1ChildCount:steps[0]?steps[0].querySelectorAll(':scope > .step-content').length:0},timestamp:Date.now(),hypothesisId:'H1'})}).catch(()=>{});
-            });
-            // #endregion
+            // Photo cropper completion hook
+            const photoInput = document.getElementById('student_photo');
+            if (photoInput) {
+                photoInput.addEventListener('vibe-cropper:done', (event) => {
+                    this.handleFileChange('student_photo');
+                    this.updatePhotoPreview(event.detail.file);
+                });
+            }
         },
         
         // National ID Auto-Gender Extraction
@@ -760,16 +789,8 @@ function admissionWizard(initialStep = 1) {
         },
         
         nextStep() {
-            const stepBefore = this.currentStep;
             if (this.validateCurrentStep()) {
                 this.currentStep++;
-                // #region agent log
-                this.$nextTick(() => {
-                    const steps = document.querySelectorAll('.step-content');
-                    const target = steps[this.currentStep - 1];
-                    fetch('http://127.0.0.1:7377/ingest/384d8071-d4dc-44ea-b25c-b295b7c44c9c',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1fa0fa'},body:JSON.stringify({sessionId:'1fa0fa',location:'create.blade.php:nextStep',message:'Step navigation',data:{stepBefore,stepAfter:this.currentStep,targetHasActive:target?target.classList.contains('active'):null,targetDisplay:target?getComputedStyle(target).display:null,parentHidden:target?.parentElement?getComputedStyle(target.parentElement).display==='none':null},timestamp:Date.now(),hypothesisId:'H2'})}).catch(()=>{});
-                });
-                // #endregion
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         },
@@ -899,7 +920,19 @@ function admissionWizard(initialStep = 1) {
             
             return isValid;
         },
-        
+
+        updatePhotoPreview(file) {
+            const preview = document.getElementById('student_photo_preview');
+            const previewImg = document.getElementById('student_photo_preview_img');
+            const previewLabel = document.getElementById('student_photo_preview_label');
+
+            if (!preview || !previewImg || !previewLabel) return;
+
+            previewImg.src = URL.createObjectURL(file);
+            previewLabel.textContent = 'Photo ready: ' + file.name;
+            preview.classList.add('is-visible');
+        },
+
         handleFileChange(fieldId) {
             const fileInput = document.getElementById(fieldId);
             const errorDiv = document.getElementById(fieldId + '_error');

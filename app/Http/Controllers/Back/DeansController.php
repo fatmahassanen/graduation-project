@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
 use App\Models\Dean;
+use App\Support\ImageProcessor;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class DeansController extends Controller
 {
@@ -37,15 +37,12 @@ class DeansController extends Controller
 
         // Handle image upload
         if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($dean->image && file_exists(public_path($dean->image))) {
-                unlink(public_path($dean->image));
-            }
-
-            // Store new image
-            $filename = time() . '_' . uniqid() . '.' . $request->file('image')->extension();
-            $request->file('image')->move(public_path('uploads'), $filename);
-            $dean->image = 'uploads/' . $filename;
+            $dean->image = ImageProcessor::storeUploadedImage(
+                $request->file('image'),
+                $request->boolean('image_cropped'),
+                400,
+                $dean->image
+            );
         }
 
         $dean->full_name = $request->full_name;

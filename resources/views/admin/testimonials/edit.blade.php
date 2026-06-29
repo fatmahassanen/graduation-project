@@ -74,7 +74,7 @@
                 </label>
                 @if($testimonial->photo)
                     <div class="mb-3">
-                        <img src="{{ asset($testimonial->photo) }}" alt="{{ $testimonial->student_name }}" class="w-32 h-32 rounded-full object-cover shadow-md">
+                        <img src="{{ asset($testimonial->photo) }}" alt="{{ $testimonial->student_name }}" style="object-fit: contain; max-width: 100%; max-height: 100%; border-radius: 12px; background: #f8f9fa; width: 128px; height: 128px;">
                     </div>
                 @else
                     <div class="mb-3">
@@ -93,8 +93,15 @@
                     name="photo" 
                     id="photo"
                     accept="image/*"
+                    data-vibe-crop="true"
+                    data-vibe-aspect-ratio="1"
+                    data-vibe-crop-width="400"
+                    data-vibe-crop-height="400"
                     class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 transition-all duration-200 p-2.5"
                 >
+                <div id="photo_preview" class="mt-3 hidden">
+                    <img id="photo_preview_img" src="" alt="Preview" style="object-fit: contain; max-width: 100%; max-height: 100%; border-radius: 12px; background: #f8f9fa; width: 120px; height: 120px;">
+                </div>
                 @error('photo')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
@@ -154,3 +161,17 @@
     </x-admin.card>
 </div>
 @endsection
+
+@push('scripts')
+@include('components.vibe-cropper-assets')
+<script>
+document.getElementById('photo')?.addEventListener('vibe-cropper:done', function (event) {
+    const preview = document.getElementById('photo_preview');
+    const previewImg = document.getElementById('photo_preview_img');
+    if (preview && previewImg && event.detail.file) {
+        previewImg.src = URL.createObjectURL(event.detail.file);
+        preview.classList.remove('hidden');
+    }
+});
+</script>
+@endpush

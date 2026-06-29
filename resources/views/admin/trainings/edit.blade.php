@@ -60,7 +60,7 @@
                         <label class="block text-sm font-medium text-gray-600 mb-2">Image 1</label>
                         @if($training->image1)
                             <div class="mb-3">
-                                <img src="{{ asset($training->image1) }}" alt="Image 1" class="w-full h-48 object-cover rounded-lg shadow-md">
+                                <img src="{{ asset($training->image1) }}" alt="Image 1" style="object-fit: contain; max-width: 100%; max-height: 100%; border-radius: 12px; background: #f8f9fa; width: 100%; max-height: 192px;">
                             </div>
                         @else
                             <p class="text-sm text-gray-500 mb-3">No image uploaded</p>
@@ -71,6 +71,10 @@
                             name="image1" 
                             id="image1"
                             accept="image/*"
+                            data-vibe-crop="true"
+                            data-vibe-aspect-ratio="1"
+                            data-vibe-crop-width="400"
+                            data-vibe-crop-height="400"
                             class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 transition-all duration-200 p-2.5"
                         >
                         @error('image1')
@@ -83,7 +87,7 @@
                         <label class="block text-sm font-medium text-gray-600 mb-2">Image 2</label>
                         @if($training->image2)
                             <div class="mb-3">
-                                <img src="{{ asset($training->image2) }}" alt="Image 2" class="w-full h-48 object-cover rounded-lg shadow-md">
+                                <img src="{{ asset($training->image2) }}" alt="Image 2" style="object-fit: contain; max-width: 100%; max-height: 100%; border-radius: 12px; background: #f8f9fa; width: 100%; max-height: 192px;">
                             </div>
                         @else
                             <p class="text-sm text-gray-500 mb-3">No image uploaded</p>
@@ -94,6 +98,10 @@
                             name="image2" 
                             id="image2"
                             accept="image/*"
+                            data-vibe-crop="true"
+                            data-vibe-aspect-ratio="1"
+                            data-vibe-crop-width="400"
+                            data-vibe-crop-height="400"
                             class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 transition-all duration-200 p-2.5"
                         >
                         @error('image2')
@@ -106,7 +114,7 @@
                         <label class="block text-sm font-medium text-gray-600 mb-2">Image 3</label>
                         @if($training->image3)
                             <div class="mb-3">
-                                <img src="{{ asset($training->image3) }}" alt="Image 3" class="w-full h-48 object-cover rounded-lg shadow-md">
+                                <img src="{{ asset($training->image3) }}" alt="Image 3" style="object-fit: contain; max-width: 100%; max-height: 100%; border-radius: 12px; background: #f8f9fa; width: 100%; max-height: 192px;">
                             </div>
                         @else
                             <p class="text-sm text-gray-500 mb-3">No image uploaded</p>
@@ -117,6 +125,10 @@
                             name="image3" 
                             id="image3"
                             accept="image/*"
+                            data-vibe-crop="true"
+                            data-vibe-aspect-ratio="1"
+                            data-vibe-crop-width="400"
+                            data-vibe-crop-height="400"
                             class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 transition-all duration-200 p-2.5"
                         >
                         @error('image3')
@@ -129,7 +141,7 @@
                         <label class="block text-sm font-medium text-gray-600 mb-2">Image 4</label>
                         @if($training->image4)
                             <div class="mb-3">
-                                <img src="{{ asset($training->image4) }}" alt="Image 4" class="w-full h-48 object-cover rounded-lg shadow-md">
+                                <img src="{{ asset($training->image4) }}" alt="Image 4" style="object-fit: contain; max-width: 100%; max-height: 100%; border-radius: 12px; background: #f8f9fa; width: 100%; max-height: 192px;">
                             </div>
                         @else
                             <p class="text-sm text-gray-500 mb-3">No image uploaded</p>
@@ -140,6 +152,10 @@
                             name="image4" 
                             id="image4"
                             accept="image/*"
+                            data-vibe-crop="true"
+                            data-vibe-aspect-ratio="1"
+                            data-vibe-crop-width="400"
+                            data-vibe-crop-height="400"
                             class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 transition-all duration-200 p-2.5"
                         >
                         @error('image4')
@@ -313,3 +329,7 @@
     </x-admin.card>
 </div>
 @endsection
+
+@push('scripts')
+@include('components.vibe-cropper-assets')
+@endpush

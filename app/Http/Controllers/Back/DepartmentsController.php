@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
 use App\Models\Department;
+use App\Support\ImageProcessor;
 use App\Traits\HandlesImageUploads;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -63,9 +64,10 @@ class DepartmentsController extends Controller
 
         // Handle image upload if provided
         if ($request->hasFile('image')) {
-            $data['image'] = $this->uploadImage(
+            $data['image'] = ImageProcessor::storeUploadedImage(
                 $request->file('image'),
-                'departments',
+                $request->boolean('image_cropped'),
+                400,
                 $department->image
             );
         }

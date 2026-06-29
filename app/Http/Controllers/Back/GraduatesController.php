@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Back;
 use App\Http\Controllers\Controller;
 use App\Models\Graduate;
 use App\Models\SiteSetting;
+use App\Support\ImageProcessor;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class GraduatesController extends Controller
 {
@@ -41,10 +41,10 @@ class GraduatesController extends Controller
         $graduate->order = $request->order ?? 0;
 
         if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $filename = time() . '_' . uniqid() . '.' . $file->extension();
-            $file->move(public_path('uploads'), $filename);
-            $graduate->image = 'uploads/' . $filename;
+            $graduate->image = ImageProcessor::storeUploadedImage(
+                $request->file('image'),
+                $request->boolean('image_cropped')
+            );
         }
 
         $graduate->save();
@@ -68,14 +68,12 @@ class GraduatesController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            if ($graduate->image && file_exists(public_path($graduate->image))) {
-                unlink(public_path($graduate->image));
-            }
-
-            $file = $request->file('image');
-            $filename = time() . '_' . uniqid() . '.' . $file->extension();
-            $file->move(public_path('uploads'), $filename);
-            $graduate->image = 'uploads/' . $filename;
+            $graduate->image = ImageProcessor::storeUploadedImage(
+                $request->file('image'),
+                $request->boolean('image_cropped'),
+                400,
+                $graduate->image
+            );
         }
 
         $graduate->title = $request->title;
@@ -89,9 +87,7 @@ class GraduatesController extends Controller
 
     public function destroy(Graduate $graduate)
     {
-        if ($graduate->image && file_exists(public_path($graduate->image))) {
-            unlink(public_path($graduate->image));
-        }
+        ImageProcessor::deleteStoredImage($graduate->image);
 
         $graduate->delete();
 

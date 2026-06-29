@@ -65,7 +65,7 @@
                     @if($admission->student_photo)
                     <div>
                         <label class="text-sm font-semibold text-gray-600 block mb-2">Student Photo</label>
-                        <img src="{{ $admission->fileUrl($admission->student_photo) }}" alt="Student Photo" class="w-32 h-32 object-cover rounded-lg border-2 border-gray-200">
+                        <img src="{{ $admission->fileUrl($admission->student_photo) }}" alt="Student Photo" style="object-fit: contain; max-width: 100%; max-height: 100%; border-radius: 12px; background: #f8f9fa; width: 128px; height: 128px;">
                     </div>
                     @endif
 
@@ -341,10 +341,6 @@ async function showApproveModal() {
             },
             credentials: 'same-origin'
         });
-        
-        // #region agent log
-        fetch('http://127.0.0.1:7377/ingest/384d8071-d4dc-44ea-b25c-b295b7c44c9c',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'1fa0fa'},body:JSON.stringify({sessionId:'1fa0fa',location:'show.blade.php:showApproveModal',message:'Generate code response',data:{status:response.status,ok:response.ok,url:'{{ route('admin.admissions.generate-code', $admission) }}'},timestamp:Date.now(),hypothesisId:'H3'})}).catch(()=>{});
-        // #endregion
         
         const data = await response.json();
         

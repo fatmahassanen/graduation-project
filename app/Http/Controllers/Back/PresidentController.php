@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
 use App\Models\PresidentContent;
+use App\Support\ImageProcessor;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class PresidentController extends Controller
 {
@@ -37,15 +37,12 @@ class PresidentController extends Controller
 
         // Handle image upload
         if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($president->image && file_exists(public_path($president->image))) {
-                unlink(public_path($president->image));
-            }
-
-            // Store new image
-            $filename = time() . '_' . uniqid() . '.' . $request->file('image')->extension();
-            $request->file('image')->move(public_path('uploads'), $filename);
-            $president->image = 'uploads/' . $filename;
+            $president->image = ImageProcessor::storeUploadedImage(
+                $request->file('image'),
+                $request->boolean('image_cropped'),
+                400,
+                $president->image
+            );
         }
 
         $president->full_name = $request->full_name;

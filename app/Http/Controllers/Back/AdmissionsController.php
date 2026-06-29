@@ -53,28 +53,6 @@ class AdmissionsController extends Controller
      */
     public function show(Admission $admission): View
     {
-        // #region agent log
-        $logPath = base_path('debug-1fa0fa.log');
-        foreach (['student_photo', 'birth_certificate', 'qualification_certificate', 'student_id_document', 'parent_id_document'] as $field) {
-            if ($admission->$field) {
-                file_put_contents($logPath, json_encode([
-                    'sessionId' => '1fa0fa',
-                    'location' => 'AdmissionsController.php:show',
-                    'message' => 'Resolved file URL',
-                    'data' => [
-                        'admissionId' => $admission->id,
-                        'field' => $field,
-                        'dbPath' => $admission->$field,
-                        'resolvedUrl' => $admission->fileUrl($admission->$field),
-                    ],
-                    'timestamp' => round(microtime(true) * 1000),
-                    'hypothesisId' => 'H1',
-                    'runId' => 'post-fix',
-                ])."\n", FILE_APPEND);
-            }
-        }
-        // #endregion
-
         return view('admin.admissions.show', compact('admission'));
     }
 

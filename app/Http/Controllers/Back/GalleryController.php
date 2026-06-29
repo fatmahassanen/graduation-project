@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
 use App\Models\Gallery;
+use App\Support\ImageProcessor;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class GalleryController extends Controller
 {
@@ -30,30 +30,27 @@ class GalleryController extends Controller
             'is_active' => 'boolean',
         ]);
 
-        // Upload image to public/img
-        $filename = time() . '_' . uniqid() . '.' . $request->file('image')->extension();
-        $request->file('image')->move(public_path('uploads'), $filename);
+        $imagePath = ImageProcessor::storeUploadedImage(
+            $request->file('image'),
+            $request->boolean('image_cropped')
+        );
 
-        // Auto-generate title from filename if not provided
         $title = $request->title;
         if (empty($title)) {
             $title = pathinfo($request->file('image')->getClientOriginalName(), PATHINFO_FILENAME);
             $title = ucwords(str_replace(['-', '_'], ' ', $title));
         }
 
-        // Auto-increment order
         $maxOrder = Gallery::max('order') ?? 0;
 
-        $data = [
+        Gallery::create([
             'title' => $title,
             'description' => null,
-            'image' => 'uploads/' . $filename,
+            'image' => $imagePath,
             'category' => $request->category,
             'order' => $maxOrder + 1,
             'is_active' => $request->boolean('is_active', true),
-        ];
-
-        Gallery::create($data);
+        ]);
 
         return redirect()->route('admin.gallery.index')->with('success', 'Image uploaded successfully!');
     }
@@ -79,17 +76,13 @@ class GalleryController extends Controller
         ];
 
         if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($gallery->image && file_exists(public_path($gallery->image))) {
-                unlink(public_path($gallery->image));
-            }
-            
-            // Upload new image to public/img
-            $filename = time() . '_' . uniqid() . '.' . $request->file('image')->extension();
-            $request->file('image')->move(public_path('uploads'), $filename);
-            $data['image'] = 'uploads/' . $filename;
+            $data['image'] = ImageProcessor::storeUploadedImage(
+                $request->file('image'),
+                $request->boolean('image_cropped'),
+                400,
+                $gallery->image
+            );
 
-            // Auto-generate title from new filename if title is empty
             if (empty($data['title'])) {
                 $data['title'] = pathinfo($request->file('image')->getClientOriginalName(), PATHINFO_FILENAME);
                 $data['title'] = ucwords(str_replace(['-', '_'], ' ', $data['title']));
@@ -103,10 +96,7 @@ class GalleryController extends Controller
 
     public function destroy(Gallery $gallery)
     {
-        // Delete image if exists
-        if ($gallery->image && file_exists(public_path($gallery->image))) {
-            unlink(public_path($gallery->image));
-        }
+        ImageProcessor::deleteStoredImage($gallery->image);
         $gallery->delete();
 
         return redirect()->route('admin.gallery.index')->with('success', 'Gallery item deleted!');

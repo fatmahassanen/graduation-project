@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
 use App\Models\Training;
+use App\Support\ImageProcessor;
 use App\Traits\HandlesImageUploads;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -155,7 +156,7 @@ class TrainingsController extends Controller
         for ($i = 1; $i <= 4; $i++) {
             $imageField = "image{$i}";
             if ($training->$imageField) {
-                $this->deleteImage($training->$imageField);
+                ImageProcessor::deleteStoredImage($training->$imageField);
             }
         }
 
@@ -179,9 +180,10 @@ class TrainingsController extends Controller
 
             if ($request->hasFile($imageField)) {
                 $oldImage = $training ? $training->$imageField : null;
-                $data[$imageField] = $this->uploadImage(
+                $data[$imageField] = ImageProcessor::storeUploadedImage(
                     $request->file($imageField),
-                    'trainings',
+                    $request->boolean($imageField.'_cropped'),
+                    400,
                     $oldImage
                 );
             }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
 use App\Models\News;
+use App\Support\ImageProcessor;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
@@ -26,6 +27,7 @@ class NewsController extends Controller
             'title' => 'required|string|max:255',
             'excerpt' => 'nullable|string|max:500',
             'content' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'published_at' => 'nullable|date',
             'is_featured' => 'boolean',
             'is_active' => 'boolean',
@@ -39,6 +41,13 @@ class NewsController extends Controller
             'is_featured' => $request->boolean('is_featured'),
             'is_active' => $request->boolean('is_active', true),
         ];
+
+        if ($request->hasFile('image')) {
+            $data['image'] = ImageProcessor::storeUploadedImage(
+                $request->file('image'),
+                $request->boolean('image_cropped')
+            );
+        }
 
         News::create($data);
 
@@ -56,6 +65,7 @@ class NewsController extends Controller
             'title' => 'required|string|max:255',
             'excerpt' => 'nullable|string|max:500',
             'content' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'published_at' => 'nullable|date',
             'is_featured' => 'boolean',
             'is_active' => 'boolean',
@@ -70,6 +80,15 @@ class NewsController extends Controller
             'is_active' => $request->boolean('is_active'),
         ];
 
+        if ($request->hasFile('image')) {
+            $data['image'] = ImageProcessor::storeUploadedImage(
+                $request->file('image'),
+                $request->boolean('image_cropped'),
+                400,
+                $news->image
+            );
+        }
+
         $news->update($data);
 
         return redirect()->route('admin.news.index')->with('success', 'News updated successfully!');
@@ -77,6 +96,7 @@ class NewsController extends Controller
 
     public function destroy(News $news)
     {
+        ImageProcessor::deleteStoredImage($news->image);
         $news->delete();
 
         return redirect()->route('admin.news.index')->with('success', 'News deleted!');

@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
 use App\Models\ExternalProtocol;
+use App\Support\ImageProcessor;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ExternalProtocolsController extends Controller
 {
@@ -46,9 +46,10 @@ class ExternalProtocolsController extends Controller
         $protocol->order = $request->order ?? 0;
 
         if ($request->hasFile('image')) {
-            $filename = time() . '_' . uniqid() . '.' . $request->file('image')->extension();
-            $request->file('image')->move(public_path('uploads'), $filename);
-            $protocol->image = 'uploads/' . $filename;
+            $protocol->image = ImageProcessor::storeUploadedImage(
+                $request->file('image'),
+                $request->boolean('image_cropped')
+            );
         }
 
         $protocol->save();
@@ -76,14 +77,12 @@ class ExternalProtocolsController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($externalProtocol->image && file_exists(public_path($externalProtocol->image))) {
-                unlink(public_path($externalProtocol->image));
-            }
-
-            $filename = time() . '_' . uniqid() . '.' . $request->file('image')->extension();
-            $request->file('image')->move(public_path('uploads'), $filename);
-            $externalProtocol->image = 'uploads/' . $filename;
+            $externalProtocol->image = ImageProcessor::storeUploadedImage(
+                $request->file('image'),
+                $request->boolean('image_cropped'),
+                400,
+                $externalProtocol->image
+            );
         }
 
         $externalProtocol->title = $request->title;
@@ -99,10 +98,7 @@ class ExternalProtocolsController extends Controller
 
     public function destroy(ExternalProtocol $externalProtocol)
     {
-        // Delete image if exists
-        if ($externalProtocol->image && file_exists(public_path($externalProtocol->image))) {
-            unlink(public_path($externalProtocol->image));
-        }
+        ImageProcessor::deleteStoredImage($externalProtocol->image);
 
         $externalProtocol->delete();
 

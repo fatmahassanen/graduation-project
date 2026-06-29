@@ -2,6 +2,8 @@
 
 namespace App\Traits;
 
+use App\Support\ImageProcessor;
+use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 
 /**
@@ -26,19 +28,32 @@ trait HandlesImageUploads
      */
     protected function uploadImage(UploadedFile $file, string $directory, ?string $oldPath = null): string
     {
-        // Delete old image if exists
-        if ($oldPath) {
-            $this->deleteImage($oldPath);
-        }
+        return $this->processSmartImage($file, $oldPath, false);
+    }
 
-        // Generate unique filename
-        $filename = time() . '_' . uniqid() . '.' . $file->extension();
-        
-        // Move file to public/uploads directory
-        $file->move(public_path('uploads'), $filename);
+    /**
+     * Process an uploaded image with Intervention Image.
+     *
+     * @param  UploadedFile  $file  The uploaded file
+     * @param  string|null  $oldPath  Path to old image to delete
+     * @param  bool  $wasCropped  Whether the browser cropper was used
+     * @param  int  $cropSize  Target square size when cropped
+     */
+    protected function processSmartImage(
+        UploadedFile $file,
+        ?string $oldPath = null,
+        bool $wasCropped = false,
+        int $cropSize = 400
+    ): string {
+        return ImageProcessor::storeUploadedImage($file, $wasCropped, $cropSize, $oldPath);
+    }
 
-        // Return the relative path
-        return 'uploads/' . $filename;
+    /**
+     * Resolve whether the client used the cropper for a given field.
+     */
+    protected function imageWasCropped(Request $request, string $field): bool
+    {
+        return $request->boolean($field.'_cropped');
     }
 
     /**

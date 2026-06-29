@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
 use App\Models\Activity;
+use App\Support\ImageProcessor;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ActivitiesController extends Controller
 {
@@ -39,9 +39,10 @@ class ActivitiesController extends Controller
         ];
 
         if ($request->hasFile('image')) {
-            $filename = time() . '_' . uniqid() . '.' . $request->file('image')->extension();
-            $request->file('image')->move(public_path('uploads'), $filename);
-            $data['image'] = 'uploads/' . $filename;
+            $data['image'] = ImageProcessor::storeUploadedImage(
+                $request->file('image'),
+                $request->boolean('image_cropped')
+            );
         }
 
         Activity::create($data);
@@ -72,14 +73,12 @@ class ActivitiesController extends Controller
         ];
 
         if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($activity->image && file_exists(public_path($activity->image))) {
-                unlink(public_path($activity->image));
-            }
-            
-            $filename = time() . '_' . uniqid() . '.' . $request->file('image')->extension();
-            $request->file('image')->move(public_path('uploads'), $filename);
-            $data['image'] = 'uploads/' . $filename;
+            $data['image'] = ImageProcessor::storeUploadedImage(
+                $request->file('image'),
+                $request->boolean('image_cropped'),
+                400,
+                $activity->image
+            );
         }
 
         $activity->update($data);
@@ -89,10 +88,7 @@ class ActivitiesController extends Controller
 
     public function destroy(Activity $activity)
     {
-        // Delete image if exists
-        if ($activity->image && file_exists(public_path($activity->image))) {
-            unlink(public_path($activity->image));
-        }
+        ImageProcessor::deleteStoredImage($activity->image);
         $activity->delete();
 
         return redirect()->route('admin.activities.index')->with('success', 'Activity deleted!');

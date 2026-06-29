@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
 use App\Models\InternalProtocol;
+use App\Support\ImageProcessor;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class InternalProtocolsController extends Controller
 {
@@ -46,9 +46,10 @@ class InternalProtocolsController extends Controller
         $protocol->order = $request->order ?? 0;
 
         if ($request->hasFile('image')) {
-            $filename = time() . '_' . uniqid() . '.' . $request->file('image')->extension();
-            $request->file('image')->move(public_path('uploads'), $filename);
-            $protocol->image = 'uploads/' . $filename;
+            $protocol->image = ImageProcessor::storeUploadedImage(
+                $request->file('image'),
+                $request->boolean('image_cropped')
+            );
         }
 
         $protocol->save();
@@ -76,14 +77,12 @@ class InternalProtocolsController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($internalProtocol->image && file_exists(public_path($internalProtocol->image))) {
-                unlink(public_path($internalProtocol->image));
-            }
-
-            $filename = time() . '_' . uniqid() . '.' . $request->file('image')->extension();
-            $request->file('image')->move(public_path('uploads'), $filename);
-            $internalProtocol->image = 'uploads/' . $filename;
+            $internalProtocol->image = ImageProcessor::storeUploadedImage(
+                $request->file('image'),
+                $request->boolean('image_cropped'),
+                400,
+                $internalProtocol->image
+            );
         }
 
         $internalProtocol->title = $request->title;
@@ -99,10 +98,7 @@ class InternalProtocolsController extends Controller
 
     public function destroy(InternalProtocol $internalProtocol)
     {
-        // Delete image if exists
-        if ($internalProtocol->image && file_exists(public_path($internalProtocol->image))) {
-            unlink(public_path($internalProtocol->image));
-        }
+        ImageProcessor::deleteStoredImage($internalProtocol->image);
 
         $internalProtocol->delete();
 

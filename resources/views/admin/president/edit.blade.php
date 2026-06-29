@@ -158,7 +158,7 @@
                     
                     @if($president->image)
                         <div class="mb-4">
-                            <img src="{{ asset($president->image) }}" alt="Current President Image" class="w-32 h-32 object-cover rounded-lg border-2 border-pink-200 shadow-md">
+                            <img src="{{ asset($president->image) }}" alt="Current President Image" style="object-fit: contain; max-width: 100%; max-height: 100%; border-radius: 12px; background: #f8f9fa; width: 128px; height: 128px;">
                             <p class="text-sm text-gray-500 mt-2">Current image (will be replaced if you upload a new one)</p>
                         </div>
                     @endif
@@ -168,8 +168,15 @@
                         name="image" 
                         id="image"
                         accept="image/*"
+                        data-vibe-crop="true"
+                        data-vibe-aspect-ratio="1"
+                        data-vibe-crop-width="400"
+                        data-vibe-crop-height="400"
                         class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 transition-all duration-200 p-2.5"
                     >
+                    <div id="image_preview" class="mt-3 hidden">
+                        <img id="image_preview_img" src="" alt="Preview" style="object-fit: contain; max-width: 100%; max-height: 100%; border-radius: 12px; background: #f8f9fa; width: 120px; height: 120px;">
+                    </div>
                     @error('image')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                     @enderror
@@ -294,3 +301,17 @@ function toggleEditMode() {
 @endif
 </script>
 @endsection
+
+@push('scripts')
+@include('components.vibe-cropper-assets')
+<script>
+document.getElementById('image')?.addEventListener('vibe-cropper:done', function (event) {
+    const preview = document.getElementById('image_preview');
+    const previewImg = document.getElementById('image_preview_img');
+    if (preview && previewImg && event.detail.file) {
+        previewImg.src = URL.createObjectURL(event.detail.file);
+        preview.classList.remove('hidden');
+    }
+});
+</script>
+@endpush

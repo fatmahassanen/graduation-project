@@ -1,7 +1,3 @@
-@php
-    use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
-@endphp
-
 <style>
     /* Hover effect for dropdown items */
     .dropdown-item:hover {
@@ -109,24 +105,6 @@
 
     .reader-btn:hover {
         background: rgba(26, 9, 110, 0.05);
-        transform: scale(1.05);
-    }
-
-    /* Language switcher styling */
-    .language-switcher {
-        padding: 0.5rem 0.6rem !important;
-        font-size: 0.875rem !important;
-        font-weight: 700 !important;
-        color: #D08301 !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        text-decoration: none !important;
-        border-radius: 6px;
-        transition: all 0.3s ease;
-    }
-
-    .language-switcher:hover {
-        background: rgba(208, 131, 1, 0.1);
         transform: scale(1.05);
     }
 
@@ -346,17 +324,8 @@
 
         </div>
 
-        <!-- Navbar Utilities (Language Switcher + Reader Buttons) -->
+        <!-- Navbar Utilities (Reader Buttons) -->
         <div class="navbar-utilities">
-            <!-- Language Toggle (currently commented out) -->
-            <!-- @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                @if($localeCode != LaravelLocalization::getCurrentLocale())
-                    <a href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}" class="language-switcher">
-                        {{ $properties['native'] }}
-                    </a>
-                @endif
-            @endforeach -->
-
             <!-- Reader Buttons -->
             <div class="reader-buttons-container">
                 <button class="reader-btn play" onclick="readPage()">🔊</button>

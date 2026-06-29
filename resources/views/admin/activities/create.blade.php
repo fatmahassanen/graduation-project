@@ -64,8 +64,15 @@
                     name="image" 
                     id="image"
                     accept="image/*"
+                    data-vibe-crop="true"
+                    data-vibe-aspect-ratio="1"
+                    data-vibe-crop-width="400"
+                    data-vibe-crop-height="400"
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('image') border-red-500 @enderror"
                 >
+                <div id="image_preview" class="mt-3 hidden">
+                    <img id="image_preview_img" src="" alt="Preview" style="object-fit: contain; max-width: 100%; max-height: 100%; border-radius: 12px; background: #f8f9fa; width: 120px; height: 120px;">
+                </div>
                 <p class="mt-1 text-sm text-gray-500">Supported formats: JPEG, PNG, JPG, GIF, WEBP (Max: 2MB)</p>
                 @error('image')
                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
@@ -123,3 +130,17 @@
     </x-admin.card>
 </div>
 @endsection
+
+@push('scripts')
+@include('components.vibe-cropper-assets')
+<script>
+document.getElementById('image')?.addEventListener('vibe-cropper:done', function (event) {
+    const preview = document.getElementById('image_preview');
+    const previewImg = document.getElementById('image_preview_img');
+    if (preview && previewImg && event.detail.file) {
+        previewImg.src = URL.createObjectURL(event.detail.file);
+        preview.classList.remove('hidden');
+    }
+});
+</script>
+@endpush

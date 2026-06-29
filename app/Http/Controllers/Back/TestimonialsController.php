@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
 use App\Models\Testimonial;
+use App\Support\ImageProcessor;
 use App\Traits\HandlesImageUploads;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -68,9 +69,10 @@ class TestimonialsController extends Controller
 
         // Handle photo upload if provided
         if ($request->hasFile('photo')) {
-            $data['photo'] = $this->uploadImage(
+            $data['photo'] = ImageProcessor::storeUploadedImage(
                 $request->file('photo'),
-                'testimonials',
+                $request->boolean('photo_cropped'),
+                400,
                 $testimonial->photo
             );
         }

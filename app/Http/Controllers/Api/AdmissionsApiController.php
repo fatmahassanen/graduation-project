@@ -81,11 +81,6 @@ class AdmissionsApiController extends Controller
             }
         }
 
-        // #region agent log
-        $logPath = base_path('debug-1fa0fa.log');
-        file_put_contents($logPath, json_encode(['sessionId'=>'1fa0fa','location'=>'AdmissionsApiController.php:generateCode','message'=>'Generate code invoked','data'=>['admissionId'=>$admission->id,'status'=>$admission->status,'auth'=>auth()->check(),'role'=>auth()->user()?->role ?? null],'timestamp'=>round(microtime(true)*1000),'hypothesisId'=>'H3'])."\n", FILE_APPEND);
-        // #endregion
-
         if ($admission->status !== 'pending') {
             return response()->json([
                 'success' => false,

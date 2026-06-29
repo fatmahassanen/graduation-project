@@ -218,11 +218,11 @@ class AdmissionController extends Controller
             // File Persistence: Only upload new files if provided
             try {
                 if ($request->hasFile('student_photo')) {
-                    // Delete old file if exists and re-applying
-                    if (($isReapplication || $isDraftContinuation) && $existingAdmission->student_photo) {
-                        Storage::disk('public')->delete($existingAdmission->student_photo);
-                    }
-                    $data['student_photo'] = $this->uploadImage($request->file('student_photo'), 'admissions/photos');
+                    $data['student_photo'] = $this->processSmartImage(
+                        $request->file('student_photo'),
+                        ($isReapplication || $isDraftContinuation) ? $existingAdmission->student_photo : null,
+                        $this->imageWasCropped($request, 'student_photo')
+                    );
                 } elseif (($isReapplication || $isDraftContinuation) && $existingAdmission->student_photo) {
                     // Keep existing file
                     $data['student_photo'] = $existingAdmission->student_photo;
@@ -400,10 +400,11 @@ class AdmissionController extends Controller
             // Handle file uploads
             try {
                 if ($request->hasFile('student_photo')) {
-                    if ($existingAdmission && $existingAdmission->student_photo) {
-                        Storage::disk('public')->delete($existingAdmission->student_photo);
-                    }
-                    $data['student_photo'] = $this->uploadImage($request->file('student_photo'), 'admissions/photos');
+                    $data['student_photo'] = $this->processSmartImage(
+                        $request->file('student_photo'),
+                        $existingAdmission?->student_photo,
+                        $this->imageWasCropped($request, 'student_photo')
+                    );
                 } elseif ($existingAdmission && $existingAdmission->student_photo) {
                     $data['student_photo'] = $existingAdmission->student_photo;
                 }

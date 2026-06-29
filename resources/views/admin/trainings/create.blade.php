@@ -62,6 +62,10 @@
                             name="image1" 
                             id="image1"
                             accept="image/*"
+                            data-vibe-crop="true"
+                            data-vibe-aspect-ratio="1"
+                            data-vibe-crop-width="400"
+                            data-vibe-crop-height="400"
                             class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 transition-all duration-200 p-2.5"
                         >
                         @error('image1')
@@ -77,6 +81,10 @@
                             name="image2" 
                             id="image2"
                             accept="image/*"
+                            data-vibe-crop="true"
+                            data-vibe-aspect-ratio="1"
+                            data-vibe-crop-width="400"
+                            data-vibe-crop-height="400"
                             class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 transition-all duration-200 p-2.5"
                         >
                         @error('image2')
@@ -92,6 +100,10 @@
                             name="image3" 
                             id="image3"
                             accept="image/*"
+                            data-vibe-crop="true"
+                            data-vibe-aspect-ratio="1"
+                            data-vibe-crop-width="400"
+                            data-vibe-crop-height="400"
                             class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 transition-all duration-200 p-2.5"
                         >
                         @error('image3')
@@ -107,6 +119,10 @@
                             name="image4" 
                             id="image4"
                             accept="image/*"
+                            data-vibe-crop="true"
+                            data-vibe-aspect-ratio="1"
+                            data-vibe-crop-width="400"
+                            data-vibe-crop-height="400"
                             class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 transition-all duration-200 p-2.5"
                         >
                         @error('image4')
@@ -280,3 +296,7 @@
     </x-admin.card>
 </div>
 @endsection
+
+@push('scripts')
+@include('components.vibe-cropper-assets')
+@endpush

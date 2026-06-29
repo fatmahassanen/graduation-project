@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Back;
 use App\Http\Controllers\Controller;
 use App\Models\Competition;
 use App\Models\SiteSetting;
+use App\Support\ImageProcessor;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class CompetitionsController extends Controller
 {
@@ -42,10 +42,10 @@ class CompetitionsController extends Controller
         $competition->order = $request->order ?? 0;
 
         if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $filename = time() . '_' . uniqid() . '.' . $file->extension();
-            $file->move(public_path('uploads'), $filename);
-            $competition->image = 'uploads/' . $filename;
+            $competition->image = ImageProcessor::storeUploadedImage(
+                $request->file('image'),
+                $request->boolean('image_cropped')
+            );
         }
 
         $competition->save();
@@ -70,15 +70,12 @@ class CompetitionsController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($competition->image && file_exists(public_path($competition->image))) {
-                unlink(public_path($competition->image));
-            }
-
-            $file = $request->file('image');
-            $filename = time() . '_' . uniqid() . '.' . $file->extension();
-            $file->move(public_path('uploads'), $filename);
-            $competition->image = 'uploads/' . $filename;
+            $competition->image = ImageProcessor::storeUploadedImage(
+                $request->file('image'),
+                $request->boolean('image_cropped'),
+                400,
+                $competition->image
+            );
         }
 
         $competition->title = $request->title;
@@ -93,10 +90,7 @@ class CompetitionsController extends Controller
 
     public function destroy(Competition $competition)
     {
-        // Delete image if exists
-        if ($competition->image && file_exists(public_path($competition->image))) {
-            unlink(public_path($competition->image));
-        }
+        ImageProcessor::deleteStoredImage($competition->image);
 
         $competition->delete();
 

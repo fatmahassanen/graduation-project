@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ app()->getLocale() == 'ar' ? 'rtl' : 'ltr' }}">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -31,67 +31,6 @@
 
     <!-- Template Stylesheet -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-
-    <!-- RTL Support for Arabic -->
-    @if(app()->getLocale() == 'ar')
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
-    <style>
-        body {
-            direction: rtl !important;
-            text-align: right !important;
-            font-family: 'Cairo', 'Segoe UI', sans-serif !important;
-        }
-        .navbar-nav {
-            margin-right: auto !important;
-            margin-left: 0 !important;
-        }
-        .navbar-nav .dropdown-menu {
-            text-align: right !important;
-            right: 0 !important;
-            left: auto !important;
-        }
-        .reader-buttons-container {
-            margin-right: 0.3rem;
-            margin-left: 0;
-        }
-        .float-end {
-            float: left !important;
-        }
-        .float-start {
-            float: right !important;
-        }
-        .text-end {
-            text-align: left !important;
-        }
-        .text-start {
-            text-align: right !important;
-        }
-        .pe-5 {
-            padding-left: 3rem !important;
-            padding-right: 0 !important;
-        }
-        .ps-5 {
-            padding-right: 3rem !important;
-            padding-left: 0 !important;
-        }
-        .me-auto {
-            margin-left: auto !important;
-            margin-right: 0 !important;
-        }
-        .ms-auto {
-            margin-right: auto !important;
-            margin-left: 0 !important;
-        }
-        .pe-3 {
-            padding-left: 1rem !important;
-            padding-right: 0 !important;
-        }
-        .ps-3 {
-            padding-right: 1rem !important;
-            padding-left: 0 !important;
-        }
-    </style>
-    @endif
 
     @stack('styles')
 </head>
