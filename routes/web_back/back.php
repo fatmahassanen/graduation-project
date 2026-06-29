@@ -38,7 +38,7 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.'
     // News CRUD
     Route::resource('news', NewsController::class);
 
-    // Departments Management (Edit-Only)
+    // Departments — edit-only (seeded records, no create/delete)
     Route::get('/departments', [DepartmentsController::class, 'index'])->name('departments.index');
     Route::get('/departments/{department}/edit', [DepartmentsController::class, 'edit'])->name('departments.edit');
     Route::put('/departments/{department}', [DepartmentsController::class, 'update'])->name('departments.update');
@@ -81,7 +81,7 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.'
     Route::put('/tuition-fees/{tuitionFee}', [TuitionFeesController::class, 'update'])->name('tuition-fees.update');
     Route::put('/tuition-fees-settings', [TuitionFeesController::class, 'updateSettings'])->name('tuition-fees.update-settings');
 
-    // Testimonials Management (Edit-Only)
+    // Testimonials — edit-only + AJAX reorder
     Route::get('/testimonials', [TestimonialsController::class, 'index'])->name('testimonials.index');
     Route::get('/testimonials/{testimonial}/edit', [TestimonialsController::class, 'edit'])->name('testimonials.edit');
     Route::put('/testimonials/{testimonial}', [TestimonialsController::class, 'update'])->name('testimonials.update');

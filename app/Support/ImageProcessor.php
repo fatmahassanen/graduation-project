@@ -2,16 +2,17 @@
 
 namespace App\Support;
 
+use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\Format;
 use Intervention\Image\ImageManager;
 
 /**
- * Smart image processing using Intervention Image v4.
+ * Central smart-image pipeline for Intervention Image v4.
  *
- * When the client skipped cropping, the full image is compressed to JPEG.
- * When the client cropped in the browser, the image is locked to a square cover crop.
+ * Browser cropper sets {field}_cropped=1; when true we enforce a square cover crop.
+ * All uploads are normalized to JPEG (quality 80) under public/uploads/.
  */
 class ImageProcessor
 {
@@ -21,12 +22,22 @@ class ImageProcessor
         int $size = 400,
         ?string $oldPath = null
     ): string {
+        // #region agent log
+        self::debugLog('ImageProcessor.php:storeUploadedImage:entry', 'Processing upload', [
+            'hypothesisId' => 'H1',
+            'wasCropped' => $wasCropped,
+            'size' => $size,
+            'mime' => $file->getMimeType(),
+            'originalName' => $file->getClientOriginalName(),
+        ]);
+        // #endregion
+
         if ($oldPath) {
             self::deleteStoredImage($oldPath);
         }
 
         $manager = ImageManager::usingDriver(Driver::class);
-        $image = $manager->read($file->getRealPath());
+        $image = $manager->decode($file);
 
         if ($wasCropped) {
             $image->cover($size, $size);
@@ -36,9 +47,29 @@ class ImageProcessor
 
         $filename = time().'_'.uniqid().'.jpg';
         $relativePath = 'uploads/'.$filename;
-        $encoded->save(public_path($relativePath));
+        $absolutePath = public_path($relativePath);
+
+        if (! is_dir(dirname($absolutePath))) {
+            mkdir(dirname($absolutePath), 0755, true);
+        }
+
+        $encoded->save($absolutePath);
+
+        // #region agent log
+        self::debugLog('ImageProcessor.php:storeUploadedImage:exit', 'Image stored', [
+            'hypothesisId' => 'H1',
+            'path' => $relativePath,
+            'bytes' => file_exists($absolutePath) ? filesize($absolutePath) : 0,
+            'wasCropped' => $wasCropped,
+        ]);
+        // #endregion
 
         return $relativePath;
+    }
+
+    public static function croppedFromRequest(Request $request, string $field): bool
+    {
+        return $request->boolean($field.'_cropped');
     }
 
     public static function deleteStoredImage(?string $path): void
@@ -62,4 +93,19 @@ class ImageProcessor
             unlink($storagePath);
         }
     }
+
+    // #region agent log
+    private static function debugLog(string $location, string $message, array $data = []): void
+    {
+        $payload = array_merge([
+            'sessionId' => '6e401c',
+            'runId' => 'pre-fix',
+            'location' => $location,
+            'message' => $message,
+            'timestamp' => (int) round(microtime(true) * 1000),
+        ], $data);
+
+        @file_put_contents(base_path('debug-6e401c.log'), json_encode($payload)."\n", FILE_APPEND);
+    }
+    // #endregion
 }

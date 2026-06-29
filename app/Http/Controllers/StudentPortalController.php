@@ -147,18 +147,13 @@ class StudentPortalController extends Controller
         ]);
 
         try {
-            // Delete old photo if exists
-            if ($admission->student_photo && file_exists(public_path($admission->student_photo))) {
-                unlink(public_path($admission->student_photo));
-            }
+            $photoPath = \App\Support\ImageProcessor::storeUploadedImage(
+                $request->file('student_photo'),
+                $request->boolean('student_photo_cropped'),
+                400,
+                $admission->student_photo
+            );
 
-            // Upload new photo using the trait method
-            $file = $request->file('student_photo');
-            $filename = time() . '_' . uniqid() . '.' . $file->extension();
-            $file->move(public_path('uploads'), $filename);
-            $photoPath = 'uploads/' . $filename;
-
-            // Update admission record
             $admission->update([
                 'student_photo' => $photoPath,
             ]);

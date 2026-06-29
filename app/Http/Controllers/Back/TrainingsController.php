@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Back;
 use App\Http\Controllers\Controller;
 use App\Models\Training;
 use App\Support\ImageProcessor;
-use App\Traits\HandlesImageUploads;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -17,8 +16,6 @@ use Illuminate\View\View;
  */
 class TrainingsController extends Controller
 {
-    use HandlesImageUploads;
-
     /**
      * Display a listing of all trainings.
      *

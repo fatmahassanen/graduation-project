@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Back;
 use App\Http\Controllers\Controller;
 use App\Models\Testimonial;
 use App\Support\ImageProcessor;
-use App\Traits\HandlesImageUploads;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -19,8 +18,6 @@ use Illuminate\View\View;
  */
 class TestimonialsController extends Controller
 {
-    use HandlesImageUploads;
-
     /**
      * Display a listing of all testimonials.
      *
