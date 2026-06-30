@@ -109,14 +109,20 @@
                     <a href="https://www.facebook.com/nctu.edu.eg/?locale=ar_AR" class="footer-social-link" target="_blank" aria-label="Facebook">
                         <i class="fab fa-facebook-f"></i>
                     </a>
+                    <a href="https://www.instagram.com/explore/locations/113014853445529/new-cairo-technological-university/" class="footer-social-link" target="_blank" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://t.me/+hu88qUXmcXNlNmQ0" class="footer-social-link" target="_blank" aria-label="Telegram">
+                        <i class="fab fa-telegram-plane"></i>
+                    </a>
                     <a href="https://www.linkedin.com/school/nct-uni/" class="footer-social-link" target="_blank" aria-label="LinkedIn">
                         <i class="fab fa-linkedin-in"></i>
                     </a>
-                    <a href="https://www.youtube.com/@NCTU_egypt" class="footer-social-link" target="_blank" aria-label="YouTube">
+                    <a href="https://youtube.com/@nctu.edu.eg.1?si=du5LRh5Ud7oGWQV-" class="footer-social-link" target="_blank" aria-label="YouTube">
                         <i class="fab fa-youtube"></i>
                     </a>
-                    <a href="https://twitter.com/nctu_egypt" class="footer-social-link" target="_blank" aria-label="Twitter">
-                        <i class="fab fa-twitter"></i>
+                    <a href="https://www.tiktok.com/@newcairotechnological" class="footer-social-link" target="_blank" aria-label="TikTok">
+                        <i class="fab fa-tiktok"></i>
                     </a>
                 </div>
             </div>

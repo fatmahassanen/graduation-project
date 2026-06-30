@@ -49,121 +49,40 @@
                 @enderror
             </div>
 
-            <!-- Training Images (4 Images) -->
+            <!-- Training Image -->
             <div class="mb-6">
-                <label class="block text-sm font-semibold text-gray-700 mb-3">
-                    <i class="fas fa-images text-pink-600 mr-2"></i>Training Images (Up to 4 Images)
+                <label for="image" class="block text-sm font-semibold text-gray-700 mb-2">
+                    <i class="fas fa-image text-pink-600 mr-2"></i>Training Image
                 </label>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Image 1 -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-600 mb-2">Image 1</label>
-                        @if($training->image1)
-                            <div class="mb-3">
-                                <img src="{{ asset($training->image1) }}" alt="Image 1" style="object-fit: contain; max-width: 100%; max-height: 100%; border-radius: 12px; background: #f8f9fa; width: 100%; max-height: 192px;">
-                            </div>
-                        @else
-                            <p class="text-sm text-gray-500 mb-3">No image uploaded</p>
-                        @endif
-                        <label for="image1" class="block text-sm text-gray-600 mb-1">Change Image 1 (optional)</label>
-                        <input 
-                            type="file" 
-                            name="image1" 
-                            id="image1"
-                            accept="image/*"
-                            data-vibe-crop="true"
-                            data-vibe-aspect-ratio="1"
-                            data-vibe-crop-width="400"
-                            data-vibe-crop-height="400"
-                            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 transition-all duration-200 p-2.5"
-                        >
-                        @error('image1')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
+                
+                @if($training->image)
+                    <div class="mb-4">
+                        <img src="{{ asset($training->image) }}" alt="Current Image" style="object-fit: contain; max-width: 100%; max-height: 100%; border-radius: 12px; background: #f8f9fa; width: 192px; height: 192px;">
+                        <p class="text-sm text-gray-500 mt-2">Current image</p>
                     </div>
+                @endif
 
-                    <!-- Image 2 -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-600 mb-2">Image 2</label>
-                        @if($training->image2)
-                            <div class="mb-3">
-                                <img src="{{ asset($training->image2) }}" alt="Image 2" style="object-fit: contain; max-width: 100%; max-height: 100%; border-radius: 12px; background: #f8f9fa; width: 100%; max-height: 192px;">
-                            </div>
-                        @else
-                            <p class="text-sm text-gray-500 mb-3">No image uploaded</p>
-                        @endif
-                        <label for="image2" class="block text-sm text-gray-600 mb-1">Change Image 2 (optional)</label>
-                        <input 
-                            type="file" 
-                            name="image2" 
-                            id="image2"
-                            accept="image/*"
-                            data-vibe-crop="true"
-                            data-vibe-aspect-ratio="1"
-                            data-vibe-crop-width="400"
-                            data-vibe-crop-height="400"
-                            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 transition-all duration-200 p-2.5"
-                        >
-                        @error('image2')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <!-- Image 3 -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-600 mb-2">Image 3</label>
-                        @if($training->image3)
-                            <div class="mb-3">
-                                <img src="{{ asset($training->image3) }}" alt="Image 3" style="object-fit: contain; max-width: 100%; max-height: 100%; border-radius: 12px; background: #f8f9fa; width: 100%; max-height: 192px;">
-                            </div>
-                        @else
-                            <p class="text-sm text-gray-500 mb-3">No image uploaded</p>
-                        @endif
-                        <label for="image3" class="block text-sm text-gray-600 mb-1">Change Image 3 (optional)</label>
-                        <input 
-                            type="file" 
-                            name="image3" 
-                            id="image3"
-                            accept="image/*"
-                            data-vibe-crop="true"
-                            data-vibe-aspect-ratio="1"
-                            data-vibe-crop-width="400"
-                            data-vibe-crop-height="400"
-                            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 transition-all duration-200 p-2.5"
-                        >
-                        @error('image3')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <!-- Image 4 -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-600 mb-2">Image 4</label>
-                        @if($training->image4)
-                            <div class="mb-3">
-                                <img src="{{ asset($training->image4) }}" alt="Image 4" style="object-fit: contain; max-width: 100%; max-height: 100%; border-radius: 12px; background: #f8f9fa; width: 100%; max-height: 192px;">
-                            </div>
-                        @else
-                            <p class="text-sm text-gray-500 mb-3">No image uploaded</p>
-                        @endif
-                        <label for="image4" class="block text-sm text-gray-600 mb-1">Change Image 4 (optional)</label>
-                        <input 
-                            type="file" 
-                            name="image4" 
-                            id="image4"
-                            accept="image/*"
-                            data-vibe-crop="true"
-                            data-vibe-aspect-ratio="1"
-                            data-vibe-crop-width="400"
-                            data-vibe-crop-height="400"
-                            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 transition-all duration-200 p-2.5"
-                        >
-                        @error('image4')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+                <input 
+                    type="file" 
+                    name="image" 
+                    id="image"
+                    accept="image/*"
+                    data-vibe-crop="true"
+                    data-vibe-aspect-ratio="1"
+                    data-vibe-crop-width="400"
+                    data-vibe-crop-height="400"
+                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 transition-all duration-200 p-2.5"
+                >
+                <div id="image_preview" class="mt-3 hidden">
+                    <img id="image_preview_img" src="" alt="Preview" style="object-fit: contain; max-width: 100%; max-height: 100%; border-radius: 12px; background: #f8f9fa; width: 120px; height: 120px;">
                 </div>
-                <p class="text-sm text-gray-500 mt-2">Leave empty to keep current images. Upload new images to replace them. Supported formats: JPEG, PNG, JPG, GIF, WEBP (Max: 2MB each)</p>
+                @error('image')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+                <p class="text-sm text-gray-500 mt-1">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    Accepts: JPEG, PNG, JPG, GIF, WEBP. Max: 2MB
+                </p>
             </div>
 
             <!-- Instructor and Category -->
@@ -332,4 +251,14 @@
 
 @push('scripts')
 @include('components.vibe-cropper-assets')
+<script>
+document.getElementById('image')?.addEventListener('vibe-cropper:done', function (event) {
+    const preview = document.getElementById('image_preview');
+    const previewImg = document.getElementById('image_preview_img');
+    if (preview && previewImg && event.detail.file) {
+        previewImg.src = URL.createObjectURL(event.detail.file);
+        preview.classList.remove('hidden');
+    }
+});
+</script>
 @endpush

@@ -19,7 +19,7 @@
 
 <div class="container-xxl py-5">
     <div class="container">
-        
+
         <div class="row g-5 align-items-center mb-5 wow fadeInUp" data-wow-delay="0.1s">
             <div class="col-lg-6">
                 <img src="{{ asset('img/Prosthetics.jpg') }}" class="img-fluid rounded shadow" alt="Prosthetics">
@@ -95,9 +95,9 @@
                         <a href="{{ url('/admissions') }}" class="btn btn-light btn-lg rounded-pill px-5 py-3">
                             <i class="fa fa-file-alt me-2"></i>Apply Now
                         </a>
-                        <a href="{{ url('/faculties-requirements') }}" class="btn btn-outline-light btn-lg rounded-pill px-5 py-3">
+                        {{-- <a href="{{ url('/faculties-requirements') }}" class="btn btn-outline-light btn-lg rounded-pill px-5 py-3">
                             <i class="fa fa-info-circle me-2"></i>Admission Requirements
-                        </a>
+                        </a> --}}
                     </div>
                 </div>
             </div>

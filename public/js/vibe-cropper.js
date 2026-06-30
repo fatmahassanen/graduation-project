@@ -8,12 +8,20 @@
 window.VibeCropper = (function () {
     'use strict';
 
+    // const DEFAULTS = {
+    //     width: 400,
+    //     height: 400,
+    //     aspectRatio: 1,
+    //     maxSizeBytes: 2 * 1024 * 1024,
+    //     jpegQuality: 0.92,
+    // };
+
     const DEFAULTS = {
-        width: 400,
-        height: 400,
-        aspectRatio: 1,
-        maxSizeBytes: 2 * 1024 * 1024,
-        jpegQuality: 0.92,
+    width: 400,
+    height: 400,
+    aspectRatio: NaN, // <--- هنا التغيير!
+    maxSizeBytes: 2 * 1024 * 1024,
+    jpegQuality: 0.92,
     };
 
     let cropper = null;
@@ -161,12 +169,24 @@ window.VibeCropper = (function () {
 
         destroyCropper();
 
+        // const initCropper = function () {
+        //     cropper = new Cropper(img, {
+        //         aspectRatio: 1,
+        //         viewMode: 1,
+        //         dragMode: 'move',
+        //         cropBoxResizable: false,
+        //         autoCropArea: 0.9,
+        //         responsive: true,
+        //     });
+        // };
+
+
         const initCropper = function () {
             cropper = new Cropper(img, {
-                aspectRatio: 1,
+                aspectRatio: NaN,
                 viewMode: 1,
                 dragMode: 'move',
-                cropBoxResizable: false,
+                cropBoxResizable: true,
                 autoCropArea: 0.9,
                 responsive: true,
             });

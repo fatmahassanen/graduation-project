@@ -29,11 +29,8 @@
                         <tr class="hover:bg-gray-50 transition-colors">
                             <td class="px-6 py-4">
                                 <div class="flex items-center">
-                                    @php
-                                        $firstImage = $training->image1 ?? $training->image2 ?? $training->image3 ?? $training->image4;
-                                    @endphp
-                                    @if($firstImage)
-                                        <img src="{{ asset($firstImage) }}" alt="{{ $training->title }}" class="w-12 h-12 rounded-lg object-cover flex-shrink-0">
+                                    @if($training->image)
+                                        <img src="{{ asset($training->image) }}" alt="{{ $training->title }}" class="w-12 h-12 rounded-lg object-cover flex-shrink-0">
                                     @else
                                         <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center flex-shrink-0">
                                             <i class="fas fa-chalkboard-teacher text-yellow-600"></i>

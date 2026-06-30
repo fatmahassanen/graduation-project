@@ -478,7 +478,7 @@
             @forelse($testimonials as $testimonial)
                 <div class="testimonial-item text-center">
                     @if($testimonial->photo)
-                        <img class="border rounded-circle p-2 mx-auto mb-3" src="{{ asset('img/' . $testimonial->photo) }}" alt="{{ $testimonial->student_name }}" style="width:80px;height:80px;object-fit:cover;">
+                        <img class="border rounded-circle p-2 mx-auto mb-3" src="{{ asset($testimonial->photo) }}" alt="{{ $testimonial->student_name }}" style="width:80px;height:80px;object-fit:cover;">
                     @else
                         <div class="border rounded-circle p-2 mx-auto mb-3 d-flex align-items-center justify-content-center" style="width:80px;height:80px;background:#F4F9FF;">
                             <i class="fa fa-user-graduate fa-2x text-primary"></i>

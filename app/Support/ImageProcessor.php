@@ -40,7 +40,7 @@ class ImageProcessor
         $image = $manager->decode($file);
 
         if ($wasCropped) {
-            $image->cover($size, $size);
+            $image->scale(width: $size);
         }
 
         $encoded = $image->encodeUsingFormat(Format::JPEG, quality: 80);

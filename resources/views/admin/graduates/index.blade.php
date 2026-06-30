@@ -5,7 +5,7 @@
     <div class="flex items-center justify-between mb-6">
         <div>
             <h1 class="text-3xl font-bold text-gray-900">Graduates</h1>
-            <p class="mt-1 text-sm text-gray-600">Manage graduate achievement cards and hero section</p>
+            <p class="mt-1 text-sm text-gray-600">Manage graduate achievement cards</p>
         </div>
         <a href="{{ route('admin.graduates.create') }}" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-teal-600 to-teal-700 text-white font-semibold rounded-lg shadow-lg hover:from-teal-700 hover:to-teal-800 transform hover:scale-105 transition-all duration-200">
             <i class="fas fa-plus mr-2"></i>
@@ -16,50 +16,6 @@
     @if(session('success'))
         <x-admin.alert type="success" :message="session('success')" class="mb-6" />
     @endif
-
-    <!-- Hero Section -->
-    <x-admin.card class="mb-6">
-        <h2 class="text-xl font-bold text-gray-900 mb-4">
-            <i class="fas fa-image text-blue-600 mr-2"></i>Hero Section
-        </h2>
-        <form action="{{ route('admin.graduates.update-hero') }}" method="POST">
-            @csrf
-            @method('PUT')
-            <div class="space-y-4">
-                <!-- <div>
-                    <label for="hero_image" class="block text-sm font-semibold text-gray-700 mb-2">Hero Image URL</label>
-                    <input 
-                        type="text" 
-                        name="hero_image" 
-                        id="hero_image"
-                        value="{{ $heroImage }}"
-                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-all duration-200 p-3"
-                        placeholder="Enter hero image URL (e.g., {{ asset('img/kk.png') }})"
-                        required
-                    >
-                    <p class="text-sm text-gray-500 mt-1">Enter the full URL or asset path for the hero image</p>
-                </div> -->
-                <div>
-                    <label for="hero_title" class="block text-sm font-semibold text-gray-700 mb-2">Hero Title</label>
-                    <input 
-                        type="text" 
-                        name="hero_title" 
-                        id="hero_title"
-                        value="{{ $heroTitle }}"
-                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-200 transition-all duration-200 p-3"
-                        placeholder="Enter hero section title"
-                        required
-                    >
-                </div>
-                <div class="flex justify-end">
-                    <button type="submit" class="inline-flex items-center px-6 py-3 bg-teal-600 text-white font-semibold rounded-lg hover:bg-teal-700 transition-all duration-200">
-                        <i class="fas fa-save mr-2"></i>
-                        Update Hero Section
-                    </button>
-                </div>
-            </div>
-        </form>
-    </x-admin.card>
 
     <!-- Graduates List -->
     <x-admin.card>

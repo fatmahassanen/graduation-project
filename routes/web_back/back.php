@@ -73,7 +73,6 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->name('admin.'
 
     // Graduates CRUD
     Route::resource('graduates', GraduatesController::class);
-    Route::put('/graduates-hero', [GraduatesController::class, 'updateHero'])->name('graduates.update-hero');
 
     // Tuition Fees Management
     Route::get('/tuition-fees', [TuitionFeesController::class, 'index'])->name('tuition-fees.index');

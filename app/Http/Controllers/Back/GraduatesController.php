@@ -13,10 +13,8 @@ class GraduatesController extends Controller
     public function index()
     {
         $graduates = Graduate::orderBy('order')->orderBy('created_at', 'desc')->get();
-        $heroImage = SiteSetting::get('graduates_hero_image', asset('img/kk.png'));
-        $heroTitle = SiteSetting::get('graduates_hero_title', 'Outstanding Students at New Cairo Technological University');
 
-        return view('admin.graduates.index', compact('graduates', 'heroImage', 'heroTitle'));
+        return view('admin.graduates.index', compact('graduates'));
     }
 
     public function create()
@@ -92,18 +90,5 @@ class GraduatesController extends Controller
         $graduate->delete();
 
         return redirect()->route('admin.graduates.index')->with('success', 'Graduate achievement deleted successfully!');
-    }
-
-    public function updateHero(Request $request)
-    {
-        $request->validate([
-            'hero_image' => 'required|string',
-            'hero_title' => 'required|string',
-        ]);
-
-        SiteSetting::set('graduates_hero_image', $request->hero_image);
-        SiteSetting::set('graduates_hero_title', $request->hero_title);
-
-        return redirect()->route('admin.graduates.index')->with('success', 'Hero section updated successfully!');
     }
 }

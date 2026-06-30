@@ -12,7 +12,7 @@ use Illuminate\View\View;
 /**
  * TrainingsController
  *
- * Manages training programs with support for up to 4 images per training.
+ * Manages training programs with single image support.
  */
 class TrainingsController extends Controller
 {
@@ -48,10 +48,7 @@ class TrainingsController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'image1' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'image2' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'image3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'image4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'instructor' => 'nullable|string|max:255',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
@@ -75,8 +72,14 @@ class TrainingsController extends Controller
             'is_active' => $request->boolean('is_active', true),
         ];
 
-        // Handle up to 4 separate images
-        $this->handleTrainingImages($request, $data);
+        // Handle single image upload
+        if ($request->hasFile('image')) {
+            $data['image'] = ImageProcessor::storeUploadedImage(
+                $request->file('image'),
+                $request->boolean('image_cropped'),
+                400
+            );
+        }
 
         Training::create($data);
 
@@ -105,10 +108,7 @@ class TrainingsController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'image1' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'image2' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'image3' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'image4' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'instructor' => 'nullable|string|max:255',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
@@ -132,8 +132,15 @@ class TrainingsController extends Controller
             'is_active' => $request->boolean('is_active'),
         ];
 
-        // Handle up to 4 separate images - only update if new file uploaded
-        $this->handleTrainingImages($request, $data, $training);
+        // Handle single image upload - replace old if new uploaded
+        if ($request->hasFile('image')) {
+            $data['image'] = ImageProcessor::storeUploadedImage(
+                $request->file('image'),
+                $request->boolean('image_cropped'),
+                400,
+                $training->image
+            );
+        }
 
         $training->update($data);
 
@@ -149,12 +156,9 @@ class TrainingsController extends Controller
      */
     public function destroy(Training $training)
     {
-        // Delete all 4 images if they exist
-        for ($i = 1; $i <= 4; $i++) {
-            $imageField = "image{$i}";
-            if ($training->$imageField) {
-                ImageProcessor::deleteStoredImage($training->$imageField);
-            }
+        // Delete image if exists
+        if ($training->image) {
+            ImageProcessor::deleteStoredImage($training->image);
         }
 
         $training->delete();
@@ -162,28 +166,5 @@ class TrainingsController extends Controller
         return redirect()
             ->route('admin.trainings.index')
             ->with('success', 'Training deleted!');
-    }
-
-    /**
-     * Handle uploading of up to 4 training images.
-     *
-     * @param  array  $data  Reference to data array to populate
-     * @param  Training|null  $training  Existing training for updates
-     */
-    private function handleTrainingImages(Request $request, array &$data, ?Training $training = null): void
-    {
-        for ($i = 1; $i <= 4; $i++) {
-            $imageField = "image{$i}";
-
-            if ($request->hasFile($imageField)) {
-                $oldImage = $training ? $training->$imageField : null;
-                $data[$imageField] = ImageProcessor::storeUploadedImage(
-                    $request->file($imageField),
-                    $request->boolean($imageField.'_cropped'),
-                    400,
-                    $oldImage
-                );
-            }
-        }
     }
 }

@@ -48,89 +48,32 @@
                 @enderror
             </div>
 
-            <!-- Training Images (4 Images) -->
+            <!-- Training Image -->
             <div class="mb-6">
-                <label class="block text-sm font-semibold text-gray-700 mb-3">
-                    <i class="fas fa-images text-pink-600 mr-2"></i>Training Images (Up to 4 Images)
+                <label for="image" class="block text-sm font-semibold text-gray-700 mb-2">
+                    <i class="fas fa-image text-pink-600 mr-2"></i>Training Image
                 </label>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Image 1 -->
-                    <div>
-                        <label for="image1" class="block text-sm font-medium text-gray-600 mb-2">Image 1</label>
-                        <input 
-                            type="file" 
-                            name="image1" 
-                            id="image1"
-                            accept="image/*"
-                            data-vibe-crop="true"
-                            data-vibe-aspect-ratio="1"
-                            data-vibe-crop-width="400"
-                            data-vibe-crop-height="400"
-                            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 transition-all duration-200 p-2.5"
-                        >
-                        @error('image1')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <!-- Image 2 -->
-                    <div>
-                        <label for="image2" class="block text-sm font-medium text-gray-600 mb-2">Image 2</label>
-                        <input 
-                            type="file" 
-                            name="image2" 
-                            id="image2"
-                            accept="image/*"
-                            data-vibe-crop="true"
-                            data-vibe-aspect-ratio="1"
-                            data-vibe-crop-width="400"
-                            data-vibe-crop-height="400"
-                            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 transition-all duration-200 p-2.5"
-                        >
-                        @error('image2')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <!-- Image 3 -->
-                    <div>
-                        <label for="image3" class="block text-sm font-medium text-gray-600 mb-2">Image 3</label>
-                        <input 
-                            type="file" 
-                            name="image3" 
-                            id="image3"
-                            accept="image/*"
-                            data-vibe-crop="true"
-                            data-vibe-aspect-ratio="1"
-                            data-vibe-crop-width="400"
-                            data-vibe-crop-height="400"
-                            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 transition-all duration-200 p-2.5"
-                        >
-                        @error('image3')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <!-- Image 4 -->
-                    <div>
-                        <label for="image4" class="block text-sm font-medium text-gray-600 mb-2">Image 4</label>
-                        <input 
-                            type="file" 
-                            name="image4" 
-                            id="image4"
-                            accept="image/*"
-                            data-vibe-crop="true"
-                            data-vibe-aspect-ratio="1"
-                            data-vibe-crop-width="400"
-                            data-vibe-crop-height="400"
-                            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 transition-all duration-200 p-2.5"
-                        >
-                        @error('image4')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+                <input 
+                    type="file" 
+                    name="image" 
+                    id="image"
+                    accept="image/*"
+                    data-vibe-crop="true"
+                    data-vibe-aspect-ratio="1"
+                    data-vibe-crop-width="400"
+                    data-vibe-crop-height="400"
+                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 transition-all duration-200 p-2.5"
+                >
+                <div id="image_preview" class="mt-3 hidden">
+                    <img id="image_preview_img" src="" alt="Preview" style="object-fit: contain; max-width: 100%; max-height: 100%; border-radius: 12px; background: #f8f9fa; width: 120px; height: 120px;">
                 </div>
-                <p class="text-sm text-gray-500 mt-2">Upload up to 4 images to showcase the training from different angles. Supported formats: JPEG, PNG, JPG, GIF, WEBP (Max: 2MB each)</p>
+                @error('image')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @enderror
+                <p class="text-sm text-gray-500 mt-1">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    Accepts: JPEG, PNG, JPG, GIF, WEBP. Max: 2MB
+                </p>
             </div>
 
             <!-- Instructor and Category -->
@@ -299,4 +242,14 @@
 
 @push('scripts')
 @include('components.vibe-cropper-assets')
+<script>
+document.getElementById('image')?.addEventListener('vibe-cropper:done', function (event) {
+    const preview = document.getElementById('image_preview');
+    const previewImg = document.getElementById('image_preview_img');
+    if (preview && previewImg && event.detail.file) {
+        previewImg.src = URL.createObjectURL(event.detail.file);
+        preview.classList.remove('hidden');
+    }
+});
+</script>
 @endpush

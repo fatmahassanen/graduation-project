@@ -9,15 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Training Model
  *
- * Represents a training program with support for up to 4 images.
+ * Represents a training program with a single featured image.
  *
  * @property int $id
  * @property string $title
  * @property string $description
- * @property string|null $image1
- * @property string|null $image2
- * @property string|null $image3
- * @property string|null $image4
+ * @property string|null $image
  * @property string|null $instructor
  * @property Carbon|null $start_date
  * @property Carbon|null $end_date
@@ -41,10 +38,7 @@ class Training extends Model
     protected $fillable = [
         'title',
         'description',
-        'image1',
-        'image2',
-        'image3',
-        'image4',
+        'image',
         'instructor',
         'start_date',
         'end_date',
@@ -65,19 +59,4 @@ class Training extends Model
         'end_date' => 'date',
         'is_active' => 'boolean',
     ];
-
-    /**
-     * Get all non-null images as an array.
-     *
-     * @return array<string>
-     */
-    public function getAllImages(): array
-    {
-        return array_filter([
-            $this->image1,
-            $this->image2,
-            $this->image3,
-            $this->image4,
-        ]);
-    }
 }
