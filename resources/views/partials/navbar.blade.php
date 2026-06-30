@@ -217,7 +217,7 @@
                 <div class="dropdown-menu fade-down m-0" style="width: 300px; left: 0;">
                     <a class="dropdown-item" href="{{ route('digitaltrans') }}" style="color: #1a096e;">{{ __('messages.digital_transformation') }}</a>
                     <a class="dropdown-item" href="{{ route('internationalcoop') }}" style="color: #1a096e;">{{ __('messages.international_cooperation') }}</a>
-                    <a class="dropdown-item" href="{{ route('quality') }}" style="color: #1a096e;">{{ __('messages.quality_assurance') }}</a>
+                    <a class="dropdown-item" href="{{ route('quality.index') }}" style="color: #1a096e;">{{ __('messages.quality_assurance') }}</a>
                     <a class="dropdown-item" href="{{ route('evaluation') }}" style="color: #1a096e;">{{ __('messages.measurement_evaluation') }}</a>
                     <a class="dropdown-item" href="{{ route('women') }}" style="color: #1a096e;">{{ __('messages.combat_violence_women') }}</a>
                 </div>

@@ -44,7 +44,7 @@ Route::get('/graduates', [PageController::class, 'graduates'])->name('graduates'
 // Units Dropdown Pages
 Route::get('/digitaltrans', [PageController::class, 'digitalTrans'])->name('digitaltrans');
 Route::get('/internationalcoop', [PageController::class, 'internationalCoop'])->name('internationalcoop');
-Route::get('/quality', [PageController::class, 'quality'])->name('quality');
+// Route::get('/quality', [PageController::class, 'quality'])->name('quality');
 Route::get('/evaluation', [PageController::class, 'evaluation'])->name('evaluation');
 Route::get('/women', [PageController::class, 'women'])->name('women');
 
@@ -74,7 +74,7 @@ Route::get('/library', [PageController::class, 'library'])->name('library');
 Route::get('/trainings', [PageController::class, 'trainings'])->name('trainings');
 
 // Quality Assurance Unit - Dynamic Routes
-Route::get('/quality/{slug}', [PageController::class, 'showQualityPage'])->name('quality.show');
+// Route::get('/quality/{slug}', [PageController::class, 'showQualityPage'])->name('quality.show');
 
 // postgraduate dynamic routes
 Route::get('/it', [PageController::class, 'itPostgraduate'])->name('itPostgraduate');
@@ -110,5 +110,21 @@ Route::get('/prosthetics', function () {
     return view('pages.departments.prosthetics');
 })->name('dept.prosthetics');
 
-// Dynamic page route (catch-all for other pages)
+// Quality Assurance Sub-Pages (MUST BE BEFORE CATCH-ALL ROUTE)
+Route::prefix('quality')->name('quality.')->group(function () {
+    Route::view('/', 'pages.quality.index')->name('index');
+    Route::view('/introduction', 'pages.quality.intro')->name('intro');
+    Route::view('/vision-mission', 'pages.quality.vision')->name('vision');
+    Route::view('/periodical-publication', 'pages.quality.periodical-pub')->name('periodical-pub');
+    Route::view('/tasks', 'pages.quality.tasks')->name('tasks');
+    Route::view('/internal-regulations', 'pages.quality.regulations')->name('regulations');
+    Route::view('/organizational-structure', 'pages.quality.org-structure')->name('org-structure');
+    Route::view('/executive-council', 'pages.quality.executive-council')->name('executive-council');
+    Route::view('/administrative-council', 'pages.quality.admin-council')->name('admin-council');
+    Route::view('/academic-standards', 'pages.quality.academic-standards')->name('academic-standards');
+    Route::view('/activities', 'pages.quality.activities')->name('activities');
+    Route::view('/courses-workshops', 'pages.quality.courses-workshops')->name('courses-workshops');
+});
+
+// Dynamic page route (catch-all for other pages) - MUST BE LAST
 Route::get('/{slug}', [PageController::class, 'show'])->name('page.show');
