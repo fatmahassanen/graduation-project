@@ -35,7 +35,9 @@ COPY . .
 RUN cp .env.example .env
 
 # Install PHP dependencies
-RUN composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
+# Install PHP dependencies with platform override to force 8.3 compatibility
+RUN composer config platform.php 8.3.31 && \
+    composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html \
