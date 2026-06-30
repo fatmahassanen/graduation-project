@@ -45,7 +45,7 @@ return [
     
     // Admissions Dropdown
     'apply_now' => 'Apply for Admission',
-    'apply_login_required' => 'Apply for Admission (Login Required)',
+    'apply_login_required' => 'Apply for Admission ',
     'requirements' => 'Faculties Requirements',
     'postgraduate_programs' => 'Postgraduate Programs',
     'tuition_fees' => 'Tuition Fees & Scholarships',
@@ -63,7 +63,7 @@ return [
     // Student Services Dropdown
     'students_lms' => 'Students LMS',
     'student_affairs' => 'Student Affairs',
-    'student_affairs_login' => 'Student Affairs (Login Required)',
+    'student_affairs_login' => 'Student Affairs',
     'library' => 'Library',
     'training' => 'Training',
     
