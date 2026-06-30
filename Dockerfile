@@ -18,14 +18,11 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
+# Note: ctype, fileinfo, pdo, and tokenizer are built-in and enabled by default in PHP 8.3+
 RUN docker-php-ext-install \
     bcmath \
-    ctype \
-    fileinfo \
     mbstring \
-    pdo \
     pdo_mysql \
-    tokenizer \
     xml
 
 # Install Composer from official image
