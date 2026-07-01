@@ -48,7 +48,7 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
                                 @if($admission->student_photo)
-                                <img src="{{ asset('storage/' . $admission->student_photo) }}" alt="Photo" class="w-10 h-10 rounded-full object-cover mr-3">
+                                <img src="{{ $admission->fileUrl($admission->student_photo) }}" alt="Photo" class="w-10 h-10 rounded-full object-cover mr-3">
                                 @else
                                 <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
                                     <i class="fas fa-user text-green-600"></i>
