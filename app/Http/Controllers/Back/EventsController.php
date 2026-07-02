@@ -32,7 +32,10 @@ class EventsController extends Controller
 
         $imagePath = ImageProcessor::storeUploadedImage(
             $request->file('image'),
-            $request->boolean('image_cropped')
+            $request->boolean('image_cropped'),
+            400,
+            null,
+            true // Use original filename with timestamp
         );
 
         Event::create([
@@ -70,7 +73,8 @@ class EventsController extends Controller
                 $request->file('image'),
                 $request->boolean('image_cropped'),
                 400,
-                $event->image
+                $event->image,
+                true // Use original filename with timestamp
             );
         }
 

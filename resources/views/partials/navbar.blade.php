@@ -268,11 +268,11 @@
                 <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('messages.student_services') }}</a>
                 <div class="dropdown-menu fade-down m-0" style="width: 230px; left: 0;">
                     <a class="dropdown-item" href="https://sis.nctu.edu.eg/Nctu/Registration/ED_Login.aspx" style="color: #1a096e;">{{ __('messages.students_lms') }}</a>
-                    @auth
+                    {{-- @auth
                         <a class="dropdown-item" href="{{ route('admission.create') }}" style="color: #1a096e;">{{ __('messages.student_affairs') }}</a>
-                    @else
-                        <a class="dropdown-item" href="{{ route('login') }}" style="color: #1a096e;">{{ __('messages.student_affairs_login') }}</a>
-                    @endauth
+                    @else --}}
+                        {{-- <a class="dropdown-item" href="{{ route('login') }}" style="color: #1a096e;">{{ __('messages.student_affairs_login') }}</a> --}}
+                    {{-- @endauth --}}
                     <a class="dropdown-item" href="{{ route('library') }}" style="color: #1a096e;">{{ __('messages.library') }}</a>
                     <a class="dropdown-item" href="{{ route('trainings') }}" style="color: #1a096e;">{{ __('messages.training') }}</a>
                 </div>

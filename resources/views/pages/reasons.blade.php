@@ -145,7 +145,7 @@
 
 <div class="full-video-container">
     <video id="mainVideo" controls>
-        <source src="{{ asset('img/videos/jama.mp4') }}" type="video/mp4">
+        <source src="{{ url('https://nctu.site/img/jama.mp4') }}" type="video/mp4">
         Your browser does not support the video tag.
     </video>
     <div class="video-overlay">

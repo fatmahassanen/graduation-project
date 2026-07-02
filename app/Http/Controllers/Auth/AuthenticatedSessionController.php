@@ -33,8 +33,8 @@ class AuthenticatedSessionController extends Controller
             return redirect()->intended(route('admin.dashboard', absolute: false));
         }
 
-        // Regular users go to admission form
-        return redirect()->intended(route('admission.create', absolute: false));
+        // Regular users go to student portal (not admission form directly)
+        return redirect()->intended(route('student.portal', absolute: false));
     }
 
     /**

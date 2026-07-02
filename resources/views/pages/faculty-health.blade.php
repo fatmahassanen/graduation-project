@@ -43,7 +43,7 @@
                 <h6 class="section-title bg-light text-center text-success px-3">Our Dean</h6>
                 <h2 class="mb-4 text-dark">{{ $dean->full_name }}</h2>
                 <p class="fs-5">"{{ Str::limit(explode("\n", $dean->welcome_text)[0], 150) }}"</p>
-                <a href="{{ route('dean2') }}" class="btn btn-success px-5 py-3 rounded-pill mt-3">Read More</a>
+                <a href="{{ route('dean2') }}" class="btn btn-success px-5 py-3 rounded-pill mt-3">Meet the Dean</a>
             </div>
         </div>
 

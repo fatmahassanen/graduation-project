@@ -32,7 +32,10 @@ class GalleryController extends Controller
 
         $imagePath = ImageProcessor::storeUploadedImage(
             $request->file('image'),
-            $request->boolean('image_cropped')
+            $request->boolean('image_cropped'),
+            400,
+            null,
+            true // Use original filename with timestamp
         );
 
         $title = $request->title;
@@ -80,7 +83,8 @@ class GalleryController extends Controller
                 $request->file('image'),
                 $request->boolean('image_cropped'),
                 400,
-                $gallery->image
+                $gallery->image,
+                true // Use original filename with timestamp
             );
 
             if (empty($data['title'])) {

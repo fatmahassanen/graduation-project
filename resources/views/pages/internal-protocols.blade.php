@@ -47,70 +47,103 @@
 
     .protocol-card {
         background: #fff;
-        border-left: 8px solid var(--purple);
         border-radius: 20px;
-        padding: 30px 40px;
         margin-bottom: 30px;
         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
         transition: all 0.4s ease;
         display: flex;
-        align-items: center;
-        gap: 30px;
+        overflow: hidden;
+        border: 1px solid rgba(124, 58, 237, 0.1);
     }
 
     .protocol-card:hover {
         transform: translateY(-8px);
-        box-shadow: 0 25px 50px rgba(124, 58, 237, 0.2);
-        border-left-color: #9333ea;
+        box-shadow: 0 25px 50px rgba(124, 58, 237, 0.25);
+        border-color: var(--purple);
     }
 
-    .protocol-logo {
+    .protocol-image-container {
         flex-shrink: 0;
-        width: 120px;
-        height: 120px;
-        border-radius: 15px;
+        width: 45%;
+        aspect-ratio: 16 / 9;
+        position: relative;
         overflow: hidden;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        background: #f8f9fa;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     }
 
-    .protocol-logo img {
+    .protocol-image-container::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(124, 58, 237, 0.05) 0%, rgba(147, 51, 234, 0.05) 100%);
+        pointer-events: none;
+    }
+
+    .protocol-card:hover .protocol-image-container::after {
+        background: linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(147, 51, 234, 0.1) 100%);
+    }
+
+    .protocol-image-container img {
         width: 100%;
         height: 100%;
-        object-fit: contain;
-        padding: 10px;
+        object-fit: cover;
+        transition: transform 0.4s ease;
     }
 
-    .protocol-logo i {
-        font-size: 3rem;
+    .protocol-card:hover .protocol-image-container img {
+        transform: scale(1.05);
+    }
+
+    .protocol-image-container i {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 5rem;
         color: var(--purple);
+        opacity: 0.3;
     }
 
     .protocol-content {
         flex: 1;
+        padding: 40px 45px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background: #fff;
+        min-width: 0;
     }
 
     .protocol-content h3 {
         color: var(--blue);
         font-weight: 800;
-        margin-bottom: 10px;
-        font-size: 1.5rem;
+        margin-bottom: 15px;
+        font-size: 1.7rem;
+        line-height: 1.3;
     }
 
     .protocol-org {
         color: var(--purple);
         font-weight: 600;
-        margin-bottom: 10px;
-        font-size: 1.1rem;
+        margin-bottom: 15px;
+        font-size: 1.15rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .protocol-org i {
+        font-size: 1.2rem;
     }
 
     .protocol-content p {
         color: #6c757d;
-        line-height: 1.8;
+        line-height: 1.9;
         margin: 0;
+        font-size: 1.05rem;
     }
 
     .empty-state {
@@ -140,16 +173,32 @@
         font-size: 1.1rem;
     }
 
+    @media (max-width: 992px) {
+        .protocol-image-container {
+            width: 50%;
+        }
+
+        .protocol-content {
+            padding: 30px;
+        }
+    }
+
     @media (max-width: 768px) {
         .protocol-card {
             flex-direction: column;
-            text-align: center;
+        }
+
+        .protocol-image-container {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+        }
+
+        .protocol-content {
             padding: 25px;
         }
 
-        .protocol-logo {
-            width: 100px;
-            height: 100px;
+        .protocol-content h3 {
+            font-size: 1.4rem;
         }
 
         .year-divider h2 {
@@ -184,7 +233,7 @@
                     <div class="col-12">
                         @foreach($yearProtocols as $protocol)
                             <div class="protocol-card">
-                                <div class="protocol-logo">
+                                <div class="protocol-image-container">
                                     @if($protocol->image)
                                         <img src="{{ asset($protocol->image) }}" alt="{{ $protocol->title }}">
                                     @else
@@ -195,7 +244,8 @@
                                     <h3>{{ $protocol->title }}</h3>
                                     @if($protocol->organization_name)
                                         <div class="protocol-org">
-                                            <i class="fas fa-building me-2"></i>{{ $protocol->organization_name }}
+                                            <i class="fas fa-building"></i>
+                                            <span>{{ $protocol->organization_name }}</span>
                                         </div>
                                     @endif
                                     @if($protocol->description)

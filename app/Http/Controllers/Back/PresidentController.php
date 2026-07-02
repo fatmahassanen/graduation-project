@@ -41,7 +41,8 @@ class PresidentController extends Controller
                 $request->file('image'),
                 $request->boolean('image_cropped'),
                 400,
-                $president->image
+                $president->image,
+                true // Use original filename with timestamp
             );
         }
 

@@ -17,9 +17,10 @@ trait HandlesImageUploads
         UploadedFile $file,
         ?string $oldPath = null,
         bool $wasCropped = false,
-        int $cropSize = 400
+        int $cropSize = 400,
+        bool $useOriginalName = true
     ): string {
-        return ImageProcessor::storeUploadedImage($file, $wasCropped, $cropSize, $oldPath);
+        return ImageProcessor::storeUploadedImage($file, $wasCropped, $cropSize, $oldPath, $useOriginalName);
     }
 
     protected function imageWasCropped(Request $request, string $field): bool

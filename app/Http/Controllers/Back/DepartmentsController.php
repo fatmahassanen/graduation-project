@@ -65,7 +65,8 @@ class DepartmentsController extends Controller
                 $request->file('image'),
                 $request->boolean('image_cropped'),
                 400,
-                $department->image
+                $department->image,
+                true // Use original filename with timestamp
             );
         }
 
