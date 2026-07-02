@@ -41,7 +41,8 @@ class DeansController extends Controller
                 $request->file('image'),
                 $request->boolean('image_cropped'),
                 400,
-                $dean->image
+                $dean->image,
+                true // Use original filename with timestamp
             );
         }
 

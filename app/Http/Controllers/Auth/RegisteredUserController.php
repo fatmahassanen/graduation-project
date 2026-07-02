@@ -68,7 +68,7 @@ class RegisteredUserController extends Controller
 
             Auth::login($user);
 
-            return redirect()->route('admission.create');
+            return redirect()->route('student.portal');
         } catch (\Exception $e) {
             \Log::error('User registration failed: '.$e->getMessage());
 

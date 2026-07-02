@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\FileUploadHelper;
 use App\Mail\AdmissionSubmitted;
 use App\Models\Admission;
 use App\Rules\DifferentFromField;
@@ -61,13 +62,17 @@ class AdmissionController extends Controller
             }
 
             // If Draft: Continue editing with current step
+            // Check if this draft originally was a rejected application (has reviewed_at but status is draft)
             if ($existingAdmission->status === 'draft') {
                 $governorates = NationalIdService::getGovernoratesForDropdown();
+                
+                // If reviewed_at exists but status is draft, this was a rejected application saved as draft
+                $wasRejected = $existingAdmission->reviewed_at !== null;
 
                 return view('admission.create', [
                     'governorates' => $governorates,
                     'admission' => $existingAdmission,
-                    'isReapplication' => false,
+                    'isReapplication' => $wasRejected,
                     'isDraft' => true,
                 ]);
             }
@@ -104,6 +109,12 @@ class AdmissionController extends Controller
         // Determine if this is a re-application (rejected status) or draft continuation
         $isReapplication = $existingAdmission && $existingAdmission->status === 'rejected';
         $isDraftContinuation = $existingAdmission && $existingAdmission->status === 'draft';
+        
+        // Check if this draft was originally a rejected application (has reviewed_at timestamp)
+        $isDraftFromRejection = $isDraftContinuation && $existingAdmission->reviewed_at !== null;
+        
+        // Treat draft from rejection as reapplication for file handling
+        $treatAsReapplication = $isReapplication || $isDraftFromRejection;
 
         // Validation rules - relaxed for drafts
         if ($isDraftSave) {
@@ -119,7 +130,7 @@ class AdmissionController extends Controller
                 'size:14',
                 'regex:/^\d{14}$/',
                 // Unique check: Ignore current user's existing admission
-                ($isReapplication || $isDraftContinuation)
+                ($treatAsReapplication)
                     ? 'unique:admissions,national_id,'.$existingAdmission->id
                     : 'unique:admissions,national_id',
             ],
@@ -148,10 +159,10 @@ class AdmissionController extends Controller
             ],
 
             // Documents - Only required if not re-applying or if user wants to change them
-            'student_photo' => ($isReapplication || $isDraftContinuation) ? 'nullable|image|mimes:jpeg,png,jpg|max:2048' : 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'birth_certificate' => ($isReapplication || $isDraftContinuation) ? 'nullable|file|mimes:pdf|max:5120' : 'required|file|mimes:pdf|max:5120',
-            'qualification_certificate' => ($isReapplication || $isDraftContinuation) ? 'nullable|file|mimes:pdf|max:5120' : 'required|file|mimes:pdf|max:5120',
-            'student_id_document' => ($isReapplication || $isDraftContinuation) ? 'nullable|file|mimes:pdf|max:5120' : 'required|file|mimes:pdf|max:5120',
+            'student_photo' => ($treatAsReapplication) ? 'nullable|image|mimes:jpeg,png,jpg|max:2048' : 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'birth_certificate' => ($treatAsReapplication) ? 'nullable|file|mimes:pdf|max:5120' : 'required|file|mimes:pdf|max:5120',
+            'qualification_certificate' => ($treatAsReapplication) ? 'nullable|file|mimes:pdf|max:5120' : 'required|file|mimes:pdf|max:5120',
+            'student_id_document' => ($treatAsReapplication) ? 'nullable|file|mimes:pdf|max:5120' : 'required|file|mimes:pdf|max:5120',
 
             // Parent Information
             'parent_name' => 'required|string|max:255',
@@ -160,7 +171,7 @@ class AdmissionController extends Controller
                 new EgyptianPhone,
             ],
             'father_occupation' => 'required|string|max:255',
-            'parent_id_document' => ($isReapplication || $isDraftContinuation) ? 'nullable|file|mimes:pdf|max:5120' : 'required|file|mimes:pdf|max:5120',
+            'parent_id_document' => ($treatAsReapplication) ? 'nullable|file|mimes:pdf|max:5120' : 'required|file|mimes:pdf|max:5120',
         ], [
             'national_id.required' => 'National ID is required.',
             'national_id.size' => 'National ID must be exactly 14 digits.',
@@ -220,47 +231,55 @@ class AdmissionController extends Controller
                 if ($request->hasFile('student_photo')) {
                     $data['student_photo'] = $this->processSmartImage(
                         $request->file('student_photo'),
-                        ($isReapplication || $isDraftContinuation) ? $existingAdmission->student_photo : null,
+                        ($treatAsReapplication) ? $existingAdmission->student_photo : null,
                         $this->imageWasCropped($request, 'student_photo')
                     );
-                } elseif (($isReapplication || $isDraftContinuation) && $existingAdmission->student_photo) {
+                } elseif (($treatAsReapplication) && $existingAdmission->student_photo) {
                     // Keep existing file
                     $data['student_photo'] = $existingAdmission->student_photo;
                 }
 
                 if ($request->hasFile('birth_certificate')) {
-                    if (($isReapplication || $isDraftContinuation) && $existingAdmission->birth_certificate) {
-                        Storage::disk('public')->delete($existingAdmission->birth_certificate);
-                    }
-                    $data['birth_certificate'] = $request->file('birth_certificate')->store('admissions/documents', 'public');
-                } elseif (($isReapplication || $isDraftContinuation) && $existingAdmission->birth_certificate) {
+                    $oldFile = ($treatAsReapplication) ? $existingAdmission->birth_certificate : null;
+                    $data['birth_certificate'] = FileUploadHelper::uploadWithOriginalName(
+                        $request->file('birth_certificate'),
+                        'admissions/documents',
+                        $oldFile
+                    );
+                } elseif (($treatAsReapplication) && $existingAdmission->birth_certificate) {
                     $data['birth_certificate'] = $existingAdmission->birth_certificate;
                 }
 
                 if ($request->hasFile('qualification_certificate')) {
-                    if (($isReapplication || $isDraftContinuation) && $existingAdmission->qualification_certificate) {
-                        Storage::disk('public')->delete($existingAdmission->qualification_certificate);
-                    }
-                    $data['qualification_certificate'] = $request->file('qualification_certificate')->store('admissions/documents', 'public');
-                } elseif (($isReapplication || $isDraftContinuation) && $existingAdmission->qualification_certificate) {
+                    $oldFile = ($treatAsReapplication) ? $existingAdmission->qualification_certificate : null;
+                    $data['qualification_certificate'] = FileUploadHelper::uploadWithOriginalName(
+                        $request->file('qualification_certificate'),
+                        'admissions/documents',
+                        $oldFile
+                    );
+                } elseif (($treatAsReapplication) && $existingAdmission->qualification_certificate) {
                     $data['qualification_certificate'] = $existingAdmission->qualification_certificate;
                 }
 
                 if ($request->hasFile('student_id_document')) {
-                    if (($isReapplication || $isDraftContinuation) && $existingAdmission->student_id_document) {
-                        Storage::disk('public')->delete($existingAdmission->student_id_document);
-                    }
-                    $data['student_id_document'] = $request->file('student_id_document')->store('admissions/documents', 'public');
-                } elseif (($isReapplication || $isDraftContinuation) && $existingAdmission->student_id_document) {
+                    $oldFile = ($treatAsReapplication) ? $existingAdmission->student_id_document : null;
+                    $data['student_id_document'] = FileUploadHelper::uploadWithOriginalName(
+                        $request->file('student_id_document'),
+                        'admissions/documents',
+                        $oldFile
+                    );
+                } elseif (($treatAsReapplication) && $existingAdmission->student_id_document) {
                     $data['student_id_document'] = $existingAdmission->student_id_document;
                 }
 
                 if ($request->hasFile('parent_id_document')) {
-                    if (($isReapplication || $isDraftContinuation) && $existingAdmission->parent_id_document) {
-                        Storage::disk('public')->delete($existingAdmission->parent_id_document);
-                    }
-                    $data['parent_id_document'] = $request->file('parent_id_document')->store('admissions/documents', 'public');
-                } elseif (($isReapplication || $isDraftContinuation) && $existingAdmission->parent_id_document) {
+                    $oldFile = ($treatAsReapplication) ? $existingAdmission->parent_id_document : null;
+                    $data['parent_id_document'] = FileUploadHelper::uploadWithOriginalName(
+                        $request->file('parent_id_document'),
+                        'admissions/documents',
+                        $oldFile
+                    );
+                } elseif (($treatAsReapplication) && $existingAdmission->parent_id_document) {
                     $data['parent_id_document'] = $existingAdmission->parent_id_document;
                 }
             } catch (\Exception $e) {
@@ -271,7 +290,7 @@ class AdmissionController extends Controller
             }
 
             // Create or Update admission record
-            if ($isReapplication || $isDraftContinuation) {
+            if ($treatAsReapplication) {
                 // Update existing record
                 $existingAdmission->update($data);
                 $admission = $existingAdmission;
@@ -305,7 +324,7 @@ class AdmissionController extends Controller
             DB::rollBack();
 
             // Delete uploaded files if any (only new uploads, not existing ones)
-            if (! ($isReapplication || $isDraftContinuation)) {
+            if (! ($treatAsReapplication)) {
                 $this->cleanupUploadedFiles($data);
             }
 
@@ -322,6 +341,12 @@ class AdmissionController extends Controller
      */
     private function saveDraft(Request $request, $existingAdmission = null): RedirectResponse
     {
+        // Check if user has pending or accepted application (shouldn't save draft)
+        if ($existingAdmission && in_array($existingAdmission->status, ['pending', 'accepted'])) {
+            return redirect()->route('student.portal')
+                ->with('error', 'You cannot save a draft when you have an active application.');
+        }
+
         // Minimal validation for draft - only validate what's provided
         $rules = [];
         
@@ -383,6 +408,16 @@ class AdmissionController extends Controller
                 'current_step' => $request->input('current_step', 1),
             ];
 
+            // If this was a rejected application, keep reviewed_at but clear rejection details
+            // This helps us identify that this draft originated from a rejected application
+            if ($existingAdmission && $existingAdmission->status === 'rejected') {
+                // Keep reviewed_at as a marker that this was previously reviewed/rejected
+                // But clear the rejection reason since user is re-editing
+                $data['rejection_reason'] = null;
+                $data['reviewed_by'] = null;
+                // Note: We DON'T clear reviewed_at - it serves as a flag for isReapplication logic
+            }
+
             // Add text fields if present
             $textFields = [
                 'national_id', 'birth_date', 'birth_governorate', 'gender',
@@ -413,10 +448,12 @@ class AdmissionController extends Controller
                 
                 foreach ($documentFields as $field) {
                     if ($request->hasFile($field)) {
-                        if ($existingAdmission && $existingAdmission->$field) {
-                            Storage::disk('public')->delete($existingAdmission->$field);
-                        }
-                        $data[$field] = $request->file($field)->store('admissions/documents', 'public');
+                        $oldFile = $existingAdmission?->$field;
+                        $data[$field] = FileUploadHelper::uploadWithOriginalName(
+                            $request->file($field),
+                            'admissions/documents',
+                            $oldFile
+                        );
                     } elseif ($existingAdmission && $existingAdmission->$field) {
                         $data[$field] = $existingAdmission->$field;
                     }
@@ -432,13 +469,17 @@ class AdmissionController extends Controller
             if ($existingAdmission) {
                 $existingAdmission->update($data);
                 $admission = $existingAdmission;
+                $message = $existingAdmission->status === 'rejected' 
+                    ? 'Draft saved successfully! You can continue editing and resubmit when ready.'
+                    : 'Draft saved successfully! You can continue later.';
             } else {
                 $admission = Admission::create($data);
+                $message = 'Draft saved successfully! You can continue later.';
             }
 
             DB::commit();
 
-            return back()->with('success', 'Draft saved successfully! You can continue later.');
+            return back()->with('success', $message);
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Draft save failed: '.$e->getMessage());

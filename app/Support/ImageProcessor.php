@@ -20,7 +20,8 @@ class ImageProcessor
         UploadedFile $file,
         bool $wasCropped,
         int $size = 400,
-        ?string $oldPath = null
+        ?string $oldPath = null,
+        bool $useOriginalName = false
     ): string {
         // #region agent log
         self::debugLog('ImageProcessor.php:storeUploadedImage:entry', 'Processing upload', [
@@ -29,6 +30,7 @@ class ImageProcessor
             'size' => $size,
             'mime' => $file->getMimeType(),
             'originalName' => $file->getClientOriginalName(),
+            'useOriginalName' => $useOriginalName,
         ]);
         // #endregion
 
@@ -45,7 +47,15 @@ class ImageProcessor
 
         $encoded = $image->encodeUsingFormat(Format::JPEG, quality: 80);
 
-        $filename = time().'_'.uniqid().'.jpg';
+        // Generate filename based on preference
+        if ($useOriginalName) {
+            $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            $cleanName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $originalName);
+            $filename = time().'_'.$cleanName.'.jpg';
+        } else {
+            $filename = time().'_'.uniqid().'.jpg';
+        }
+
         $relativePath = 'uploads/'.$filename;
         $absolutePath = public_path($relativePath);
 
@@ -61,6 +71,7 @@ class ImageProcessor
             'path' => $relativePath,
             'bytes' => file_exists($absolutePath) ? filesize($absolutePath) : 0,
             'wasCropped' => $wasCropped,
+            'useOriginalName' => $useOriginalName,
         ]);
         // #endregion
 

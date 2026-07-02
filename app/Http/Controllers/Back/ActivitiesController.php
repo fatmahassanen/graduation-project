@@ -41,7 +41,10 @@ class ActivitiesController extends Controller
         if ($request->hasFile('image')) {
             $data['image'] = ImageProcessor::storeUploadedImage(
                 $request->file('image'),
-                $request->boolean('image_cropped')
+                $request->boolean('image_cropped'),
+                400,
+                null,
+                true // Use original filename with timestamp
             );
         }
 
@@ -77,7 +80,8 @@ class ActivitiesController extends Controller
                 $request->file('image'),
                 $request->boolean('image_cropped'),
                 400,
-                $activity->image
+                $activity->image,
+                true // Use original filename with timestamp
             );
         }
 

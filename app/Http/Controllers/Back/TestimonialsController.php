@@ -70,7 +70,8 @@ class TestimonialsController extends Controller
                 $request->file('photo'),
                 $request->boolean('photo_cropped'),
                 400,
-                $testimonial->photo
+                $testimonial->photo,
+                true // Use original filename with timestamp
             );
         }
 

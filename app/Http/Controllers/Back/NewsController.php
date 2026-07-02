@@ -45,7 +45,10 @@ class NewsController extends Controller
         if ($request->hasFile('image')) {
             $data['image'] = ImageProcessor::storeUploadedImage(
                 $request->file('image'),
-                $request->boolean('image_cropped')
+                $request->boolean('image_cropped'),
+                400,
+                null,
+                true // Use original filename with timestamp
             );
         }
 
@@ -85,7 +88,8 @@ class NewsController extends Controller
                 $request->file('image'),
                 $request->boolean('image_cropped'),
                 400,
-                $news->image
+                $news->image,
+                true // Use original filename with timestamp
             );
         }
 

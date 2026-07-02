@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admission;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
@@ -151,7 +152,8 @@ class StudentPortalController extends Controller
                 $request->file('student_photo'),
                 $request->boolean('student_photo_cropped'),
                 400,
-                $admission->student_photo
+                $admission->student_photo,
+                true // Use original filename with timestamp
             );
 
             $admission->update([

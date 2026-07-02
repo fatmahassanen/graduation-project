@@ -22,8 +22,8 @@ class IsAdmin
 
         // Check if user has admin role
         if (auth()->user()->role !== 'admin') {
-            // Redirect non-admin users to admission form
-            return redirect()->route('admission.create')
+            // Redirect non-admin users to student portal
+            return redirect()->route('student.portal')
                 ->with('error', 'Unauthorized access. You do not have permission to access the admin panel.');
         }
 

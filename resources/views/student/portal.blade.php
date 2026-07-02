@@ -364,6 +364,33 @@
             </div>
         @endif
 
+        <!-- Error Message -->
+        @if(session('error'))
+            <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-lg no-print">
+                <div class="flex items-center">
+                    <i class="fas fa-exclamation-circle text-red-500 text-2xl mr-3"></i>
+                    <p class="text-red-700 font-medium">{{ session('error') }}</p>
+                </div>
+            </div>
+        @endif
+
+        <!-- Validation Errors -->
+        @if($errors->any())
+            <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-lg no-print">
+                <div class="flex items-start">
+                    <i class="fas fa-exclamation-triangle text-red-500 text-2xl mr-3 mt-1"></i>
+                    <div class="flex-1">
+                        <p class="text-red-700 font-medium mb-2">Please fix the following errors:</p>
+                        <ul class="list-disc list-inside text-red-600 space-y-1">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        @endif
+
         @if(!$admission)
             <!-- Empty State: No Application -->
             <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
@@ -450,407 +477,416 @@
                 </div>
             </div>
         @elseif($admission)
-            <!-- Premium Minimal Profile Card -->
-            <div class="card border-0 shadow-sm rounded-4 mb-4" style="background: #ffffff;">
-                <div class="card-body p-4">
-                    <div class="row align-items-center g-4">
-                        <!-- Left: Student Information -->
-                        <div class="col">
-                            <h4 class="mb-1 fw-bold" style="color: #212529; font-size: 1.25rem;">
-                                {{ $admission->full_name }}
-                            </h4>
-                            <p class="mb-2 font-monospace" style="color: #6c757d; font-size: 0.875rem;">
-                                <i class="fas fa-id-card me-1"></i>{{ $admission->national_id }}
-                            </p>
-                            
-                            <!-- Status Badge -->
-                            @if($admission->status === 'pending')
-                                <span class="badge rounded-pill px-3 py-2" style="background-color: #fff3cd; color: #856404; font-weight: 500; font-size: 0.813rem;">
-                                    <i class="fas fa-clock me-1"></i>Application Under Review
-                                </span>
-                            @elseif($admission->status === 'accepted')
-                                <span class="badge rounded-pill px-3 py-2" style="background-color: #d1e7dd; color: #0a3622; font-weight: 500; font-size: 0.813rem;">
-                                    <i class="fas fa-check-circle me-1"></i>Accepted
-                                </span>
-                            @elseif($admission->status === 'rejected')
-                                <span class="badge rounded-pill px-3 py-2" style="background-color: #f8d7da; color: #842029; font-weight: 500; font-size: 0.813rem;">
-                                    <i class="fas fa-times-circle me-1"></i>Rejected
-                                </span>
-                            @endif
-                            
-                            <!-- Student Code (if accepted) - Display below status badge -->
-                            @if($admission->status === 'accepted' && $admission->student_code)
-                            <div class="mt-3">
-                                <p class="mb-1 small" style="color: #6c757d; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;">
-                                    Student Code
+            <!-- Rejection Alert - Prominent Display -->
+            @if($admission->status === 'rejected' && $admission->rejection_reason)
+                <div class="bg-red-50 border-l-4 border-red-500 p-6 rounded-xl mb-6 shadow-sm">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <i class="fas fa-exclamation-triangle text-red-600 text-3xl"></i>
+                        </div>
+                        <div class="ml-4 flex-1">
+                            <h3 class="text-lg font-bold text-red-900 mb-2">Application Rejected</h3>
+                            <p class="text-sm font-semibold text-red-800 mb-1">Rejection Reason:</p>
+                            <p class="text-red-700 leading-relaxed">{{ $admission->rejection_reason }}</p>
+                            <div class="mt-4 flex items-center gap-3">
+                                <a href="{{ route('admission.create') }}"
+                                   class="inline-flex items-center px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition shadow-sm">
+                                    <i class="fas fa-redo mr-2"></i>
+                                    Resubmit Application
+                                </a>
+                                <p class="text-sm text-red-600">
+                                    <i class="fas fa-info-circle mr-1"></i>
+                                    Your previous data will be pre-filled
                                 </p>
-                                <div class="font-monospace fw-bold px-3 py-2 rounded d-inline-block" style="background: #f8f9fa; color: #212529; font-size: 1rem; letter-spacing: 1px;">
-                                    {{ $admission->student_code }}
-                                </div>
                             </div>
-                            @endif
                         </div>
+                    </div>
+                </div>
+            @endif
 
-                        <!-- Right: Profile Photo with Upload -->
-                        <div class="col-auto">
-                            <form action="{{ route('student.update-photo') }}" method="POST" enctype="multipart/form-data" id="photoUpdateForm" style="display: inline-block;">
-                                @csrf
-                                <!-- COMPLETELY HIDDEN FILE INPUT -->
-                                <input type="file" 
-                                       name="student_photo" 
-                                       id="profile_image_input" 
-                                       style="display: none !important; position: absolute !important; left: -9999px !important; width: 1px !important; height: 1px !important; opacity: 0 !important;" 
-                                       accept="image/jpeg,image/png,image/jpg"
-                                       onchange="handlePhotoUploadSimple(this);">
-                                
-                                <label for="profile_image_input" 
-                                       class="d-block position-relative profile-avatar-wrapper" 
-                                       style="cursor: pointer; width: 100px; height: 100px; margin: 0;"
-                                       title="Click to update photo"
-                                       id="profilePhotoDisplay">
-                                    @if($admission && $admission->student_photo)
-                                        <img src="{{ asset($admission->student_photo) }}" 
-                                             alt="Student Photo" 
-                                             class="rounded-circle border border-2" 
-                                             style="width: 100px; height: 100px; object-fit: cover; border-color: #e9ecef !important;">
-                                    @else
-                                        <div class="rounded-circle border border-2 d-flex align-items-center justify-content-center" 
-                                             style="width: 100px; height: 100px; background: #f8f9fa; border-color: #e9ecef !important;">
-                                            <i class="fas fa-user" style="font-size: 2.5rem; color: #adb5bd;"></i>
-                                        </div>
-                                    @endif
-                                    
-                                    <!-- Edit Icon Overlay -->
-                                    <div class="camera-icon-wrapper position-absolute bottom-0 end-0 bg-white rounded-circle d-flex align-items-center justify-content-center shadow-sm" 
-                                         style="width: 32px; height: 32px; border: 2px solid #f8f9fa; transition: all 0.3s ease;">
-                                        <i class="fas fa-camera" style="font-size: 12px; color: #6c757d; transition: all 0.3s ease;"></i>
-                                    </div>
-                                </label>
-                            </form>
+            <!-- Profile Card -->
+            <div class="bg-white shadow-sm rounded-xl border border-gray-100 p-6 mb-6">
+                <div class="flex items-center justify-between flex-wrap gap-4">
+                    <!-- Left: Student Information -->
+                    <div class="flex-1">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-2">
+                            {{ $admission->full_name }}
+                        </h2>
+                        <p class="text-gray-500 font-mono text-sm mb-3">
+                            <i class="fas fa-id-card mr-2"></i>{{ $admission->national_id }}
+                        </p>
+                        
+                        <!-- Status Badge -->
+                        @if($admission->status === 'pending')
+                            <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold bg-yellow-100 text-yellow-800">
+                                <i class="fas fa-clock mr-2"></i>Under Review
+                            </span>
+                        @elseif($admission->status === 'accepted')
+                            <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold bg-green-100 text-green-800">
+                                <i class="fas fa-check-circle mr-2"></i>Accepted
+                            </span>
+                        @elseif($admission->status === 'rejected')
+                            <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold bg-red-100 text-red-800">
+                                <i class="fas fa-times-circle mr-2"></i>Rejected
+                            </span>
+                        @endif
+                        
+                        <!-- Student Code (if accepted) -->
+                        @if($admission->status === 'accepted' && $admission->student_code)
+                        <div class="mt-4 inline-block">
+                            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">
+                                Student Code
+                            </p>
+                            <div class="font-mono font-bold px-4 py-2 rounded-lg bg-gray-100 text-gray-900 text-lg tracking-wider">
+                                {{ $admission->student_code }}
+                            </div>
                         </div>
+                        @endif
+                    </div>
+
+                    <!-- Right: Profile Photo with Upload -->
+                    <div class="flex-shrink-0">
+                        <form action="{{ route('student.update-photo') }}" 
+                              method="POST" 
+                              enctype="multipart/form-data" 
+                              id="photoUpdateForm">
+                            @csrf
+                            
+                            <!-- Hidden File Input -->
+                            <input type="file" 
+                                   name="student_photo" 
+                                   id="profile_image_input" 
+                                   class="hidden" 
+                                   accept="image/jpeg,image/png,image/jpg">
+                            
+                            <!-- Clickable Photo Label -->
+                            <label for="profile_image_input" 
+                                   id="profilePhotoDisplay"
+                                   class="profile-avatar-wrapper block relative cursor-pointer"
+                                   title="Click to update photo">
+                                @if($admission && $admission->student_photo)
+                                    <img src="{{ asset($admission->student_photo) }}" 
+                                         alt="Student Photo" 
+                                         class="w-24 h-24 rounded-full object-cover border-2 border-gray-200 transition">
+                                @else
+                                    <div class="w-24 h-24 rounded-full bg-gray-100 border-2 border-gray-200 flex items-center justify-center transition">
+                                        <i class="fas fa-user text-gray-400 text-3xl"></i>
+                                    </div>
+                                @endif
+                                
+                                <!-- Camera Icon Overlay -->
+                                <div class="absolute bottom-0 right-0 camera-icon-wrapper w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-md border-2 border-gray-100 transition">
+                                    <i class="fas fa-camera text-gray-600 text-xs transition"></i>
+                                </div>
+                            </label>
+                        </form>
                     </div>
                 </div>
             </div>
 
             <!-- Status Message Card -->
             @if($admission->status === 'pending')
-                <div class="card border-0 shadow-sm rounded-4 mb-4" style="background: #fff3cd; border-left: 4px solid #ffc107 !important;">
-                    <div class="card-body p-3">
-                        <div class="d-flex align-items-start">
-                            <i class="fas fa-info-circle me-3 mt-1" style="color: #856404; font-size: 1.25rem;"></i>
-                            <p class="mb-0" style="color: #856404; font-size: 0.938rem;">
-                                Your application is being reviewed by our admissions team. We'll notify you via email once a decision is made.
-                            </p>
-                        </div>
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-lg mb-6">
+                    <div class="flex items-start">
+                        <i class="fas fa-info-circle text-yellow-600 text-xl mr-3 mt-0.5"></i>
+                        <p class="text-yellow-800 text-sm leading-relaxed">
+                            Your application is being reviewed by our admissions team. We'll notify you via email once a decision is made.
+                        </p>
                     </div>
                 </div>
             @elseif($admission->status === 'accepted')
-                <div class="card border-0 shadow-sm rounded-4 mb-4" style="background: #d1e7dd; border-left: 4px solid #198754 !important;">
-                    <div class="card-body p-3">
-                        <div class="d-flex align-items-start">
-                            <i class="fas fa-check-circle me-3 mt-1" style="color: #0a3622; font-size: 1.25rem;"></i>
-                            <div>
-                                <p class="mb-1 fw-semibold" style="color: #0a3622; font-size: 1rem;">
-                                    Congratulations! Your application has been accepted.
-                                </p>
-                                <p class="mb-0" style="color: #0a3622; font-size: 0.875rem;">
-                                    Check your email for your Student Code and next steps.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @elseif($admission->status === 'rejected')
-                @if($admission->rejection_reason)
-                    <div class="card border-0 shadow-sm rounded-4 mb-3" style="background: #f8d7da; border-left: 4px solid #dc3545 !important;">
-                        <div class="card-body p-3">
-                            <div class="d-flex align-items-start">
-                                <i class="fas fa-exclamation-circle me-3 mt-1" style="color: #842029; font-size: 1.25rem;"></i>
-                                <div>
-                                    <p class="mb-1 fw-semibold" style="color: #842029; font-size: 0.938rem;">Rejection Reason:</p>
-                                    <p class="mb-0" style="color: #842029; font-size: 0.875rem;">{{ $admission->rejection_reason }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-                <div class="card border-0 shadow-sm rounded-4 mb-4" style="background: #cfe2ff; border-left: 4px solid #0d6efd !important;">
-                    <div class="card-body p-3">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div class="d-flex align-items-start flex-grow-1 me-3">
-                                <i class="fas fa-redo me-3 mt-1" style="color: #084298; font-size: 1.25rem;"></i>
-                                <p class="mb-0" style="color: #084298; font-size: 0.938rem;">
-                                    You can re-apply by fixing the issues mentioned above. Your previous data will be auto-filled to save time.
-                                </p>
-                            </div>
-                            <a href="{{ route('admission.create') }}"
-                               class="btn btn-sm shadow-sm" 
-                               style="background: #0d6efd; color: white; border: none; padding: 0.5rem 1.25rem; font-weight: 500; white-space: nowrap;">
-                                <i class="fas fa-redo me-2"></i>Re-apply Now
-                            </a>
+                <div class="bg-green-50 border-l-4 border-green-500 p-4 rounded-lg mb-6">
+                    <div class="flex items-start">
+                        <i class="fas fa-check-circle text-green-600 text-xl mr-3 mt-0.5"></i>
+                        <div>
+                            <p class="text-green-900 font-semibold mb-1">
+                                Congratulations! Your application has been accepted.
+                            </p>
+                            <p class="text-green-800 text-sm">
+                                Check your email for your Student Code and next steps.
+                            </p>
                         </div>
                     </div>
                 </div>
             @endif
 
+            <!-- Information Cards Grid -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <!-- Personal Information Card -->
-                <div class="info-card">
-                    <div class="card-header-gradient card-header-blue">
-                        <h3 class="text-xl font-bold flex items-center">
+                <div class="bg-white shadow-sm rounded-xl border border-gray-100 overflow-hidden">
+                    <div class="bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-4">
+                        <h3 class="text-lg font-bold text-white flex items-center">
                             <i class="fas fa-user-circle mr-3"></i>
                             Personal Information
                         </h3>
                     </div>
-                    <div class="p-6">
-                        <div class="info-row">
-                            <div class="info-icon">
-                                <i class="fas fa-id-card"></i>
+                    <div class="p-6 space-y-4">
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-id-card text-blue-600"></i>
                             </div>
-                            <div class="info-content">
-                                <div class="info-label">National ID</div>
-                                <div class="info-value font-mono">{{ $admission->national_id }}</div>
-                            </div>
-                        </div>
-
-                        <div class="info-row">
-                            <div class="info-icon">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div class="info-content">
-                                <div class="info-label">Email</div>
-                                <div class="info-value">{{ $admission->email }}</div>
+                            <div class="ml-4 flex-1">
+                                <div class="text-sm font-semibold text-gray-500">National ID</div>
+                                <div class="text-gray-900 font-mono">{{ $admission->national_id }}</div>
                             </div>
                         </div>
 
-                        <div class="info-row">
-                            <div class="info-icon">
-                                <i class="fas fa-phone"></i>
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-envelope text-blue-600"></i>
                             </div>
-                            <div class="info-content">
-                                <div class="info-label">Phone</div>
-                                <div class="info-value">{{ $admission->phone }}</div>
-                            </div>
-                        </div>
-
-                        <div class="info-row">
-                            <div class="info-icon">
-                                <i class="fas fa-birthday-cake"></i>
-                            </div>
-                            <div class="info-content">
-                                <div class="info-label">Birth Date</div>
-                                <div class="info-value">{{ $admission->birth_date->format('M d, Y') }}</div>
+                            <div class="ml-4 flex-1">
+                                <div class="text-sm font-semibold text-gray-500">Email</div>
+                                <div class="text-gray-900">{{ $admission->email }}</div>
                             </div>
                         </div>
 
-                        <div class="info-row">
-                            <div class="info-icon">
-                                <i class="fas fa-venus-mars"></i>
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-phone text-blue-600"></i>
                             </div>
-                            <div class="info-content">
-                                <div class="info-label">Gender</div>
-                                <div class="info-value">{{ ucfirst($admission->gender) }}</div>
+                            <div class="ml-4 flex-1">
+                                <div class="text-sm font-semibold text-gray-500">Phone</div>
+                                <div class="text-gray-900">{{ $admission->phone }}</div>
                             </div>
                         </div>
 
-                        <div class="info-row">
-                            <div class="info-icon">
-                                <i class="fas fa-pray"></i>
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-birthday-cake text-blue-600"></i>
                             </div>
-                            <div class="info-content">
-                                <div class="info-label">Religion</div>
-                                <div class="info-value">{{ $admission->religion }}</div>
+                            <div class="ml-4 flex-1">
+                                <div class="text-sm font-semibold text-gray-500">Birth Date</div>
+                                <div class="text-gray-900">{{ $admission->birth_date->format('M d, Y') }}</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-venus-mars text-blue-600"></i>
+                            </div>
+                            <div class="ml-4 flex-1">
+                                <div class="text-sm font-semibold text-gray-500">Gender</div>
+                                <div class="text-gray-900">{{ ucfirst($admission->gender) }}</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-pray text-blue-600"></i>
+                            </div>
+                            <div class="ml-4 flex-1">
+                                <div class="text-sm font-semibold text-gray-500">Religion</div>
+                                <div class="text-gray-900">{{ $admission->religion }}</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Address Information Card -->
-                <div class="info-card">
-                    <div class="card-header-gradient card-header-green">
-                        <h3 class="text-xl font-bold flex items-center">
+                <div class="bg-white shadow-sm rounded-xl border border-gray-100 overflow-hidden">
+                    <div class="bg-gradient-to-r from-green-500 to-green-600 px-6 py-4">
+                        <h3 class="text-lg font-bold text-white flex items-center">
                             <i class="fas fa-map-marker-alt mr-3"></i>
                             Address Information
                         </h3>
                     </div>
-                    <div class="p-6">
-                        <div class="info-row">
-                            <div class="info-icon">
-                                <i class="fas fa-map-pin"></i>
+                    <div class="p-6 space-y-4">
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-map-pin text-green-600"></i>
                             </div>
-                            <div class="info-content">
-                                <div class="info-label">Birth Governorate</div>
-                                <div class="info-value">{{ $admission->birth_governorate }}</div>
-                            </div>
-                        </div>
-
-                        <div class="info-row">
-                            <div class="info-icon">
-                                <i class="fas fa-building"></i>
-                            </div>
-                            <div class="info-content">
-                                <div class="info-label">Current Governorate</div>
-                                <div class="info-value">{{ $admission->current_governorate }}</div>
+                            <div class="ml-4 flex-1">
+                                <div class="text-sm font-semibold text-gray-500">Birth Governorate</div>
+                                <div class="text-gray-900">{{ $admission->birth_governorate }}</div>
                             </div>
                         </div>
 
-                        <div class="info-row">
-                            <div class="info-icon">
-                                <i class="fas fa-city"></i>
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-building text-green-600"></i>
                             </div>
-                            <div class="info-content">
-                                <div class="info-label">City/Center</div>
-                                <div class="info-value">{{ $admission->city_center }}</div>
-                            </div>
-                        </div>
-
-                        <div class="info-row">
-                            <div class="info-icon">
-                                <i class="fas fa-home"></i>
-                            </div>
-                            <div class="info-content">
-                                <div class="info-label">Village/District</div>
-                                <div class="info-value">{{ $admission->village_district }}</div>
+                            <div class="ml-4 flex-1">
+                                <div class="text-sm font-semibold text-gray-500">Current Governorate</div>
+                                <div class="text-gray-900">{{ $admission->current_governorate }}</div>
                             </div>
                         </div>
 
-                        <div class="info-row">
-                            <div class="info-icon">
-                                <i class="fas fa-road"></i>
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-city text-green-600"></i>
                             </div>
-                            <div class="info-content">
-                                <div class="info-label">Street Address</div>
-                                <div class="info-value">{{ $admission->street_address }}</div>
+                            <div class="ml-4 flex-1">
+                                <div class="text-sm font-semibold text-gray-500">City/Center</div>
+                                <div class="text-gray-900">{{ $admission->city_center }}</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-home text-green-600"></i>
+                            </div>
+                            <div class="ml-4 flex-1">
+                                <div class="text-sm font-semibold text-gray-500">Village/District</div>
+                                <div class="text-gray-900">{{ $admission->village_district }}</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-road text-green-600"></i>
+                            </div>
+                            <div class="ml-4 flex-1">
+                                <div class="text-sm font-semibold text-gray-500">Street Address</div>
+                                <div class="text-gray-900">{{ $admission->street_address }}</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Parent/Guardian Information Card -->
-                <div class="info-card">
-                    <div class="card-header-gradient card-header-purple">
-                        <h3 class="text-xl font-bold flex items-center">
+                <div class="bg-white shadow-sm rounded-xl border border-gray-100 overflow-hidden">
+                    <div class="bg-gradient-to-r from-purple-500 to-purple-600 px-6 py-4">
+                        <h3 class="text-lg font-bold text-white flex items-center">
                             <i class="fas fa-users mr-3"></i>
                             Parent/Guardian Information
                         </h3>
                     </div>
-                    <div class="p-6">
-                        <div class="info-row">
-                            <div class="info-icon">
-                                <i class="fas fa-user"></i>
+                    <div class="p-6 space-y-4">
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-user text-purple-600"></i>
                             </div>
-                            <div class="info-content">
-                                <div class="info-label">Parent Name</div>
-                                <div class="info-value">{{ $admission->parent_name }}</div>
-                            </div>
-                        </div>
-
-                        <div class="info-row">
-                            <div class="info-icon">
-                                <i class="fas fa-phone-alt"></i>
-                            </div>
-                            <div class="info-content">
-                                <div class="info-label">Parent Phone</div>
-                                <div class="info-value">{{ $admission->parent_phone }}</div>
+                            <div class="ml-4 flex-1">
+                                <div class="text-sm font-semibold text-gray-500">Parent Name</div>
+                                <div class="text-gray-900">{{ $admission->parent_name }}</div>
                             </div>
                         </div>
 
-                        <div class="info-row">
-                            <div class="info-icon">
-                                <i class="fas fa-briefcase"></i>
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-phone-alt text-purple-600"></i>
                             </div>
-                            <div class="info-content">
-                                <div class="info-label">Father's Occupation</div>
-                                <div class="info-value">{{ $admission->father_occupation }}</div>
+                            <div class="ml-4 flex-1">
+                                <div class="text-sm font-semibold text-gray-500">Parent Phone</div>
+                                <div class="text-gray-900">{{ $admission->parent_phone }}</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-briefcase text-purple-600"></i>
+                            </div>
+                            <div class="ml-4 flex-1">
+                                <div class="text-sm font-semibold text-gray-500">Father's Occupation</div>
+                                <div class="text-gray-900">{{ $admission->father_occupation }}</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Documents Card -->
-                <div class="info-card">
-                    <div class="card-header-gradient">
-                        <h3 class="text-xl font-bold flex items-center">
+                <div class="bg-white shadow-sm rounded-xl border border-gray-100 overflow-hidden">
+                    <div class="bg-gradient-to-r from-indigo-500 to-indigo-600 px-6 py-4">
+                        <h3 class="text-lg font-bold text-white flex items-center">
                             <i class="fas fa-file-alt mr-3"></i>
                             Uploaded Documents
                         </h3>
                     </div>
-                    <div class="p-6">
-                        <div class="document-item">
-                            <div class="document-icon">
-                                <i class="fas fa-check"></i>
+                    <div class="p-6 space-y-3">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-check text-green-600 text-sm"></i>
                             </div>
-                            <div class="document-info">
-                                <div class="document-name">Birth Certificate</div>
-                                <div class="document-date">Uploaded: {{ $admission->created_at->format('M d, Y') }}</div>
-                            </div>
-                        </div>
-
-                        <div class="document-item">
-                            <div class="document-icon">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div class="document-info">
-                                <div class="document-name">Qualification Certificate</div>
-                                <div class="document-date">Uploaded: {{ $admission->created_at->format('M d, Y') }}</div>
+                            <div class="ml-3 flex-1">
+                                <div class="text-gray-900 font-medium">Birth Certificate</div>
+                                <div class="text-xs text-gray-500">Uploaded: {{ $admission->created_at->format('M d, Y') }}</div>
                             </div>
                         </div>
 
-                        <div class="document-item">
-                            <div class="document-icon">
-                                <i class="fas fa-check"></i>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-check text-green-600 text-sm"></i>
                             </div>
-                            <div class="document-info">
-                                <div class="document-name">Student ID Document</div>
-                                <div class="document-date">Uploaded: {{ $admission->created_at->format('M d, Y') }}</div>
-                            </div>
-                        </div>
-
-                        <div class="document-item">
-                            <div class="document-icon">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div class="document-info">
-                                <div class="document-name">Parent ID Document</div>
-                                <div class="document-date">Uploaded: {{ $admission->created_at->format('M d, Y') }}</div>
+                            <div class="ml-3 flex-1">
+                                <div class="text-gray-900 font-medium">Qualification Certificate</div>
+                                <div class="text-xs text-gray-500">Uploaded: {{ $admission->created_at->format('M d, Y') }}</div>
                             </div>
                         </div>
 
-                        <div class="document-item">
-                            <div class="document-icon">
-                                <i class="fas fa-check"></i>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-check text-green-600 text-sm"></i>
                             </div>
-                            <div class="document-info">
-                                <div class="document-name">Student Photo</div>
-                                <div class="document-date">Uploaded: {{ $admission->created_at->format('M d, Y') }}</div>
+                            <div class="ml-3 flex-1">
+                                <div class="text-gray-900 font-medium">Student ID Document</div>
+                                <div class="text-xs text-gray-500">Uploaded: {{ $admission->created_at->format('M d, Y') }}</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-check text-green-600 text-sm"></i>
+                            </div>
+                            <div class="ml-3 flex-1">
+                                <div class="text-gray-900 font-medium">Parent ID Document</div>
+                                <div class="text-xs text-gray-500">Uploaded: {{ $admission->created_at->format('M d, Y') }}</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <i class="fas fa-check text-green-600 text-sm"></i>
+                            </div>
+                            <div class="ml-3 flex-1">
+                                <div class="text-gray-900 font-medium">Student Photo</div>
+                                <div class="text-xs text-gray-500">Uploaded: {{ $admission->created_at->format('M d, Y') }}</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Timeline Card -->
-                <div class="info-card lg:col-span-2">
-                    <div class="card-header-gradient">
-                        <h3 class="text-xl font-bold flex items-center">
+                <div class="bg-white shadow-sm rounded-xl border border-gray-100 overflow-hidden lg:col-span-2">
+                    <div class="bg-gradient-to-r from-gray-700 to-gray-800 px-6 py-4">
+                        <h3 class="text-lg font-bold text-white flex items-center">
                             <i class="fas fa-history mr-3"></i>
                             Application Timeline
                         </h3>
                     </div>
                     <div class="p-6">
-                        <div class="timeline">
-                            <div class="timeline-item">
-                                <div class="timeline-dot active"></div>
-                                <div class="timeline-content">
-                                    <div class="timeline-title">Application Submitted</div>
-                                    <div class="timeline-date">{{ $admission->created_at->format('M d, Y \a\t h:i A') }}</div>
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-check text-white"></i>
+                                    </div>
+                                </div>
+                                <div class="ml-4 flex-1">
+                                    <div class="text-gray-900 font-semibold">Application Submitted</div>
+                                    <div class="text-sm text-gray-500">{{ $admission->created_at->format('M d, Y \a\t h:i A') }}</div>
                                 </div>
                             </div>
 
                             @if($admission->reviewed_at)
-                            <div class="timeline-item">
-                                <div class="timeline-dot active"></div>
-                                <div class="timeline-content">
-                                    <div class="timeline-title">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <div class="w-10 h-10 
+                                        @if($admission->status === 'accepted') bg-green-500
+                                        @elseif($admission->status === 'rejected') bg-red-500
+                                        @else bg-gray-500
+                                        @endif
+                                        rounded-full flex items-center justify-center">
+                                        <i class="fas 
+                                            @if($admission->status === 'accepted') fa-check-circle
+                                            @elseif($admission->status === 'rejected') fa-times-circle
+                                            @else fa-eye
+                                            @endif
+                                            text-white"></i>
+                                    </div>
+                                </div>
+                                <div class="ml-4 flex-1">
+                                    <div class="text-gray-900 font-semibold">
                                         @if($admission->status === 'accepted')
                                             Application Accepted
                                         @elseif($admission->status === 'rejected')
@@ -859,15 +895,19 @@
                                             Application Reviewed
                                         @endif
                                     </div>
-                                    <div class="timeline-date">{{ $admission->reviewed_at->format('M d, Y \a\t h:i A') }}</div>
+                                    <div class="text-sm text-gray-500">{{ $admission->reviewed_at->format('M d, Y \a\t h:i A') }}</div>
                                 </div>
                             </div>
                             @else
-                            <div class="timeline-item">
-                                <div class="timeline-dot"></div>
-                                <div class="timeline-content">
-                                    <div class="timeline-title text-gray-400">Under Review</div>
-                                    <div class="timeline-date text-gray-400">Pending</div>
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0">
+                                    <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-clock text-gray-400"></i>
+                                    </div>
+                                </div>
+                                <div class="ml-4 flex-1">
+                                    <div class="text-gray-400 font-semibold">Under Review</div>
+                                    <div class="text-sm text-gray-400">Pending</div>
                                 </div>
                             </div>
                             @endif
@@ -878,17 +918,15 @@
                 <!-- Delete Button (Only for Pending) -->
                 @if($admission->status === 'pending')
                 <div class="lg:col-span-2 no-print">
-                    <div class="info-card border-2 border-red-200">
-                        <div class="p-6 text-center">
-                            <i class="fas fa-exclamation-triangle text-red-500 text-3xl mb-3"></i>
-                            <h4 class="text-lg font-bold text-gray-900 mb-2">Delete Application</h4>
-                            <p class="text-gray-600 mb-4">You can delete your application and submit a new one if needed.</p>
-                            <button onclick="showDeleteModal()"
-                                class="bg-red-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-red-700 transition">
-                                <i class="fas fa-trash-alt mr-2"></i>
-                                Delete Application
-                            </button>
-                        </div>
+                    <div class="bg-white shadow-sm rounded-xl border-2 border-red-200 p-6 text-center">
+                        <i class="fas fa-exclamation-triangle text-red-500 text-4xl mb-4"></i>
+                        <h4 class="text-lg font-bold text-gray-900 mb-2">Delete Application</h4>
+                        <p class="text-gray-600 mb-6">You can delete your application and submit a new one if needed.</p>
+                        <button onclick="showDeleteModal()"
+                            class="inline-flex items-center px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg transition shadow-sm">
+                            <i class="fas fa-trash-alt mr-2"></i>
+                            Delete Application
+                        </button>
                     </div>
                 </div>
                 @endif
@@ -1011,44 +1049,73 @@ document.addEventListener('click', function(event) {
         }
     });
     
-    // Simplified Photo Upload Handler with instant submission
-    function handlePhotoUploadSimple(input) {
-        if (input.files && input.files[0]) {
-            const file = input.files[0];
+    // Clean Photo Upload Handler with Debugging
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInput = document.getElementById('profile_image_input');
+        const form = document.getElementById('photoUpdateForm');
+        
+        if (fileInput && form) {
+            console.log('✓ Photo upload form initialized');
             
-            // Validate file type
-            const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-            if (!validTypes.includes(file.type)) {
-                alert('⚠️ Please upload a valid image file (JPEG, PNG, or JPG).\nالرجاء تحميل صورة صالحة (JPEG أو PNG أو JPG).');
-                input.value = '';
-                return;
-            }
-            
-            // Validate file size (max 2MB)
-            if (file.size > 2048 * 1024) {
-                alert('⚠️ File size must be less than 2MB.\nيجب أن يكون حجم الملف أقل من 2 ميجابايت.');
-                input.value = '';
-                return;
-            }
-            
-            // Show loading state
-            const photoDisplay = document.getElementById('profilePhotoDisplay');
-            if (photoDisplay) {
-                // Add minimal loading overlay
-                const overlay = document.createElement('div');
-                overlay.className = 'position-absolute top-0 start-0 d-flex align-items-center justify-content-center';
-                overlay.style.cssText = 'width: 100px; height: 100px; background: rgba(255, 255, 255, 0.95); border-radius: 50%; z-index: 10;';
-                overlay.innerHTML = '<i class="fas fa-spinner fa-spin" style="font-size: 1.5rem; color: #6c757d;"></i>';
+            fileInput.addEventListener('change', function(e) {
+                console.log('📸 File input changed');
                 
-                photoDisplay.appendChild(overlay);
-            }
-            
-            // Auto-submit the form
-            setTimeout(() => {
-                document.getElementById('photoUpdateForm').submit();
-            }, 300);
+                if (this.files && this.files[0]) {
+                    const file = this.files[0];
+                    console.log('📁 File details:', {
+                        name: file.name,
+                        size: file.size + ' bytes',
+                        type: file.type
+                    });
+                    
+                    // Validate file type
+                    const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+                    if (!validTypes.includes(file.type)) {
+                        console.error('❌ Invalid file type:', file.type);
+                        alert('⚠️ Please upload a valid image file (JPEG, PNG, or JPG).');
+                        this.value = '';
+                        return;
+                    }
+                    
+                    // Validate file size (max 2MB = 2097152 bytes)
+                    const maxSize = 2 * 1024 * 1024;
+                    if (file.size > maxSize) {
+                        console.error('❌ File too large:', file.size, 'bytes (max:', maxSize, 'bytes)');
+                        alert('⚠️ File size must be less than 2MB.');
+                        this.value = '';
+                        return;
+                    }
+                    
+                    console.log('✓ Validation passed');
+                    
+                    // Show loading overlay
+                    const photoDisplay = document.getElementById('profilePhotoDisplay');
+                    if (photoDisplay) {
+                        const overlay = document.createElement('div');
+                        overlay.id = 'uploadOverlay';
+                        overlay.className = 'absolute inset-0 flex items-center justify-center bg-white bg-opacity-90 rounded-full';
+                        overlay.innerHTML = '<i class="fas fa-spinner fa-spin text-2xl text-blue-600"></i>';
+                        photoDisplay.appendChild(overlay);
+                        console.log('✓ Loading overlay added');
+                    }
+                    
+                    // Submit form after a short delay
+                    console.log('📤 Submitting form...');
+                    setTimeout(function() {
+                        form.submit();
+                        console.log('✓ Form submitted');
+                    }, 500);
+                    
+                } else {
+                    console.log('⚠️ No file selected');
+                }
+            });
+        } else {
+            console.error('❌ Photo upload form elements not found!');
+            if (!fileInput) console.error('  - Missing: profile_image_input');
+            if (!form) console.error('  - Missing: photoUpdateForm');
         }
-    }
+    });
     </script>
     @endif
 </body>

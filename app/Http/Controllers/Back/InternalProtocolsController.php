@@ -48,7 +48,10 @@ class InternalProtocolsController extends Controller
         if ($request->hasFile('image')) {
             $protocol->image = ImageProcessor::storeUploadedImage(
                 $request->file('image'),
-                $request->boolean('image_cropped')
+                $request->boolean('image_cropped'),
+                400,
+                null,
+                true // Use original filename with timestamp
             );
         }
 
@@ -81,7 +84,8 @@ class InternalProtocolsController extends Controller
                 $request->file('image'),
                 $request->boolean('image_cropped'),
                 400,
-                $internalProtocol->image
+                $internalProtocol->image,
+                true // Use original filename with timestamp
             );
         }
 
