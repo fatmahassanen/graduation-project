@@ -974,6 +974,7 @@
             </form>
         </div>
     </div>
+    @endif
 
     <script>
         // تشغيل القفل والفتح عن طريق الـ ID المباشر
@@ -1117,6 +1118,5 @@ document.addEventListener('click', function(event) {
         }
     });
     </script>
-    @endif
 </body>
 </html>
