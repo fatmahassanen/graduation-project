@@ -192,7 +192,7 @@
             <div class="col-lg-10 wow fadeInUp" data-wow-delay="0.1s">
                 <div style="border-radius:20px;overflow:hidden;box-shadow:0 12px 40px rgba(24,29,56,0.14);">
                     <video class="w-100" autoplay muted loop controls style="max-height:440px;object-fit:cover;display:block;">
-                        <source src="{{ asset('img/videos/aboutNUCT.mp4') }}" type="video/mp4">
+                        <source src="{{ url('https://nctu.site/img/aboutNUCT.mp4') }}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                 </div>

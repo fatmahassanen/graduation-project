@@ -50,8 +50,9 @@
                 </label>
                 <input type="file" name="image" id="image" accept="image/*"
                     data-vibe-crop
-                    data-vibe-crop-width="400"
-                    data-vibe-crop-height="400"
+                    data-vibe-crop-width="880"
+                    data-vibe-crop-height="220"
+                    data-vibe-aspect-ratio="4"
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('image') border-red-500 @enderror">
                 <div id="image_preview" class="mt-3 hidden">
                     <img id="image_preview_img" src="" alt="Preview" style="object-fit: contain; max-width: 100%; max-height: 100%; border-radius: 12px; background: #f8f9fa; width: 120px; height: 120px;">

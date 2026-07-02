@@ -89,51 +89,73 @@
     }
     .protocol-card {
         background: #fff;
-        border-radius: 12px;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        border-radius: 16px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.08);
         overflow: hidden;
         transition: all 0.4s ease;
-        border: 1px solid #f0f0f0;
+        border: 1px solid rgba(208, 131, 1, 0.1);
     }
     .protocol-card:hover {
         transform: translateY(-10px);
-        box-shadow: 0 15px 40px rgba(26, 9, 110, 0.12);
+        box-shadow: 0 25px 50px rgba(26, 9, 110, 0.15);
         border-color: #D08301;
     }
     .protocol-img {
-        height: 180px;
-        background: #fafafa;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 25px;
+        height: 240px;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        position: relative;
+        overflow: hidden;
+    }
+    .protocol-img::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(208, 131, 1, 0.05) 0%, rgba(26, 9, 110, 0.05) 100%);
+        pointer-events: none;
+    }
+    .protocol-card:hover .protocol-img::after {
+        background: linear-gradient(135deg, rgba(208, 131, 1, 0.1) 0%, rgba(26, 9, 110, 0.1) 100%);
     }
     .protocol-img img {
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: contain;
-        filter: grayscale(20%);
-        transition: 0.4s;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
     }
-    .protocol-card:hover img {
-        filter: grayscale(0%);
-        transform: scale(1.05);
+    .protocol-card:hover .protocol-img img {
+        transform: scale(1.08);
     }
     .protocol-body {
-        padding: 25px;
-        border-top: 1px solid #f8f8f8;
+        padding: 30px;
+        background: #fff;
     }
     .protocol-body h5 {
         color: #1a096e;
         font-weight: 800;
-        font-size: 1.15rem;
+        font-size: 1.3rem;
         margin-bottom: 12px;
         line-height: 1.4;
     }
+    .protocol-body .text-warning {
+        color: #D08301 !important;
+        font-weight: 600;
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .protocol-body .text-warning::before {
+        content: '\f1ad';
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+    }
     .protocol-body p {
-        font-size: 0.92rem;
-        color: #555;
-        line-height: 1.6;
+        font-size: 0.98rem;
+        color: #6c757d;
+        line-height: 1.8;
         margin-bottom: 0;
     }
 </style>

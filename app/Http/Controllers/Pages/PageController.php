@@ -171,7 +171,7 @@ class PageController extends Controller
     {
         $protocols = InternalProtocol::where('is_active', true)
             ->orderBy('year', 'desc')
-            ->orderBy('order')
+            ->orderBy('created_at', 'desc')
             ->get()
             ->groupBy('year');
 
@@ -182,7 +182,7 @@ class PageController extends Controller
     {
         $protocols = ExternalProtocol::where('is_active', true)
             ->orderBy('year', 'desc')
-            ->orderBy('order')
+            ->orderBy('created_at', 'desc')
             ->get()
             ->groupBy('year');
 

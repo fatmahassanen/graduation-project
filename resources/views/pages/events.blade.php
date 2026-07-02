@@ -66,7 +66,7 @@
     box-shadow: 0 20px 45px rgba(24,29,56,0.14);
 }
 .e-card-img {
-    height: 220px;
+    height: 260px;
     overflow: hidden;
     position: relative;
 }

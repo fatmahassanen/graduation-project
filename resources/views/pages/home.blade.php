@@ -298,7 +298,7 @@
             <div class="col-lg-6 wow fadeInLeft" data-wow-delay="0.1s">
                 <div class="about-video-wrap">
                     <video controls>
-                        <source src="{{ asset('img/videos/about1.mp4') }}" type="video/mp4">
+                        <source src="{{ url('https://nctu.site/img/about1.mp4') }}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                 </div>

@@ -165,7 +165,7 @@
                 <div class="training-card-horizontal wow fadeInUp" data-wow-delay="{{ 0.1 * ($index % 3) }}s">
                     @if($training->image)
                         <div class="training-card-image-left">
-                            <img src="{{ asset('storage/' . $training->image) }}" alt="{{ $training->title }}">
+                            <img src="{{ asset($training->image) }}" alt="{{ $training->title }}" loading="lazy">
                         </div>
                     @endif
 

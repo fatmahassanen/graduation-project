@@ -57,6 +57,7 @@
     overflow: hidden;
     box-shadow: 0 4px 20px rgba(24,29,56,0.07);
     height: 100%;
+    min-height: 480px;
     display: flex;
     flex-direction: column;
     transition: transform 0.32s ease, box-shadow 0.32s ease;
@@ -71,6 +72,7 @@
     height: 220px;
     overflow: hidden;
     position: relative;
+    flex-shrink: 0;
 }
 .n-card-img img {
     width: 100%; height: 100%;
@@ -98,10 +100,11 @@
     border-radius: 20px;
 }
 .n-card-body {
-    padding: 22px 24px;
+    padding: 24px 26px;
     flex: 1;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 }
 .n-card-date {
     font-size: 0.75rem;
@@ -109,24 +112,37 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     display: flex;
     align-items: center;
     gap: 6px;
+    flex-shrink: 0;
 }
-.n-card-body h5 {
+.n-card-title {
     color: #181d38;
     font-weight: 700;
-    font-size: 1.02rem;
+    font-size: 1.05rem;
     line-height: 1.45;
-    margin-bottom: 10px;
-    flex: 1;
+    margin-bottom: 12px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 3rem;
+    flex-shrink: 0;
 }
-.n-card-body p {
+.n-card-description {
     color: #555;
     font-size: 0.88rem;
     line-height: 1.7;
-    margin-bottom: 0;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
 }
 
 /* Empty state */
@@ -179,12 +195,14 @@
                         </div>
                     @endif
                     <div class="n-card-body">
-                        <div class="n-card-date">
-                            <i class="fa fa-calendar-alt"></i>
-                            {{ $item->published_at ? $item->published_at->format('M d, Y') : $item->created_at->format('M d, Y') }}
+                        <div>
+                            <div class="n-card-date">
+                                <i class="fa fa-calendar-alt"></i>
+                                {{ $item->published_at ? $item->published_at->format('M d, Y') : $item->created_at->format('M d, Y') }}
+                            </div>
+                            <h5 class="n-card-title">{{ $item->title }}</h5>
                         </div>
-                        <h5>{{ $item->title }}</h5>
-                        <p>{{ Str::limit($item->excerpt, 110) }}</p>
+                        <p class="n-card-description">{{ $item->excerpt }}</p>
                     </div>
                 </div>
             </div>

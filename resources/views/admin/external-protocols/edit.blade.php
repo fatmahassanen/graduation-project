@@ -109,9 +109,9 @@
                     id="image"
                     accept="image/*"
                     data-vibe-crop="true"
-                    data-vibe-aspect-ratio="1"
-                    data-vibe-crop-width="400"
-                    data-vibe-crop-height="400"
+                    data-vibe-crop-width="800"
+                    data-vibe-crop-height="450"
+                    data-vibe-aspect-ratio="1.778"
                     class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 transition-all duration-200 p-2.5"
                 >
                 <div id="image_preview" class="mt-3 hidden">
