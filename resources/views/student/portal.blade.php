@@ -524,8 +524,14 @@
                     <!-- Photo -->
                     <form action="{{ route('student.update-photo') }}" method="POST" enctype="multipart/form-data" id="photoUpdateForm">
                         @csrf
-                        <input type="file" name="student_photo" id="profile_image_input"
-                               style="display:none;" accept="image/jpeg,image/png,image/jpg"
+                        <input type="file" 
+                               name="student_photo" 
+                               id="profile_image_input"
+                               data-vibe-crop
+                               data-vibe-crop-width="400"
+                               data-vibe-crop-height="400"
+                               style="display:none;" 
+                               accept="image/jpeg,image/png,image/jpg"
                                onchange="handlePhotoUploadSimple(this);">
                         <label for="profile_image_input" id="profilePhotoDisplay"
                                style="cursor:pointer;display:block;position:relative;width:110px;height:110px;flex-shrink:0;"
@@ -1050,72 +1056,54 @@ document.addEventListener('click', function(event) {
         }
     });
     
-    // Clean Photo Upload Handler with Debugging
-    document.addEventListener('DOMContentLoaded', function() {
-        const fileInput = document.getElementById('profile_image_input');
-        const form = document.getElementById('photoUpdateForm');
-        
-        if (fileInput && form) {
-            console.log('✓ Photo upload form initialized');
+    // Simplified Photo Upload Handler - DON'T auto-submit, let cropper handle it
+    function handlePhotoUploadSimple(input) {
+        // The vibe-cropper will handle the file automatically
+        // We just validate here
+        if (input.files && input.files[0]) {
+            const file = input.files[0];
             
-            fileInput.addEventListener('change', function(e) {
-                console.log('📸 File input changed');
-                
-                if (this.files && this.files[0]) {
-                    const file = this.files[0];
-                    console.log('📁 File details:', {
-                        name: file.name,
-                        size: file.size + ' bytes',
-                        type: file.type
-                    });
-                    
-                    // Validate file type
-                    const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-                    if (!validTypes.includes(file.type)) {
-                        console.error('❌ Invalid file type:', file.type);
-                        alert('⚠️ Please upload a valid image file (JPEG, PNG, or JPG).');
-                        this.value = '';
-                        return;
-                    }
-                    
-                    // Validate file size (max 2MB = 2097152 bytes)
-                    const maxSize = 2 * 1024 * 1024;
-                    if (file.size > maxSize) {
-                        console.error('❌ File too large:', file.size, 'bytes (max:', maxSize, 'bytes)');
-                        alert('⚠️ File size must be less than 2MB.');
-                        this.value = '';
-                        return;
-                    }
-                    
-                    console.log('✓ Validation passed');
-                    
-                    // Show loading overlay
-                    const photoDisplay = document.getElementById('profilePhotoDisplay');
-                    if (photoDisplay) {
-                        const overlay = document.createElement('div');
-                        overlay.id = 'uploadOverlay';
-                        overlay.className = 'absolute inset-0 flex items-center justify-center bg-white bg-opacity-90 rounded-full';
-                        overlay.innerHTML = '<i class="fas fa-spinner fa-spin text-2xl text-blue-600"></i>';
-                        photoDisplay.appendChild(overlay);
-                        console.log('✓ Loading overlay added');
-                    }
-                    
-                    // Submit form after a short delay
-                    console.log('📤 Submitting form...');
-                    setTimeout(function() {
-                        form.submit();
-                        console.log('✓ Form submitted');
-                    }, 500);
-                    
-                } else {
-                    console.log('⚠️ No file selected');
-                }
-            });
-        } else {
-            console.error('❌ Photo upload form elements not found!');
-            if (!fileInput) console.error('  - Missing: profile_image_input');
-            if (!form) console.error('  - Missing: photoUpdateForm');
+            // Validate file type
+            const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+            if (!validTypes.includes(file.type)) {
+                alert('⚠️ Please upload a valid image file (JPEG, PNG, or JPG).');
+                input.value = '';
+                return;
+            }
+            
+            // Validate file size (max 2MB)
+            if (file.size > 2048 * 1024) {
+                alert('⚠️ File size must be less than 2MB.');
+                input.value = '';
+                return;
+            }
+            
+            // Don't submit yet - let the cropper modal open first
+            // After cropping, the vibe-cropper:done event will trigger
         }
+    }
+    </script>
+    
+    @include('components.vibe-cropper-assets')
+    
+    <script>
+    // When cropper is done, auto-submit the form
+    document.getElementById('profile_image_input')?.addEventListener('vibe-cropper:done', function (event) {
+        console.log('✅ Cropper done, submitting form...');
+        
+        // Show loading state
+        const photoDisplay = document.getElementById('profilePhotoDisplay');
+        if (photoDisplay) {
+            const overlay = document.createElement('div');
+            overlay.style.cssText = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); display: flex; align-items: center; justify-content: center; border-radius: 50%;';
+            overlay.innerHTML = '<i class="fas fa-spinner fa-spin text-2xl text-blue-600"></i>';
+            photoDisplay.appendChild(overlay);
+        }
+        
+        // Submit the form with the cropped image
+        setTimeout(() => {
+            document.getElementById('photoUpdateForm').submit();
+        }, 300);
     });
     </script>
 </body>
