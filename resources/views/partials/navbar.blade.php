@@ -7,19 +7,6 @@
         transition: 0.3s;
     }
 
-    /* Dropdown headers spacing */
-    .dropdown-menu h5 {
-        margin-bottom: 12px;
-        font-size: 1.1rem;
-    }
-
-    /* Optional: add spacing between links */
-    .dropdown-links a {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: 500;
-    }
-
     /* Unified navbar link styling - applies to ALL nav items */
     .navbar-light .navbar-nav .nav-link,
     .navbar-light .navbar-nav .nav-item > a.nav-link {
@@ -294,32 +281,19 @@
             <!-- Contacts -->
             <a href="{{ route('contact') }}" class="nav-item nav-link {{ request()->routeIs('contact') ? 'active' : '' }}">{{ __('messages.contact') }}</a>
 
-            <!-- Dashboard/Profile Icon Button (Only visible when logged in) -->
+            <!-- Profile link (direct, no dropdown) -->
             @auth
-                <div class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle user-dropdown-btn" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="{{ auth()->user()->role === 'admin' ? 'Admin Dashboard' : 'My Profile' }}">
-                        <i class="fas {{ auth()->user()->role === 'admin' ? 'fa-tachometer-alt' : 'fa-user-circle' }}"></i>
-                        <span class="ms-1" style="font-size: 0.875rem;">{{ auth()->user()->name }}</span>
+                @if(auth()->user()->role === 'admin')
+                    <a href="{{ route('admin.dashboard') }}" class="nav-item nav-link user-dropdown-btn" title="Admin Dashboard">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span class="ms-1">{{ auth()->user()->name }}</span>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-end fade-down m-0" style="min-width: 200px;">
-                        @if(auth()->user()->role === 'admin')
-                            <a class="dropdown-item" href="{{ route('admin.dashboard') }}" style="color: #1a096e;">
-                                <i class="fas fa-tachometer-alt me-2"></i>{{ __('messages.dashboard') }}
-                            </a>
-                        @else
-                            <a class="dropdown-item" href="{{ route('student.portal') }}" style="color: #1a096e;">
-                                <i class="fas fa-user me-2"></i>{{ __('messages.my_profile') }}
-                            </a>
-                        @endif
-                        <div class="dropdown-divider"></div>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit" class="dropdown-item" style="color: #1a096e;">
-                                <i class="fas fa-sign-out-alt me-2"></i>{{ __('messages.logout') }}
-                            </button>
-                        </form>
-                    </div>
-                </div>
+                @else
+                    <a href="{{ route('student.portal') }}" class="nav-item nav-link user-dropdown-btn" title="My Profile">
+                        <i class="fas fa-user-circle"></i>
+                        <span class="ms-1">{{ auth()->user()->name }}</span>
+                    </a>
+                @endif
             @endauth
 
         </div>

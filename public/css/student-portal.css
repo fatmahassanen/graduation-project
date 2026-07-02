@@ -1,14 +1,44 @@
 /**
- * Student Portal - Digital ID Card Styles
+ * Student Portal - Redesigned CSS (University Brand Colors)
+ * Primary: #1a3a6e (Navy Blue)
+ * Accent:  #D08301  (Gold/Orange)
  */
 
-/* Circular Photo Frame */
+:root {
+    --sp-navy:  #1a3a6e;
+    --sp-blue:  #2356c7;
+    --sp-gold:  #D08301;
+    --sp-light: #f4f7fc;
+    --sp-white: #ffffff;
+    --sp-text:  #181d38;
+    --sp-muted: #6b7280;
+    --sp-border:#e5e9f2;
+}
+
+/* ── Page background ── */
+body {
+    background: var(--sp-light) !important;
+}
+
+/* ── Navbar brand logo ── */
+.brand-logo {
+    background: linear-gradient(135deg, var(--sp-navy) 0%, var(--sp-blue) 100%) !important;
+    border-radius: 10px !important;
+}
+
+/* ── User avatar initial circle ── */
+.user-avatar {
+    background: linear-gradient(135deg, var(--sp-navy) 0%, var(--sp-blue) 100%) !important;
+    border: 2px solid var(--sp-border) !important;
+}
+
+/* ── Student Photo Frame ── */
 .student-photo-frame {
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    border: 5px solid #fff;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border: 4px solid var(--sp-gold);
+    box-shadow: 0 8px 24px rgba(26,58,110,0.2);
     object-fit: cover;
     margin: 0 auto;
 }
@@ -17,285 +47,235 @@
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, var(--sp-navy) 0%, var(--sp-blue) 100%);
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto;
-    border: 5px solid #fff;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border: 4px solid var(--sp-gold);
+    box-shadow: 0 8px 24px rgba(26,58,110,0.2);
 }
 
-/* Status Badges */
-.status-badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 1rem 2rem;
-    border-radius: 9999px;
-    font-size: 1.25rem;
-    font-weight: 700;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    animation: pulse 2s infinite;
-}
+/* ── Status badges (inline pill) ── */
+.status-pending  { background: #fff3cd !important; color: #856404 !important; }
+.status-accepted { background: #d1e7dd !important; color: #0a3622 !important; }
+.status-rejected { background: #f8d7da !important; color: #842029 !important; }
 
-.status-pending {
-    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-    color: #78350f;
-}
-
-.status-accepted {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    color: #064e3b;
-}
-
-.status-rejected {
-    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-    color: #7f1d1d;
-}
-
-@keyframes pulse {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.05);
-    }
-}
-
-/* Info Cards - Minimal White Design */
+/* ── Info Cards ── */
 .info-card {
-    background: #fff;
-    border-radius: 0.75rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
+    background: var(--sp-white);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(24,29,56,0.07);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     overflow: hidden;
-    border: 1px solid #e9ecef;
+    border: 1px solid var(--sp-border);
 }
 
 .info-card:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transform: translateY(-2px);
+    box-shadow: 0 10px 32px rgba(24,29,56,0.12);
+    transform: translateY(-4px);
 }
 
+/* Card headers — use navy accent instead of white */
 .card-header-gradient {
-    background: #ffffff;
-    padding: 1.25rem 1.5rem;
-    color: #212529;
-    border-bottom: 1px solid #e9ecef;
+    background: linear-gradient(135deg, var(--sp-navy) 0%, var(--sp-blue) 100%);
+    padding: 16px 24px;
+    color: #fff;
+    border-bottom: none;
 }
 
 .card-header-gradient h3 {
     font-size: 1rem;
-    font-weight: 600;
-    color: #212529;
+    font-weight: 700;
+    color: #fff !important;
     margin: 0;
 }
 
 .card-header-gradient h3 i {
-    color: #6c757d;
-    font-size: 1rem;
+    color: var(--sp-gold) !important;
+    margin-right: 10px;
 }
 
-.card-header-blue,
-.card-header-purple,
+.card-header-blue {
+    background: linear-gradient(135deg, #1a3a6e 0%, #2356c7 100%) !important;
+}
+
 .card-header-green {
-    background: #ffffff;
-    border-bottom: 1px solid #e9ecef;
+    background: linear-gradient(135deg, #0f5132 0%, #198754 100%) !important;
 }
 
-/* Info Row - Minimal Design */
+.card-header-purple {
+    background: linear-gradient(135deg, #3a0ca3 0%, #7209b7 100%) !important;
+}
+
+/* ── Info Rows ── */
 .info-row {
     display: flex;
     align-items: flex-start;
-    padding: 1rem 1.5rem;
-    border-bottom: 1px solid #f8f9fa;
+    padding: 14px 22px;
+    border-bottom: 1px solid #f1f5fb;
 }
-
-.info-row:last-child {
-    border-bottom: none;
-}
+.info-row:last-child { border-bottom: none; }
 
 .info-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 0.5rem;
-    background: #f8f9fa;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: #eef2fb;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 1rem;
+    margin-right: 14px;
     flex-shrink: 0;
 }
-
-.info-icon i {
-    color: #6c757d;
-    font-size: 1rem;
-}
-
-.info-content {
-    flex: 1;
-}
+.info-icon i { color: var(--sp-navy); font-size: 0.95rem; }
 
 .info-label {
-    font-size: 0.813rem;
-    color: #6c757d;
-    font-weight: 500;
-    margin-bottom: 0.25rem;
+    font-size: 0.75rem;
+    color: var(--sp-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 3px;
 }
-
 .info-value {
-    font-size: 0.938rem;
-    color: #212529;
+    font-size: 0.93rem;
+    color: var(--sp-text);
     font-weight: 600;
 }
 
-/* Timeline Component - Minimal Design */
-.timeline {
-    position: relative;
-    padding-left: 2rem;
-}
-
+/* ── Timeline ── */
+.timeline { position: relative; padding-left: 2rem; }
 .timeline::before {
     content: '';
     position: absolute;
-    left: 0.5rem;
-    top: 0;
-    bottom: 0;
+    left: 0.5rem; top: 0; bottom: 0;
     width: 2px;
-    background: #dee2e6;
+    background: var(--sp-border);
 }
-
-.timeline-item {
-    position: relative;
-    padding-bottom: 1.5rem;
-}
-
-.timeline-item:last-child {
-    padding-bottom: 0;
-}
-
+.timeline-item { position: relative; padding-bottom: 1.5rem; }
+.timeline-item:last-child { padding-bottom: 0; }
 .timeline-dot {
     position: absolute;
-    left: -1.5rem;
-    top: 0.25rem;
-    width: 1rem;
-    height: 1rem;
+    left: -1.5rem; top: 0.25rem;
+    width: 1rem; height: 1rem;
     border-radius: 50%;
-    background: #dee2e6;
-    border: 3px solid #fff;
-    box-shadow: 0 0 0 2px #f8f9fa;
+    background: var(--sp-border);
+    border: 3px solid var(--sp-white);
+    box-shadow: 0 0 0 2px var(--sp-light);
 }
-
 .timeline-dot.active {
-    background: #198754;
-    box-shadow: 0 0 0 2px #d1e7dd;
+    background: var(--sp-gold);
+    box-shadow: 0 0 0 3px rgba(208,131,1,0.2);
 }
+.timeline-content { padding-left: 1rem; }
+.timeline-title { font-weight: 700; color: var(--sp-text); margin-bottom: 3px; font-size: 0.93rem; }
+.timeline-date  { font-size: 0.8rem; color: var(--sp-muted); }
 
-.timeline-content {
-    padding-left: 1rem;
-}
-
-.timeline-title {
-    font-weight: 600;
-    color: #212529;
-    margin-bottom: 0.25rem;
-    font-size: 0.938rem;
-}
-
-.timeline-date {
-    font-size: 0.813rem;
-    color: #6c757d;
-}
-
-/* Document Status - Minimal Design */
+/* ── Documents ── */
 .document-item {
     display: flex;
     align-items: center;
-    padding: 0.875rem 1.5rem;
-    background: #f8f9fa;
-    border-radius: 0.5rem;
-    margin-bottom: 0.5rem;
-    border: 1px solid #e9ecef;
+    padding: 12px 18px;
+    background: #f8faff;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    border: 1px solid var(--sp-border);
+    transition: background 0.2s;
 }
-
-.document-item:last-child {
-    margin-bottom: 0;
-}
-
+.document-item:hover { background: #eef3ff; }
+.document-item:last-child { margin-bottom: 0; }
 .document-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 0.5rem;
-    background: #d1e7dd;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 1rem;
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--sp-navy), var(--sp-blue));
+    display: flex; align-items: center; justify-content: center;
+    margin-right: 14px; flex-shrink: 0;
 }
+.document-icon i { color: #fff; font-size: 0.9rem; }
+.document-name { font-weight: 700; color: var(--sp-text); font-size: 0.875rem; }
+.document-date { font-size: 0.75rem; color: var(--sp-muted); }
 
-.document-icon i {
-    color: #198754;
-    font-size: 1rem;
-}
-
-.document-info {
-    flex: 1;
-}
-
-.document-name {
-    font-weight: 600;
-    color: #212529;
-    font-size: 0.875rem;
-}
-
-.document-date {
-    font-size: 0.75rem;
-    color: #6c757d;
-}
-
-/* Student Code Display */
+/* ── Student Code ── */
 .student-code {
     font-family: 'Courier New', monospace;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 700;
-    color: #2563eb;
-    letter-spacing: 0.1em;
+    color: var(--sp-navy);
+    letter-spacing: 0.12em;
     text-align: center;
-    padding: 1rem;
-    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-    border-radius: 0.5rem;
-    margin: 1rem 0;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, #e8edf8 0%, #d6e0f5 100%);
+    border-radius: 10px;
+    margin: 12px 0;
+    border: 2px solid rgba(26,58,110,0.15);
 }
 
-/* Responsive Design */
+/* ── Action Buttons (Tailwind overrides) ── */
+.btn-portal-primary {
+    background: linear-gradient(135deg, var(--sp-navy), var(--sp-blue));
+    color: #fff;
+    font-weight: 700;
+    border-radius: 8px;
+    padding: 12px 28px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.btn-portal-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(26,58,110,0.3);
+    color: #fff;
+}
+
+.btn-portal-gold {
+    background: var(--sp-gold);
+    color: #fff;
+    font-weight: 700;
+    border-radius: 8px;
+    padding: 12px 28px;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.btn-portal-gold:hover {
+    background: #b36e00;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(208,131,1,0.3);
+    color: #fff;
+}
+
+/* ── Profile card (the top summary card) ── */
+.card.border-0.shadow-sm.rounded-4 {
+    border-radius: 16px !important;
+    box-shadow: 0 4px 20px rgba(24,29,56,0.08) !important;
+}
+
+/* ── Empty state / no application ── */
+.bg-gradient-to-r.from-indigo-600 {
+    background: linear-gradient(135deg, var(--sp-navy) 0%, var(--sp-blue) 100%) !important;
+}
+
+/* ── Responsive ── */
 @media (max-width: 768px) {
     .student-photo-frame,
-    .photo-placeholder {
-        width: 120px;
-        height: 120px;
-    }
-
-    .status-badge {
-        font-size: 1rem;
-        padding: 0.75rem 1.5rem;
-    }
-
-    .info-icon {
-        width: 35px;
-        height: 35px;
-    }
-
-    .student-code {
-        font-size: 1.25rem;
-    }
+    .photo-placeholder { width: 110px; height: 110px; }
+    .info-icon { width: 34px; height: 34px; }
+    .student-code { font-size: 1.1rem; }
+    .card-header-gradient { padding: 14px 18px; }
 }
 
-/* Print Styles (for future use) */
+/* ── Print ── */
 @media print {
-    .no-print {
-        display: none !important;
-    }
-
+    .no-print { display: none !important; }
     .info-card {
         page-break-inside: avoid;
         box-shadow: none;
