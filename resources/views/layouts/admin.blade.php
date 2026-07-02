@@ -175,7 +175,6 @@
                     $routeName = Route::currentRouteName();
                     $frontendUrl = '/';
                     
-                    // Map admin routes to frontend routes
                     if (str_contains($routeName, 'admin.events')) {
                         $frontendUrl = route('events');
                     } elseif (str_contains($routeName, 'admin.news')) {
@@ -191,12 +190,11 @@
                     } elseif (str_contains($routeName, 'admin.president')) {
                         $frontendUrl = route('president');
                     } elseif (str_contains($routeName, 'admin.deans')) {
-                        // Check if editing a specific dean
                         if (request()->route('dean')) {
                             $deanOrder = request()->route('dean')->order;
                             $frontendUrl = route('dean' . $deanOrder);
                         } else {
-                            $frontendUrl = route('dean1'); // Default to dean1
+                            $frontendUrl = route('dean1');
                         }
                     } elseif (str_contains($routeName, 'admin.external-protocols')) {
                         $frontendUrl = route('externalprotocols');
@@ -212,20 +210,20 @@
                         $frontendUrl = route('home');
                     }
                 @endphp
-                
+
                 <a href="{{ $frontendUrl }}" class="flex items-center gap-2 px-4 py-2 border-2 border-blue-600 text-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition-all duration-200 font-medium text-sm">
                     <i class="fas fa-external-link-alt"></i>
                     <span class="hidden sm:inline">View Website</span>
                 </a>
 
-                <!-- Logout Button -->
-                {{-- <form method="POST" action="{{ route('logout') }}" class="inline" onsubmit="return confirm('Are you sure you want to log out?');">
+                <!-- Logout -->
+                <form method="POST" action="{{ route('logout') }}" class="inline">
                     @csrf
                     <button type="submit" class="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all duration-200 font-medium text-sm">
                         <i class="fas fa-sign-out-alt"></i>
                         <span class="hidden sm:inline">Logout</span>
                     </button>
-                </form> --}}
+                </form>
             </div>
         </div>
     </header>

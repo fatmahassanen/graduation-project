@@ -18,18 +18,18 @@
     <style>
         /* Premium Minimal Navbar Styles */
         .navbar-minimal {
-            background: #ffffff;
-            border-bottom: 1px solid #e9ecef;
+            background: linear-gradient(135deg, #1a3a6e 0%, #2356c7 100%);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
         .navbar-shadow {
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 16px rgba(26,58,110,0.3);
         }
 
         .nav-link {
             position: relative;
             transition: all 0.3s ease;
-            color: #495057;
+            color: rgba(255,255,255,0.85);
             font-weight: 500;
             font-size: 0.938rem;
             padding: 0.5rem 1rem;
@@ -37,12 +37,12 @@
         }
 
         .nav-link:hover {
-            background: #f8f9fa;
-            color: #212529;
+            background: rgba(255,255,255,0.12);
+            color: #ffffff;
         }
 
         .nav-link i {
-            color: #6c757d;
+            color: rgba(255,255,255,0.7);
             margin-right: 0.5rem;
         }
 
@@ -50,24 +50,24 @@
             width: 38px;
             height: 38px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1a3a6e 0%, #2356c7 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 600;
             color: white;
             font-size: 0.875rem;
-            border: 2px solid #e9ecef;
+            border: 2px solid rgba(255,255,255,0.3);
         }
 
         .user-info-text {
-            color: #212529;
+            color: #ffffff;
             font-weight: 600;
             font-size: 0.875rem;
         }
 
         .user-status-text {
-            color: #6c757d;
+            color: rgba(255,255,255,0.65);
             font-size: 0.75rem;
         }
 
@@ -143,26 +143,27 @@
             width: 40px;
             height: 40px;
             border-radius: 0.5rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.2);
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
         .brand-logo i {
-            color: white;
+            color: #D08301;
             font-size: 1.25rem;
         }
 
         .brand-text {
-            color: #212529;
+            color: #ffffff;
             font-weight: 700;
             font-size: 1.125rem;
             line-height: 1.2;
         }
 
         .brand-subtext {
-            color: #6c757d;
+            color: rgba(255,255,255,0.65);
             font-size: 0.75rem;
         }
 
@@ -255,14 +256,14 @@
                         <span>Home</span>
                     </a>
 
-                    <!-- User Profile Info (No Dropdown) -->
+                    <!-- User Profile Info with Logout -->
                     <div class="flex items-center" style="gap: 0.75rem; padding: 0.375rem 0.75rem; margin-left: 1rem;">
                         <!-- Dynamic Profile Avatar -->
                         @if($admission && $admission->student_photo)
                             <img src="{{ asset($admission->student_photo) }}" 
                                  alt="{{ auth()->user()->name }}" 
                                  class="rounded-full object-cover" 
-                                 style="width: 38px; height: 38px; border: 2px solid #e9ecef;">
+                                 style="width: 38px; height: 38px; border: 2px solid #D08301;">
                         @else
                             <div class="user-avatar">
                                 {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
@@ -278,6 +279,15 @@
                             </p>
                             @endif
                         </div>
+
+                        <!-- Logout Button -->
+                        <form method="POST" action="{{ route('logout') }}" class="ml-2">
+                            @csrf
+                            <button type="submit" style="background:#fff;color:#1a3a6e;border:2px solid rgba(255,255,255,0.4);padding:8px 16px;border-radius:8px;font-size:0.82rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all 0.2s;" onmouseover="this.style.background='#D08301';this.style.color='#fff';this.style.borderColor='#D08301'" onmouseout="this.style.background='#fff';this.style.color='#1a3a6e';this.style.borderColor='rgba(255,255,255,0.4)'">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span class="hidden lg:inline">Logout</span>
+                            </button>
+                        </form>
                     </div>
                 </div>
 
@@ -367,7 +377,7 @@
         @if(!$admission)
             <!-- Empty State: No Application -->
             <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
-                <div class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 px-8 py-16 text-center">
+                <div class="bg-gradient-to-r from-blue-900 via-blue-700 to-blue-600 px-8 py-16 text-center" style="background: linear-gradient(135deg, #1a3a6e 0%, #2356c7 100%) !important;">
                     <div class="inline-block p-6 bg-white bg-opacity-20 rounded-full mb-6">
                         <i class="fas fa-file-alt text-white text-6xl"></i>
                     </div>
@@ -450,85 +460,73 @@
                 </div>
             </div>
         @elseif($admission)
-            <!-- Premium Minimal Profile Card -->
-            <div class="card border-0 shadow-sm rounded-4 mb-4" style="background: #ffffff;">
-                <div class="card-body p-4">
-                    <div class="row align-items-center g-4">
-                        <!-- Left: Student Information -->
-                        <div class="col">
-                            <h4 class="mb-1 fw-bold" style="color: #212529; font-size: 1.25rem;">
-                                {{ $admission->full_name }}
-                            </h4>
-                            <p class="mb-2 font-monospace" style="color: #6c757d; font-size: 0.875rem;">
-                                <i class="fas fa-id-card me-1"></i>{{ $admission->national_id }}
-                            </p>
-                            
-                            <!-- Status Badge -->
-                            @if($admission->status === 'pending')
-                                <span class="badge rounded-pill px-3 py-2" style="background-color: #fff3cd; color: #856404; font-weight: 500; font-size: 0.813rem;">
-                                    <i class="fas fa-clock me-1"></i>Application Under Review
-                                </span>
-                            @elseif($admission->status === 'accepted')
-                                <span class="badge rounded-pill px-3 py-2" style="background-color: #d1e7dd; color: #0a3622; font-weight: 500; font-size: 0.813rem;">
-                                    <i class="fas fa-check-circle me-1"></i>Accepted
-                                </span>
-                            @elseif($admission->status === 'rejected')
-                                <span class="badge rounded-pill px-3 py-2" style="background-color: #f8d7da; color: #842029; font-weight: 500; font-size: 0.813rem;">
-                                    <i class="fas fa-times-circle me-1"></i>Rejected
-                                </span>
-                            @endif
-                            
-                            <!-- Student Code (if accepted) - Display below status badge -->
-                            @if($admission->status === 'accepted' && $admission->student_code)
-                            <div class="mt-3">
-                                <p class="mb-1 small" style="color: #6c757d; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;">
-                                    Student Code
-                                </p>
-                                <div class="font-monospace fw-bold px-3 py-2 rounded d-inline-block" style="background: #f8f9fa; color: #212529; font-size: 1rem; letter-spacing: 1px;">
-                                    {{ $admission->student_code }}
-                                </div>
-                            </div>
-                            @endif
-                        </div>
+            <!-- ===== HERO PROFILE CARD ===== -->
+            <div style="background: linear-gradient(135deg, #1a3a6e 0%, #2356c7 100%); border-radius: 20px; padding: 32px 36px; margin-bottom: 24px; position: relative; overflow: hidden; box-shadow: 0 8px 32px rgba(26,58,110,0.25);">
+                <!-- decorative circles -->
+                <div style="position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:rgba(255,255,255,0.06);border-radius:50%;"></div>
+                <div style="position:absolute;bottom:-40px;left:-40px;width:150px;height:150px;background:rgba(255,255,255,0.04);border-radius:50%;"></div>
 
-                        <!-- Right: Profile Photo with Upload -->
-                        <div class="col-auto">
-                            <form action="{{ route('student.update-photo') }}" method="POST" enctype="multipart/form-data" id="photoUpdateForm" style="display: inline-block;">
-                                @csrf
-                                <!-- COMPLETELY HIDDEN FILE INPUT -->
-                                <input type="file" 
-                                       name="student_photo" 
-                                       id="profile_image_input" 
-                                       style="display: none !important; position: absolute !important; left: -9999px !important; width: 1px !important; height: 1px !important; opacity: 0 !important;" 
-                                       accept="image/jpeg,image/png,image/jpg"
-                                       onchange="handlePhotoUploadSimple(this);">
-                                
-                                <label for="profile_image_input" 
-                                       class="d-block position-relative profile-avatar-wrapper" 
-                                       style="cursor: pointer; width: 100px; height: 100px; margin: 0;"
-                                       title="Click to update photo"
-                                       id="profilePhotoDisplay">
-                                    @if($admission && $admission->student_photo)
-                                        <img src="{{ asset($admission->student_photo) }}" 
-                                             alt="Student Photo" 
-                                             class="rounded-circle border border-2" 
-                                             style="width: 100px; height: 100px; object-fit: cover; border-color: #e9ecef !important;">
-                                    @else
-                                        <div class="rounded-circle border border-2 d-flex align-items-center justify-content-center" 
-                                             style="width: 100px; height: 100px; background: #f8f9fa; border-color: #e9ecef !important;">
-                                            <i class="fas fa-user" style="font-size: 2.5rem; color: #adb5bd;"></i>
-                                        </div>
-                                    @endif
-                                    
-                                    <!-- Edit Icon Overlay -->
-                                    <div class="camera-icon-wrapper position-absolute bottom-0 end-0 bg-white rounded-circle d-flex align-items-center justify-content-center shadow-sm" 
-                                         style="width: 32px; height: 32px; border: 2px solid #f8f9fa; transition: all 0.3s ease;">
-                                        <i class="fas fa-camera" style="font-size: 12px; color: #6c757d; transition: all 0.3s ease;"></i>
-                                    </div>
-                                </label>
-                            </form>
-                        </div>
+                <div style="display:flex;align-items:center;gap:28px;flex-wrap:wrap;position:relative;z-index:1;">
+                    <!-- Photo -->
+                    <form action="{{ route('student.update-photo') }}" method="POST" enctype="multipart/form-data" id="photoUpdateForm">
+                        @csrf
+                        <input type="file" name="student_photo" id="profile_image_input"
+                               style="display:none;" accept="image/jpeg,image/png,image/jpg"
+                               onchange="handlePhotoUploadSimple(this);">
+                        <label for="profile_image_input" id="profilePhotoDisplay"
+                               style="cursor:pointer;display:block;position:relative;width:110px;height:110px;flex-shrink:0;"
+                               title="Click to change photo" class="profile-avatar-wrapper">
+                            @if($admission && $admission->student_photo)
+                                <img src="{{ asset($admission->student_photo) }}"
+                                     alt="Student Photo"
+                                     style="width:110px;height:110px;border-radius:50%;object-fit:cover;border:4px solid #D08301;box-shadow:0 6px 20px rgba(0,0,0,0.3);">
+                            @else
+                                <div style="width:110px;height:110px;border-radius:50%;background:rgba(255,255,255,0.15);border:4px solid #D08301;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,0.2);">
+                                    <i class="fas fa-user" style="font-size:2.5rem;color:rgba(255,255,255,0.7);"></i>
+                                </div>
+                            @endif
+                            <!-- Camera overlay -->
+                            <div class="camera-icon-wrapper" style="position:absolute;bottom:4px;right:4px;width:30px;height:30px;background:#D08301;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.2);transition:all 0.3s ease;">
+                                <i class="fas fa-camera" style="font-size:11px;color:#fff;"></i>
+                            </div>
+                        </label>
+                    </form>
+
+                    <!-- Info -->
+                    <div style="flex:1;min-width:200px;">
+                        <h2 style="color:#fff;font-weight:800;font-size:1.4rem;margin:0 0 6px;text-shadow:0 2px 8px rgba(0,0,0,0.2);">
+                            {{ $admission->full_name }}
+                        </h2>
+                        <p style="color:rgba(255,255,255,0.75);font-size:0.85rem;margin:0 0 12px;font-family:monospace;">
+                            <i class="fas fa-id-card me-1"></i>{{ $admission->national_id }}
+                        </p>
+
+                        <!-- Status Badge -->
+                        @if($admission->status === 'pending')
+                            <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,193,7,0.2);color:#ffc107;border:1px solid rgba(255,193,7,0.4);padding:6px 16px;border-radius:20px;font-size:0.8rem;font-weight:700;">
+                                <i class="fas fa-clock"></i> Under Review
+                            </span>
+                        @elseif($admission->status === 'accepted')
+                            <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(25,135,84,0.2);color:#5bdd9b;border:1px solid rgba(25,135,84,0.4);padding:6px 16px;border-radius:20px;font-size:0.8rem;font-weight:700;">
+                                <i class="fas fa-check-circle"></i> Accepted
+                            </span>
+                        @elseif($admission->status === 'rejected')
+                            <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(220,53,69,0.2);color:#ff6b7a;border:1px solid rgba(220,53,69,0.4);padding:6px 16px;border-radius:20px;font-size:0.8rem;font-weight:700;">
+                                <i class="fas fa-times-circle"></i> Rejected
+                            </span>
+                        @endif
                     </div>
+
+                    <!-- Student Code -->
+                    @if($admission->status === 'accepted' && $admission->student_code)
+                    <div style="background:rgba(255,255,255,0.1);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.2);border-radius:14px;padding:18px 28px;text-align:center;flex-shrink:0;">
+                        <p style="color:rgba(255,255,255,0.65);font-size:0.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin:0 0 6px;">Student Code</p>
+                        <p style="color:#D08301;font-size:1.5rem;font-weight:800;font-family:monospace;letter-spacing:3px;margin:0;text-shadow:0 2px 8px rgba(0,0,0,0.2);">
+                            {{ $admission->student_code }}
+                        </p>
+                    </div>
+                    @endif
+
                 </div>
             </div>
 
