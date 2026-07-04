@@ -174,7 +174,7 @@
                 @php
                     $routeName = Route::currentRouteName();
                     $frontendUrl = '/';
-                    
+
                     if (str_contains($routeName, 'admin.events')) {
                         $frontendUrl = route('events');
                     } elseif (str_contains($routeName, 'admin.news')) {
@@ -249,10 +249,10 @@
                 <i class="fas fa-newspaper mr-3"></i>
                 <span>News</span>
             </a>
-            <a href="{{ route('admin.departments.index') }}" class="nav-item flex items-center px-6 py-3 text-white {{ request()->routeIs('admin.departments.*') ? 'active' : '' }}" aria-current="{{ request()->routeIs('admin.departments.*') ? 'page' : 'false' }}">
+            {{-- <a href="{{ route('admin.departments.index') }}" class="nav-item flex items-center px-6 py-3 text-white {{ request()->routeIs('admin.departments.*') ? 'active' : '' }}" aria-current="{{ request()->routeIs('admin.departments.*') ? 'page' : 'false' }}">
                 <i class="fas fa-building mr-3"></i>
                 <span>Departments</span>
-            </a>
+            </a> --}}
             <a href="{{ route('admin.gallery.index') }}" class="nav-item flex items-center px-6 py-3 text-white {{ request()->routeIs('admin.gallery.*') ? 'active' : '' }}" aria-current="{{ request()->routeIs('admin.gallery.*') ? 'page' : 'false' }}">
                 <i class="fas fa-images mr-3"></i>
                 <span>Gallery</span>

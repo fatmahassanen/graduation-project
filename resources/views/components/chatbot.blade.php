@@ -423,7 +423,8 @@
 
         const bubble = document.createElement('div');
         bubble.className = 'chatbot-bubble';
-        bubble.textContent = text;
+        // Convert line breaks to <br> tags for proper rendering
+        bubble.innerHTML = text.replace(/\n/g, '<br>');
 
         messageDiv.appendChild(avatar);
         messageDiv.appendChild(bubble);

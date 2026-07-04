@@ -18,7 +18,7 @@
         <form action="{{ route('admin.news.update', $news) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
             @csrf
             @method('PUT')
-            
+
             <div>
                 <label for="title" class="block text-sm font-medium text-gray-700 mb-2">
                     Title <span class="text-red-500">*</span>
@@ -29,20 +29,20 @@
             </div>
 
             <div>
-                <label for="excerpt" class="block text-sm font-medium text-gray-700 mb-2">Excerpt</label>
-                <textarea name="excerpt" id="excerpt" rows="2"
+                <label for="excerpt" class="block text-sm font-medium text-gray-700 mb-2">Content</label>
+                <textarea name="excerpt" id="excerpt" rows="8" required
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('excerpt') border-red-500 @enderror">{{ old('excerpt', $news->excerpt) }}</textarea>
                 @error('excerpt')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
             </div>
 
-            <div>
+            {{-- <div>
                 <label for="content" class="block text-sm font-medium text-gray-700 mb-2">
                     Content <span class="text-red-500">*</span>
                 </label>
                 <textarea name="content" id="content" rows="8" required
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent @error('content') border-red-500 @enderror">{{ old('content', $news->content) }}</textarea>
                 @error('content')<p class="mt-1 text-sm text-red-600">{{ $message }}</p>@enderror
-            </div>
+            </div> --}}
 
             @if($news->image)
                 <div>

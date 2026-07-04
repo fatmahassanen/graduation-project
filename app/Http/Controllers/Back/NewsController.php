@@ -26,7 +26,7 @@ class NewsController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'excerpt' => 'nullable|string|max:500',
-            'content' => 'required|string',
+            //'content' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'published_at' => 'nullable|date',
             'is_featured' => 'boolean',
@@ -36,7 +36,7 @@ class NewsController extends Controller
         $data = [
             'title' => $request->title,
             'excerpt' => $request->excerpt,
-            'content' => $request->content,
+            //'content' => $request->content,
             'published_at' => $request->published_at,
             'is_featured' => $request->boolean('is_featured'),
             'is_active' => $request->boolean('is_active', true),
@@ -67,7 +67,7 @@ class NewsController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'excerpt' => 'nullable|string|max:500',
-            'content' => 'required|string',
+            //'content' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'published_at' => 'nullable|date',
             'is_featured' => 'boolean',
@@ -77,7 +77,7 @@ class NewsController extends Controller
         $data = [
             'title' => $request->title,
             'excerpt' => $request->excerpt,
-            'content' => $request->content,
+            //'content' => $request->content,
             'published_at' => $request->published_at,
             'is_featured' => $request->boolean('is_featured'),
             'is_active' => $request->boolean('is_active'),

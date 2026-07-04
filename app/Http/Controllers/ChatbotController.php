@@ -7,25 +7,19 @@ use App\Models\BotResponse;
 
 class ChatbotController extends Controller
 {
-    /**
-     * Handle incoming chatbot messages with 7-tier intelligent routing architecture
-     * Supports bilingual queries (Arabic/English) with 0% hallucination tolerance
-     */
     public function sendMessage(Request $request)
     {
         $userMessage = trim($request->input('message'));
 
-        // Empty message guard
         if (!$userMessage) {
             return response()->json(['error' => 'Message is empty'], 400);
         }
 
-        // Normalize for pattern matching
-        $normalizedMessage = strtolower($userMessage);
+        $normalizedMessage = mb_strtolower($userMessage);
         $isArabic = preg_match('/\p{Arabic}/u', $userMessage);
 
         // ============================================================================
-        // TIER 1: Foreign Language Blocker (Non-Arabic/Non-English Scripts)
+        // TIER 1: Foreign Language Blocker
         // ============================================================================
         if (preg_match('/[\x{0400}-\x{04FF}\x{4E00}-\x{9FFF}\x{0590}-\x{05FF}\x{3040}-\x{30FF}\x{AC00}-\x{D7AF}]/u', $userMessage)) {
             return response()->json([
@@ -35,9 +29,9 @@ class ChatbotController extends Controller
         }
 
         // ============================================================================
-        // TIER 2: Percentage & Score Evaluation (%)
+        // TIER 2: Percentage & Score Evaluation
         // ============================================================================
-        $scorePatterns = ['%', 'مجموعي', 'نسبة', 'درجات', 'جبت', 'جايب', 'حصلت', 'هقبل', 'هاقبل', 'أقبل', 'score', 'grade', 'percentage'];
+        $scorePatterns = ['%', 'مجموعي', 'مجموعى', 'نسبة', 'نسبه', 'درجات', 'الدرجات', 'جبت', 'جايب', 'جايبه', 'حصلت', 'هقبل', 'هاقبل', 'أقبل', 'في الميه', 'في المائة', 'بالميه', 'score', 'grade', 'percentage'];
         $hasScoreQuery = false;
         $hasNumericValue = preg_match('/\d+/', $normalizedMessage);
 
@@ -51,161 +45,183 @@ class ChatbotController extends Controller
         if ($hasScoreQuery && $hasNumericValue) {
             return response()->json([
                 'status' => 'success',
-                'reply' => '🎓 القبول النهائي يتحدد بناءً على تنسيق العام الدراسي الحالي والحدود الدنيا الرسمية التي تُعلنها الجامعة. لمتابعة آخر أخبار حدود القبول ونسب التنسيق، يرجى متابعة شؤون الطلاب. يمكنك إرسال طلب التحاق إلكتروني عبر رابط \'Apply Now\' في القائمة العلوية.'
+                'reply' => "🎓 القبول النهائي يتحدد بناءً على تنسيق العام الدراسي الحالي والحدود الدنيا الرسمية التي تُعلنها الجامعة.\n\nلمتابعة آخر أخبار حدود القبول ونسب التنسيق، يرجى متابعة شؤون الطلاب. يمكنك إرسال طلب التحاق إلكتروني عبر رابط 'Apply Now' في القائمة العلوية."
             ]);
         }
 
         // ============================================================================
-        // TIER 3: Intelligent Passion Matchmaking
+        // TIER 3: Intelligent Department, Faculty Definitions & Interests
         // ============================================================================
-        $passionKeywords = ['بحب', 'أحب', 'احب', 'شغوف', 'ميول', 'ميولي', 'اهتمامي', 'مجال', 'ادخل', 'تخصص', 'اشتغل', 'عايز', 'love', 'like', 'passionate', 'interested', 'interest'];
-        $hasPassionQuery = false;
 
-        foreach ($passionKeywords as $pk) {
-            if (str_contains($normalizedMessage, $pk)) {
-                $hasPassionQuery = true;
-                break;
+        // 1. منطق الكليات (Faculties)
+        if (preg_match('/(كلية|كليه|كليات|الكلية|الكليه|الكليات|faculty|faculties)/u', $normalizedMessage)) {
+
+            if (preg_match('/(علوم صحية|علوم صحيه|صحي|صحية|صحيه|health|علوم طبية|علوم طبيه)/u', $normalizedMessage)) {
+                return response()->json([
+                    'status' => 'success',
+                    'reply' => "🏥 **كلية تكنولوجيا العلوم الصحية:**\nمتخصصة في الأجهزة الطبية، وتضم قسماً واحداً:\n- قسم الأطراف الصناعية والأجهزة التعويضية (Prosthetics & Orthotics).\n\n💡 لمزيد من المعلومات، يرجى زيارة صفحة 'Faculty of Health Sciences Technology' من القائمة."
+                ]);
             }
+
+            if (preg_match('/(صناعة|صناعه|طاقة|طاقه|تكنولوجيا|industrial|energy)/u', $normalizedMessage)) {
+                return response()->json([
+                    'status' => 'success',
+                    'reply' => "🏭 **كلية تكنولوجيا الصناعة والطاقة:**\nتضم 5 أقسام تكنولوجية:\n- تكنولوجيا المعلومات والاتصالات (ICT)\n- الميكاترونكس (Mechatronics)\n- الأوتوترونكس (Autotronics)\n- الطاقة المتجددة (Renewable Energy)\n- تكنولوجيا إنتاج البترول (Petroleum Production)\n\n💡 لمزيد من المعلومات، يرجى زيارة صفحة 'Faculty of Industrial and Energy Technology' من القائمة."
+                ]);
+            }
+
+            if (preg_match('/(متاحه|متاحة|اي|ايه|اى|عباره|عبارة|موجوده|موجودة|what|available)/u', $normalizedMessage) && !preg_match('/(طب|هندسة|هندسه|تجارة|تجاره|حقوق|صيدلة|صيدله|اسنان|أسنان|حاسبات|علاج طبيعي)/u', $normalizedMessage)) {
+                return response()->json([
+                    'status' => 'success',
+                    'reply' => "🏛️ جامعة القاهرة الجديدة التكنولوجية (NCTU) تتكون من كليتين رئيسيتين:\n\n1️⃣ **كلية تكنولوجيا الصناعة والطاقة:**\n(تضم 5 أقسام: ICT، الميكاترونكس، الأوتوترونكس، الطاقة المتجددة، والبترول).\n\n2️⃣ **كلية تكنولوجيا العلوم الصحية:**\n(تضم قسماً واحداً: الأطراف الصناعية والأجهزة التعويضية).\n\n💡 يمكنك السؤال عن كلية محددة لمعرفة تفاصيل أقسامها."
+                ]);
+            }
+
+            return response()->json([
+                'status' => 'success',
+                'reply' => "عذراً، هذه الكلية غير متاحة بالجامعة. ❌\n\nالجامعة تضم كليتين رئيسيتين فقط:\n1️⃣ كلية تكنولوجيا الصناعة والطاقة.\n2️⃣ كلية تكنولوجيا العلوم الصحية.\n\n💡 لمزيد من المعلومات حول الكليات والأقسام المتاحة، يرجى زيارة صفحة 'Faculties' في القائمة."
+            ]);
         }
 
-        if ($hasPassionQuery) {
-            if (preg_match('/(برمجة|برمجه|شبكات|اتصالات|داتا|سايبر|أمن معلومات|software|programming|cyber|ict|network|data)/u', $normalizedMessage)) {
-                return response()->json(['status' => 'success', 'reply' => '💻 بما أنك مهتم بالبرمجة وتكنولوجيا المعلومات، القسم المثالي لك هو (ICT Department). يمكنك استعراض التفاصيل عبر الضغط على بطاقة القسم بصفحة \'Home Page\'.']);
-            }
-            if (preg_match('/(سيارات|سياره|ميكانيكا|أوتو|عربيات|هايبرد|كهربائية|cars|auto|mechanic|hybrid|ev)/u', $normalizedMessage)) {
-                return response()->json(['status' => 'success', 'reply' => '🚗 القسم المثالي لك هو (Autotronics Department) المتخصص في السيارات الحديثة والهايبرد. استعرض التفاصيل بصفحة \'Home Page\'.']);
-            }
-            if (preg_match('/(روبوت|روبوتات|ميكا|تحكم|أتمتة|اتمته|plc|scada|robot|automation|control|smart)/u', $normalizedMessage)) {
-                return response()->json(['status' => 'success', 'reply' => '🤖 القسم المثالي لك هو (Mechatronics Department) للروبوتات والأنظمة الذكية. استعرض التفاصيل بصفحة \'Home Page\'.']);
-            }
-            if (preg_match('/(طاقة|شمسية|متجددة|نظيفة|رياح|solar|wind|renewable|clean|energy)/u', $normalizedMessage)) {
-                return response()->json(['status' => 'success', 'reply' => '☀️ القسم المثالي لك هو (Renewable Energy Department). استعرض التفاصيل بصفحة \'Home Page\'.']);
-            }
-            if (preg_match('/(طبي|طبية|أطراف|صناعية|تعويضية|بيونيك|prosthetic|medical|bionic|rehabilitation)/u', $normalizedMessage)) {
-                return response()->json(['status' => 'success', 'reply' => '🦾 القسم المثالي لك هو (Prosthetics & Orthotics Department) للأجهزة التعويضية. استعرض التفاصيل بصفحة \'Home Page\'.']);
-            }
-            if (preg_match('/(بترول|نفط|غاز|حفر|petroleum|oil|gas|drill)/u', $normalizedMessage)) {
-                return response()->json(['status' => 'success', 'reply' => '🛢️ القسم المثالي لك هو (Petroleum Production Technology Department). استعرض التفاصيل بصفحة \'Home Page\'.']);
-            }
-        }
-
-        // ============================================================================
-        // TIER 3.5: Dynamic Knowledge Routing
-        // ============================================================================
-        $knowledgeMap = [
-            'ICT' => ['شبكات', 'برمجة', 'it', 'ict', 'سايبر', 'داتا'],
-            'Autotronics' => ['سيارات', 'اوتوترونكس', 'ميكانيكا سيارات'],
-            'Mechatronics' => ['روبوت', 'ميكاترونكس', 'تحكم آلي'],
-            'Renewable Energy' => ['طاقة شمسية', 'طاقة رياح', 'طاقة متجددة', 'سولار'],
-            'Petroleum' => ['بترول', 'حفر', 'نفط'],
-            'Prosthetics' => ['اطراف صناعية', 'أجهزة تعويضية']
+        // 2. منطق الأقسام (Departments) - فصل نية السؤال (اسم القسم vs الاهتمام)
+        $deptNamesKeywords = [
+            'ict' => ['ict', 'اي سي تي', 'أى سى تى', 'تكنولوجيا المعلومات'],
+            'mechatronics' => ['mechatronic', 'ميكاترون', 'ميكا ترون'],
+            'autotronics' => ['autotronic', 'اوتوترون', 'أوتوترون', 'اتوترون', 'أتوترون', 'اوتو ترون'],
+            'renewable energy' => ['renewable', 'متجدد'],
+            'petroleum' => ['petroleum', 'بترول'],
+            'prosthetics' => ['prosthetic', 'اطراف', 'أطراف', 'تعويض']
         ];
 
-        foreach ($knowledgeMap as $dept => $keywords) {
-            foreach ($keywords as $word) {
-                if (str_contains($normalizedMessage, $word)) {
-                    return response()->json(['status' => 'success', 'reply' => "نعم، تخصص $dept متاح عندنا في الكلية! يمكنك الاطلاع على تفاصيله والمنهج الخاص به في صفحة الـ Departments على البورتال."]);
+        $deptInterestsKeywords = [
+            'ict' => ['حاسب', 'برمج', 'معلومات', 'شبكات', 'كمبيوتر', 'سوفت', 'software', 'programming'],
+            'mechatronics' => ['روبوت', 'ذكاء', 'robot', 'ai'],
+            'autotronics' => ['سيارات', 'سياره', 'عربيات', 'عربيه', 'cars'],
+            'renewable energy' => ['شمس', 'رياح', 'نظيف', 'solar'],
+            'petroleum' => ['تعدين', 'غاز', 'حفر', 'oil', 'gas'],
+            'prosthetics' => ['طبي', 'طبيه', 'مستشف', 'medical']
+        ];
+
+        $matchedDeptKey = null;
+        $matchType = null;
+
+        foreach ($deptNamesKeywords as $key => $keywords) {
+            foreach ($keywords as $keyword) {
+                if (str_contains($normalizedMessage, $keyword)) {
+                    $matchedDeptKey = $key;
+                    $matchType = 'name';
+                    break 2;
                 }
             }
         }
 
-        // ============================================================================
-        // TIER 4: Exact Departments & Non-Existent Faculty Guard (قواعد المعيد الصارمة)
-        // ============================================================================
-        if (preg_match('/^( اي هي الكليات|الاقسام|الأقسام|ايه هي الاقسام|أقسام الكلية|اقسام الكليه|departments|programs|majors)$/u', $normalizedMessage)) {
-            return response()->json([
-                'status' => 'success',
-                'reply' => "🏛️ جامعة القاهرة الجديدة التكنولوجية (NCTU) تتكون من كليتين رئيسيتين:\n\n1️⃣ كلية تكنولوجيا الصناعة والطاقة (Faculty of Industry and Energy Technology)\n   - قسم ICT\n   - قسم Mechatronics\n   - قسم Autotronics\n   - قسم Renewable Energy\n   - قسم Petroleum Production\n\n2️⃣ كلية تكنولوجيا العلوم الصحية (Faculty of Health Sciences Technology)\n   - قسم Prosthetics & Orthotics\n\nيمكنك استعراض تفاصيل كل قسم عبر صفحة 'Home Page' ثم الضغط على بطاقة القسم الذي يهمك."
-            ]);
-        }
-
-        $allowedKeywords = ['ict', 'it', 'mechatronics', 'autotronics', 'energy', 'petroleum', 'prosthetics', 'orthotics', 'صناعة وطاقة', 'علوم صحية', 'طاقة', 'بترول', 'ميكاترونكس', 'اوتوترونكس', 'أطراف صناعية', 'حاسبات'];
-        $isAskingAboutDepartmentOrFaculty = preg_match('/(قسم|كلية|كليه|تخصص|department|faculty)/ui', $normalizedMessage);
-        $hasValidKeyword = preg_match('/(' . implode('|', $allowedKeywords) . ')/ui', $normalizedMessage);
-
-        if (preg_match('/(برمجة|برمجه|coding|software|programming)/u', $normalizedMessage)) {
-            return response()->json([
-                'status' => 'success',
-                'reply' => "💻 نعم، البرمجة موجودة! يمكنك دراسة البرمجة وتطوير البرمجيات ضمن قسم تكنولوجيا المعلومات والاتصالات (ICT Department) بكلية تكنولوجيا الصناعة والطاقة.\n\n💡 يمكنك استعراض المنهج الدراسي الكامل عبر صفحة 'Departments' أو بالضغط على بطاقة قسم ICT في الـ Home Page."
-            ]);
-        }
-        if ($isAskingAboutDepartmentOrFaculty && !$hasValidKeyword) {
-            if ($isArabic) {
-                return response()->json([
-                    'status' => 'success',
-                    'reply' => "❌ عذراً، هذا غير متاح في جامعة القاهرة الجديدة التكنولوجية (NCTU).\n\nنحن نهتم بتقديم تعليم تكنولوجي متخصص، والجامعة تضم كليتين فقط:\n\n1️⃣ كلية تكنولوجيا الصناعة والطاقة (وتشمل: ICT، الميكاترونكس، الأوتوترونكس، الطاقة المتجددة، وبترول).\n2️⃣ كلية تكنولوجيا العلوم الصحية (وتشمل: الأطراف الصناعية والأجهزة التعويضية).\n\n💡 إذا كنت تبحث عن تفاصيل أكثر حول تخصصاتنا المتاحة، يمكنك زيارة صفحة يمكنك الانتقال لصفحات الكليات الرسمية لدينا:🔗 كلية تكنولوجيا الصناعة والطاقة (Faculty of Industrial and Energy Technology)🔗 كلية العلوم الصحية (Faculty of Health Sciences Technology).."
-                ]);
-            } else {
-                return response()->json([
-                    'status' => 'success',
-                    'reply' => "❌ Sorry, this department or major is not available at NCTU.\n\nOur university focuses on specialized technological education across two main faculties:\n\n1️⃣ Faculty of Industry and Energy Technology (ICT, Mechatronics, Autotronics, Renewable Energy, Petroleum).\n2️⃣ Faculty of Health Sciences Technology (Prosthetics & Orthotics).\n\n💡 For more details about our programs, please visit the 'Departments' page or explore our faculties from the Home Page."
-                ]);
+        if (!$matchedDeptKey) {
+            foreach ($deptInterestsKeywords as $key => $keywords) {
+                foreach ($keywords as $keyword) {
+                    if (str_contains($normalizedMessage, $keyword)) {
+                        $matchedDeptKey = $key;
+                        $matchType = 'interest';
+                        break 2;
+                    }
+                }
             }
         }
-        if (preg_match('/(ايه ي الجامعه|إيه هي الجامعة|ماهي الجامعة|عن الجامعة|what is the university|about nctu|what is nctu)/u', $normalizedMessage)) {
+
+        $hasDeptWord = preg_match('/(قسم|أقسم|اقسام|الاقسام|الأقسام|تخصص|تخصصات|التخصصات|مجال|مجالات|بحب|ادرس|أدرس|اتعلم|أتعلم|ادخل|أدخل|مهتم|department|departments|major|majors)/u', $normalizedMessage);
+
+        if ($hasDeptWord || $matchedDeptKey) {
+
+            $deptStandardInfo = [
+                'ict' => "💻 **قسم تكنولوجيا المعلومات (ICT):**\nهو تخصص يركز على دراسة علوم الحاسب، البرمجة، هندسة البرمجيات، تصميم وتحليل النظم الرقمية، وإدارة الشبكات السلكية واللاسلكية.",
+                'mechatronics' => "🤖 **قسم الميكاترونكس (Mechatronics):**\nهو تخصص دقيق يجمع بين الهندسة الميكانيكية والكهربائية والإلكترونيات، ويركز على تصميم وتشغيل أنظمة التحكم الآلي، الروبوتات، والذكاء الاصطناعي.",
+                'autotronics' => "🚗 **قسم الأوتوترونكس (Autotronics):**\nيهتم بدراسة ميكانيكا السيارات الحديثة، تكنولوجيا السيارات الكهربائية والهجينة، وأنظمة التحكم الإلكتروني بها وتشخيص الأعطال بالكمبيوتر.",
+                'renewable energy' => "☀️ **قسم الطاقة المتجددة (Renewable Energy):**\nيركز على دراسة وتوليد الطاقة النظيفة والمستدامة، مثل تكنولوجيا الطاقة الشمسية وطاقة الرياح، وتصميم وصيانة محطات الطاقة.",
+                'petroleum' => "🛢️ **قسم تكنولوجيا إنتاج البترول (Petroleum):**\nيختص بمجالات التعدين، تكنولوجيا استكشاف وحفر آبار البترول والغاز، بالإضافة إلى عمليات النقل والمعالجة في محطات التكرير.",
+                'prosthetics' => "🦿 **قسم الأطراف الصناعية والأجهزة التعويضية (Prosthetics & Orthotics):**\nيركز على دمج التكنولوجيا الهندسية بالمجال الطبي، لتصميم وتصنيع وصيانة الأطراف الصناعية والأجهزة التعويضية لمساعدة المرضى."
+            ];
+
+            $deptInterestInfo = [
+                'ict' => "✅ **نعم، القسم ده متاح!**\n\n💻 **قسم تكنولوجيا المعلومات (ICT) هو الأنسب لاهتمامك:**\nلأنه بيدرس كل ما يخص البرمجة، الكمبيوتر، الشبكات، وتطوير السوفت وير.",
+                'mechatronics' => "✅ **نعم، القسم ده متاح!**\n\n🤖 **قسم الميكاترونكس (Mechatronics) هو الأنسب لاهتمامك:**\nلأنه بيعلمك إزاي تبني وتبرمج الروبوتات، وتشتغل في مجال الذكاء الاصطناعي والتحكم الآلي.",
+                'autotronics' => "✅ **نعم، القسم ده متاح!**\n\n🚗 **قسم الأوتوترونكس (Autotronics) هو الأنسب لاهتمامك:**\nلأنه متخصص بالكامل في ميكانيكا وعالم السيارات، تكنولوجيا السيارات الحديثة والكهربائية، وأنظمة التحكم الخاصة بيها.",
+                'renewable energy' => "✅ **نعم، القسم ده متاح!**\n\n☀️ **قسم الطاقة المتجددة (Renewable Energy) هو الأنسب لاهتمامك:**\nلأنه بيهتم بتوليد الطاقة النظيفة زي الطاقة الشمسية وطاقة الرياح والحلول البديلة.",
+                'petroleum' => "✅ **نعم، القسم ده متاح!**\n\n🛢️ **قسم تكنولوجيا إنتاج البترول هو الأنسب لاهتمامك:**\nلأنه بيختص بمجال التعدين، الغاز، وعمليات حفر آبار البترول.",
+                'prosthetics' => "✅ **نعم، القسم ده متاح!**\n\n🦿 **قسم الأطراف الصناعية والأجهزة التعويضية هو الأنسب لاهتمامك:**\nلأنه بيربط بين الهندسة والمجال الطبي، وهتتعلم فيه تصميم وتصنيع الأجهزة الطبية والأطراف لمساعدة المرضى."
+            ];
+
+            if ($matchedDeptKey) {
+                $finalReply = ($matchType === 'interest') ? $deptInterestInfo[$matchedDeptKey] : $deptStandardInfo[$matchedDeptKey];
+                return response()->json([
+                    'status' => 'success',
+                    'reply' => $finalReply . "\n\n💡 لمعلومات أكثر وتفاصيل دقيقة، يرجى زيارة صفحة 'Departments' في الـ Home Page."
+                ]);
+            }
+
+            if (preg_match('/(متاحه|متاحة|اي|ايه|اى|ما هي|كم|موجوده|موجودة|شغاله|available|what|عباره|عبارة)/u', $normalizedMessage)) {
+                return response()->json([
+                    'status' => 'success',
+                    'reply' => "🏛️ تضم الجامعة 6 أقسام رئيسية:\n1️⃣ ICT (تكنولوجيا المعلومات)\n2️⃣ Mechatronics (الميكاترونكس والروبوتات)\n3️⃣ Autotronics (السيارات)\n4️⃣ Renewable Energy (الطاقة المتجددة)\n5️⃣ Petroleum (البترول)\n6️⃣ Prosthetics & Orthotics (الأطراف الصناعية)\n\n💡 يمكنك استعراض تفاصيل كل قسم عبر صفحة 'Departments' في الـ Home Page."
+                ]);
+            }
+
             return response()->json([
                 'status' => 'success',
-                'reply' => '🏛️ جامعة القاهرة الجديدة التكنولوجية (NCTU) هي جامعة حكومية مصرية تهدف لتقديم تعليم تطبيقي متميز يربط الدراسة النظرية باحتياجات سوق العمل والمصانع مباشرة. تركز الدراسة بنسبة 60% على التدريب العملي في المعامل والورش والمواقع الإنتاجية و40% على الجانب النظري، وتمنح شهادة البكالوريوس التكنولوجي المعتمد في تخصصات هندسية وصحية متطورة.'
+                'reply' => "عذراً، هذا القسم أو التخصص غير متاح بالجامعة. ❌\n\nالجامعة تركز على 6 تخصصات تكنولوجية فقط وهي:\n1️⃣ ICT\n2️⃣ Mechatronics\n3️⃣ Autotronics\n4️⃣ Renewable Energy\n5️⃣ Petroleum\n6️⃣ Prosthetics & Orthotics"
             ]);
         }
 
         // ============================================================================
-        // TIER 5: Comprehensive University & Custom QA Overrides
+        // TIER 4: Custom QA Overrides & FAQs
         // ============================================================================
-        if (preg_match('/(ايه ي الجامعه |اي هي الجامعه|اي هي الجامعة|إيه هي الجامعة|ماهي الجامعة|عن الجامعة|what is the university)/u', $normalizedMessage)) {
-            return response()->json(['status' => 'success', 'reply' => '🏛️ جامعة القاهرة الجديدة التكنولوجية (NCTU) هي جامعة حكومية تهدف لتقديم تعليم تطبيقي يربط الدراسة باحتياجات سوق العمل. تركز الدراسة بنسبة 60% عملي و40% نظري، وتمنح شهادة البكالوريوس التكنولوجي المعتمد.']);
+
+        if (preg_match('/(ايه ي الجامعه|إيه هي الجامعة|اي هي الجامعه|الجامعه عباره عن اي|ماهي الجامعة|معلومات عن|نظام الجامعه|نظام الكليه|what is nct|what is nctu|about nctu)/u', $normalizedMessage)) {
+            return response()->json(['status' => 'success', 'reply' => "🏛️ **جامعة القاهرة الجديدة التكنولوجية (NCTU):**\nهي جامعة حكومية مصرية تهدف لتقديم تعليم تطبيقي متميز يربط الدراسة النظرية باحتياجات سوق العمل والمصانع مباشرة.\n\nتركز الدراسة بنسبة 60% على التدريب العملي و40% على النظري، وتمنح شهادة البكالوريوس التكنولوجي المعتمد."]);
         }
 
-        if (preg_match('/(نظام التقييم|بيرسون|pearson|الامتحانات|الدرجات)/u', $normalizedMessage)) {
-            return response()->json(['status' => 'success', 'reply' => '📝 نظام التقييم يعتمد على مؤسسة "بيرسون" (Pearson) البريطانية. لا يعتمد على الحفظ التقليدي بل يرتكز على الـ Assignments طوال الترم لقياس المهارات، والتقديرات مقسمة لمستويات (Pass / Merit / Distinction).']);
+        if (preg_match('/(نظام التقييم|بيرسون|pearson|الامتحانات|الدرجات|امتحانات|تقييم|بننجح ازاي|بتتحسب ازاي|نظام الدراسه|نظام الدراسة|شرح نظام)/u', $normalizedMessage)) {
+            return response()->json(['status' => 'success', 'reply' => "📝 **نظام التقييم (نظام بيرسون Pearson البريطاني):**\nالتقييم عندنا لا يعتمد على الحفظ والتلقين في الامتحانات النهائية فقط! بل يرتكز بشكل أساسي على التكليفات (Assignments) والمشاريع العملية طوال الترم لقياس مهاراتك الحقيقية.\n\nالتقديرات مقسمة لـ 3 مستويات:\n- Pass (نجاح)\n- Merit (جدارة)\n- Distinction (امتياز)"]);
         }
 
-        if (preg_match('/(امتحان قدرات|اختبار قدرات|تنسيق|مجموع|aptitude test)/u', $normalizedMessage)) {
-            return response()->json(['status' => 'success', 'reply' => '📊 لا يوجد امتحان قدرات خاص بالكلية. القبول والمجموع يتم فقط بناءً على نتيجة التنسيق الرسمي المعلن من وزارة التعليم العالي.']);
+        if (preg_match('/(امتحان قدرات|اختبار قدرات|تنسيق|الحد الادنى|بتاخد من كام|aptitude test)/u', $normalizedMessage)) {
+            return response()->json(['status' => 'success', 'reply' => "📊 لا يوجد امتحان قدرات خاص بالجامعة.\nالقبول يتم بناءً على نتيجة التنسيق الرسمي المعلن من وزارة التعليم العالي."]);
         }
 
-        if (preg_match('/(مصاريف|المصاريف|fees|tuition)/u', $normalizedMessage)) {
-            return response()->json(['status' => 'success', 'reply' => "💰 المصاريف الدراسية للجامعة:\n- السنة الأولى والثانية: 15,000 جنيه.\n- السنة الثالثة والرابعة: 20,000 جنيه."]);
+        if (preg_match('/(مصاريف|المصاريف|مصروفات|فلوس|تكلفة|تكلفه|كام في السنه|بدفع كام|fees|tuition)/u', $normalizedMessage)) {
+            return response()->json(['status' => 'success', 'reply' => "💰 **المصاريف الدراسية للجامعة:**\n(تقريبياً وبحسب آخر التحديثات):\n- السنة الأولى والثانية: 15,000 جنيه.\n- السنة الثالثة والرابعة: 20,000 جنيه."]);
         }
 
-        if (preg_match('/(منح|منحة|تكافل|scholarship)/u', $normalizedMessage)) {
-            return response()->json(['status' => 'success', 'reply' => '🤖 عذراً، لا أمتلك معلومات دقيقة حالياً بخصوص المنح الدراسية. يرجى مراجعة إدارة شؤون الطلاب بالجامعة.']);
+        if (preg_match('/(منح|منحة|تكافل|منحه|مجانية|مجانيه|scholarship)/u', $normalizedMessage)) {
+            return response()->json(['status' => 'success', 'reply' => "🤖 يرجى مراجعة إدارة شؤون الطلاب (إدارة الرعاية والتكافل) بالجامعة لمعرفة التفاصيل الدقيقة حول التخفيضات أو المنح المتاحة."]);
         }
 
-        if (preg_match('/(لاب توب|كمبيوتر|laptop|pc)/u', $normalizedMessage)) {
-            return response()->json(['status' => 'success', 'reply' => '💻 الجامعة لا توفر جهاز لاب توب شخصي لكل طالب، ولكنها توفر معامل حاسب آلي مجهزة بالكامل للاستخدام.']);
+        if (preg_match('/(لاب توب|كمبيوتر|لابتوب|حاسب|laptop|pc)/u', $normalizedMessage)) {
+            return response()->json(['status' => 'success', 'reply' => "💻 الجامعة لا توفر جهاز لاب توب شخصي لكل طالب، ولكنها توفر معامل حاسب آلي مجهزة بالكامل للاستخدام العملي."]);
         }
 
-        if (preg_match('/(سكن|مدينة جامعية|dorm|housing)/u', $normalizedMessage)) {
-            return response()->json(['status' => 'success', 'reply' => '❌ الجامعة لا توفر سكناً أو مدينة جامعية للطلاب المغتربين.']);
+        if (preg_match('/(سكن|مدينة جامعية|مدينه جامعيه|مغتربين|اقعد فين|مبيت|dorm|housing)/u', $normalizedMessage)) {
+            return response()->json(['status' => 'success', 'reply' => "❌ الجامعة لا توفر سكناً أو مدينة جامعية للطلاب المغتربين حالياً."]);
         }
 
-        if (preg_match('/(ورق|أوراق|مستندات|documents|faculties-requirements)/u', $normalizedMessage)) {
-            return response()->json(['status' => 'success', 'reply' => '📄 لمعرفة كافة الأوراق والمستندات المطلوبة للتقديم، يرجى زيارة صفحة "faculties-requirements" في القائمة الرئيسية.']);
+        if (preg_match('/(ورق|أوراق|الورق|مستندات|المطلوب للتقديم|اجيب ورق ايه|الورق المطلوب|documents|requirements|faculties-requirements)/u', $normalizedMessage)) {
+            return response()->json(['status' => 'success', 'reply' => "📄 لمعرفة كافة الأوراق والمستندات المطلوبة للتقديم، يرجى زيارة صفحة 'Faculties-requirements' في القائمة الرئيسية."]);
         }
 
         // ============================================================================
-        // TIER: Branches & NCTU Differentiation (التميز وفروع الجامعة)
+        // TIER 5: Branches, Location & NCTU Differentiation
         // ============================================================================
-        if (preg_match('/( مميزات|فروع|فروع الجامعة|مميزات فرع|تتميزوا بايه|ليه اخترتوا التجمع|branches|why nctu special|differentiation)/u', $normalizedMessage)) {
+        if (preg_match('/(مميزات|تتميزوا بايه|ليه اخترتوا التجمع|why nctu special|differentiation)/u', $normalizedMessage)) {
             return response()->json([
                 'status' => 'success',
-                'reply' => "📍 جامعة القاهرة الجديدة التكنولوجية (NCTU) تتميز بموقعها الاستراتيجي في قلب التجمع الخامس (منطقة اللوتس)، وهو ما يضعنا في قلب المنطقة الصناعية والخدمية الأكثر تطوراً في مصر، مما يسهل على طلابنا التدريب الميداني والشراكة مع كبرى الشركات.\n\n🌟 ما يميز جامعتنا:\n1️⃣ **التخصص التكنولوجي الدقيق:** نركز على تخصصات مطلوبة بشدة في سوق العمل (مثل ICT والبترول والأطراف الصناعية) بتجهيزات معامل عالمية.\n2️⃣ **شراكة بيرسون (Pearson):** نظام تعليمي وتقييمي يحاكي المعايير البريطانية، مما يعطي خريجنا أولوية في التوظيف.\n3️⃣ **الربط بالمنطقة الصناعية:** موقعنا في التجمع الخامس جعلنا الأقرب للمصانع والشركات الكبرى، مما يوفر لطلابنا فرص تدريبية (Internships) تفوق غيرنا.\n4️⃣ **مجتمع الابتكار:** دعمنا للأنشطة الطلابية التقنية مثل مجتمعات Google (GDG) والمسابقات الدولية يجعل الطالب خريجاً ذا شخصية قيادية وليس مجرد حاصل على شهادة."
+                'reply' => "🌟 **ما يميز جامعتنا (NCTU):**\n1️⃣ التخصص التكنولوجي الدقيق المطلوب في سوق العمل.\n2️⃣ الاعتماد على الجانب العملي بنسبة 60%.\n3️⃣ شراكة التقييم مع بيرسون (Pearson) البريطانية.\n4️⃣ الموقع الاستراتيجي بالقرب من المناطق الصناعية."
             ]);
         }
 
-        // ============================================================================
-        // TIER: University Branches (هل للجامعة فروع؟)
-        // ============================================================================
-        if (preg_match('/(ليها فروع|فروع الجامعه|هل للجامعة فروع|فروع تانية|other branches|do you have branches)/u', $normalizedMessage)) {
-            return response()->json([
-                'status' => 'success',
-                'reply' => "📍 جامعة القاهرة الجديدة التكنولوجية (NCTU) لها مقر رئيسي واحد ووحيد في القاهرة الجديدة، التجمع الخامس (منطقة اللوتس الجنوبية).\n\nنحن لا نملك فروعاً أخرى في محافظات أخرى حالياً؛ حيث أن مقرنا الرئيسي مجهز بالكامل بأحدث المعامل والورش التكنولوجية المتخصصة التي تخدم أقسامنا الفريدة. تجميعنا في مقر واحد يضمن توحيد جودة التعليم والتدريب العملي لجميع طلابنا."
-            ]);
+        if (preg_match('/(فروع|فرع|فروعها|فروع تانية|مكانها|فين بالظبط|مقر الجامعه|عنوان|مكان|موقعها|branches|location)/u', $normalizedMessage)) {
+            return response()->json(['status' => 'success', 'reply' => "📍 **جامعة القاهرة الجديدة التكنولوجية (NCTU):**\nلها مقر رئيسي واحد ووحيد يقع في: القاهرة الجديدة، التجمع الخامس (منطقة اللوتس الجنوبية)."]);
         }
 
         // ============================================================================
-        // TIER 6: Dynamic Database Pattern Matching (BotResponse Model)
+        // TIER 6: Dynamic Database Pattern Matching
         // ============================================================================
         $matchedResponse = BotResponse::whereRaw('? LIKE CONCAT("%", keyword, "%")', [$normalizedMessage])->first();
 
@@ -219,8 +235,8 @@ class ChatbotController extends Controller
         return response()->json([
             'status' => 'success',
             'reply' => $isArabic
-                ? '🤖 عذراً، استفسارك خارج نطاق المعلومات المتاحة. يمكنك زيارة شؤون الطلاب بمقر الجامعة للحصول على معلومات تفصيلية.'
-                : '🤖 Sorry, your request is outside my current knowledge base. Please visit Student Affairs on campus.'
+                ? "🤖 عذراً، لم أتمكن من فهم سؤالك بشكل كامل أو أن استفسارك خارج نطاق المعلومات المتاحة لدي.\n\nيمكنك زيارة شؤون الطلاب بمقر الجامعة للحصول على معلومات تفصيلية."
+                : "🤖 Sorry, I didn't fully understand your question or your request is outside my current knowledge base.\n\nPlease visit Student Affairs on campus."
         ]);
     }
 }

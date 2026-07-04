@@ -88,7 +88,7 @@
         </div>
 
         <!-- Departments Card -->
-        <div class="bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
+        {{-- <div class="bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-green-100 text-sm font-medium uppercase tracking-wide">Departments</p>
@@ -98,7 +98,7 @@
                     <i class="fas fa-building text-2xl"></i>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <!-- Gallery Card -->
         <div class="bg-gradient-to-br from-pink-500 to-pink-600 rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200">
